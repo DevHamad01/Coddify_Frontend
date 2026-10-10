@@ -1,28 +1,38 @@
-import { ChangeDetectionStrategy, Component, inject, signal } from '@angular/core';
-import { FormControl, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 
-import { Accordion } from '../../../shared/ui/accordion/accordion';
-import { Button } from '../../../shared/ui/button/button';
-import { Card } from '../../../shared/ui/card/card';
-import { Checkbox } from '../../../shared/ui/checkbox/checkbox';
-import { Chip } from '../../../shared/ui/chip/chip';
-import { Input } from '../../../shared/ui/input/input';
-import { Mascot } from '../../../shared/ui/mascot/mascot';
-import { ProgressBar } from '../../../shared/ui/progress-bar/progress-bar';
-import { Stepper } from '../../../shared/ui/stepper/stepper';
-import { ToastService } from '../../../shared/ui/toast/toast.service';
+import { AiTutor } from '../sections/ai-tutor';
+import { Certificates } from '../sections/certificates';
+import { Faq } from '../sections/faq';
+import { FinalCta } from '../sections/final-cta';
+import { Hero } from '../sections/hero';
+import { LearnByDoing } from '../sections/learn-by-doing';
+import { League } from '../sections/league';
+import { Roadmaps } from '../sections/roadmaps';
+import { Streak } from '../sections/streak';
 
-/** Temporary Phase A showcase; replaced by the real landing page in Phase B. */
+const TITLE = 'Coddify | Learn to code, one small win a day';
+const DESCRIPTION =
+  'Learn Python, JavaScript, C++, Java and C# with bite-sized interactive lessons, daily streaks, ' +
+  'weekly leagues and an AI tutor that gives hints instead of answers. Free to start, no setup.';
+
 @Component({
   selector: 'app-landing',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, Accordion, Button, Card, Checkbox, Chip, Input, Mascot, ProgressBar, Stepper],
+  imports: [Hero, Roadmaps, Certificates, LearnByDoing, Streak, AiTutor, League, Faq, FinalCta],
   templateUrl: './landing.html',
 })
 export class Landing {
-  protected readonly toast = inject(ToastService);
-  protected readonly loading = signal(false);
-  protected readonly email = new FormControl('', { nonNullable: true });
-  protected readonly password = new FormControl('', { nonNullable: true });
-  protected readonly terms = new FormControl(false, { nonNullable: true });
+  constructor() {
+    inject(Title).setTitle(TITLE);
+    const meta = inject(Meta);
+    meta.updateTag({ name: 'description', content: DESCRIPTION });
+    meta.updateTag({ property: 'og:type', content: 'website' });
+    meta.updateTag({ property: 'og:site_name', content: 'Coddify' });
+    meta.updateTag({ property: 'og:title', content: TITLE });
+    meta.updateTag({ property: 'og:description', content: DESCRIPTION });
+    meta.updateTag({ name: 'twitter:card', content: 'summary' });
+    meta.updateTag({ name: 'twitter:title', content: TITLE });
+    meta.updateTag({ name: 'twitter:description', content: DESCRIPTION });
+  }
 }

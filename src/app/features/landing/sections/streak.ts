@@ -1,0 +1,90 @@
+import { ChangeDetectionStrategy, Component } from '@angular/core';
+
+import { Chip } from '../../../shared/ui/chip/chip';
+import { Icon } from '../../../shared/ui/icon/icon';
+import { ProgressBar } from '../../../shared/ui/progress-bar/progress-bar';
+import { FeatureSplit } from '../components/feature-split';
+
+type DayState = 'done' | 'frozen' | 'today' | 'future';
+
+const TODAY = 13;
+const FROZEN_DAY = 5;
+const DAYS_IN_MONTH = 31;
+/** October 2026 starts on a Thursday (Mon-first grid → 3 leading blanks). */
+const LEADING_BLANKS = 3;
+
+@Component({
+  selector: 'app-streak',
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [Chip, Icon, ProgressBar, FeatureSplit],
+  host: { id: 'streak', class: 'block scroll-mt-16' },
+  template: `
+    <app-feature-split
+      [band]="true"
+      [reverse]="true"
+      eyebrow="Daily habit"
+      heading="Build your streak"
+      lead="Show up for a few minutes every day and watch the flame grow. Busy exam week? A streak freeze keeps your progress safe."
+    >
+      <div visual class="flex w-full max-w-sm flex-col gap-3">
+        <div class="rounded-card border border-border bg-surface p-5 shadow-modal">
+          <div class="flex items-start justify-between">
+            <div>
+              <p class="font-display text-2xl font-bold">12 day streak</p>
+              <p class="text-sm text-muted">Come back tomorrow to keep it going!</p>
+            </div>
+            <app-icon name="flame" [size]="40" [filled]="true" class="animate-float text-streak" />
+          </div>
+          <div class="my-4 h-px bg-border"></div>
+          <p class="mb-3 text-center text-sm font-semibold text-muted">October 2026</p>
+          <ol class="grid grid-cols-7 gap-1.5 text-center text-xs font-semibold" aria-label="Streak calendar">
+            @for (day of weekdays; track $index) {
+              <li class="pb-1 text-muted" aria-hidden="true">{{ day }}</li>
+            }
+            @for (blank of blanks; track blank) {
+              <li aria-hidden="true"></li>
+            }
+            @for (day of days; track day.n) {
+              <li
+                class="mx-auto flex h-8 w-8 items-center justify-center rounded-full"
+                [class]="dayClass[day.state]"
+                [attr.aria-label]="'October ' + day.n + ': ' + day.state"
+              >
+                {{ day.n }}
+              </li>
+            }
+          </ol>
+        </div>
+        <div class="grid grid-cols-2 gap-3">
+          <div class="rounded-card border border-border bg-surface p-4">
+            <app-icon name="target" class="text-primary" />
+            <p class="mt-2 text-sm font-bold">Weekly goal</p>
+            <p class="mb-2 text-xs text-muted">Day 5 of 7</p>
+            <app-progress-bar [value]="71" label="Weekly goal progress" class="!h-2" />
+          </div>
+          <div class="rounded-card border border-border bg-surface p-4">
+            <app-icon name="snowflake" class="text-info" />
+            <p class="mt-2 text-sm font-bold">Streak freeze</p>
+            <app-chip tone="info" class="mt-2">2 left</app-chip>
+          </div>
+        </div>
+      </div>
+    </app-feature-split>
+  `,
+})
+export class Streak {
+  protected readonly weekdays = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
+  protected readonly blanks = Array.from({ length: LEADING_BLANKS }, (_, i) => i);
+  protected readonly days = Array.from({ length: DAYS_IN_MONTH }, (_, i) => {
+    const n = i + 1;
+    const state: DayState =
+      n === FROZEN_DAY ? 'frozen' : n < TODAY ? 'done' : n === TODAY ? 'today' : 'future';
+    return { n, state };
+  });
+  protected readonly dayClass: Record<DayState, string> = {
+    done: 'bg-streak text-white',
+    frozen: 'bg-info text-white',
+    today: 'border-2 border-streak text-streak',
+    future: 'text-muted/50',
+  };
+}

@@ -120,3 +120,8 @@
     transition-duration: 0.01ms !important;
   }
 }
+
+/* Plus Jakarta Sans ships a very wide comma at display weights; pull it back in headings. */
+.tight-comma {
+  margin-left: -0.14em;
+}
