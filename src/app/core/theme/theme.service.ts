@@ -68,7 +68,9 @@ export class ThemeService {
     const theme = this.resolved();
     const root = this.document.documentElement;
     root.setAttribute('data-theme', theme);
-    this.document.querySelector('meta[name="theme-color"]')?.setAttribute('content', THEME_COLOR[theme]);
+    this.document
+      .querySelector('meta[name="theme-color"]')
+      ?.setAttribute('content', THEME_COLOR[theme]);
   }
 }
 

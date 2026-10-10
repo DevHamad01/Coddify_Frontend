@@ -91,7 +91,11 @@ export class MockAuthApi extends AuthApi {
     return this.db.respond(() => {
       const user = this.db.findUser(request.email);
       if (!user || !user.verificationToken || user.verificationToken !== request.token) {
-        throw new ApiError('invalid_token', 'This verification link is invalid or has expired.', 400);
+        throw new ApiError(
+          'invalid_token',
+          'This verification link is invalid or has expired.',
+          400,
+        );
       }
       this.db.updateUser(user.email, { emailVerified: true, verificationToken: undefined });
       return { message: 'Email verified. You can now log in.' };
@@ -107,7 +111,11 @@ export class MockAuthApi extends AuthApi {
       }
       const verificationToken = randomToken('verify');
       this.db.updateUser(user.email, { verificationToken });
-      return { email: user.email, requiresVerification: true, debugVerificationToken: verificationToken };
+      return {
+        email: user.email,
+        requiresVerification: true,
+        debugVerificationToken: verificationToken,
+      };
     });
   }
 
@@ -169,7 +177,9 @@ function readGoogleEmail(idToken: string): string | undefined {
     if (!payload) {
       return undefined;
     }
-    const claims = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/'))) as { email?: unknown };
+    const claims = JSON.parse(atob(payload.replace(/-/g, '+').replace(/_/g, '/'))) as {
+      email?: unknown;
+    };
     return typeof claims.email === 'string' ? claims.email.toLowerCase() : undefined;
   } catch {
     return undefined;

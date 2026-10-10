@@ -64,25 +64,15 @@ module.exports = {
           from: { opacity: '0', transform: 'translateX(24px)' },
           to: { opacity: '1', transform: 'translateX(0)' },
         },
-        'slide-in-back': {
-          from: { opacity: '0', transform: 'translateX(-24px)' },
-          to: { opacity: '1', transform: 'translateX(0)' },
-        },
         float: {
           '0%, 100%': { transform: 'translateY(0)' },
           '50%': { transform: 'translateY(-6px)' },
-        },
-        confetti: {
-          '0%': { transform: 'translateY(-20px) rotate(0deg)', opacity: '0' },
-          '10%': { opacity: '1' },
-          '100%': { transform: 'translateY(110vh) rotate(540deg)', opacity: '0' },
         },
       },
       animation: {
         marquee: 'marquee 40s linear infinite',
         'fade-up': 'fade-up 250ms ease-out both',
         'slide-in': 'slide-in 250ms ease-out both',
-        'slide-in-back': 'slide-in-back 250ms ease-out both',
         float: 'float 4s ease-in-out infinite',
       },
     },

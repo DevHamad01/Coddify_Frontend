@@ -10,7 +10,17 @@ const t = (text: string, kind: TokenKind = 'pl') => ({ text, kind });
 
 const LOOP_CODE: readonly CodeLine[] = [
   [t('total', 'pl'), t(' = ', 'op'), t('0', 'num')],
-  [t('for ', 'kw'), t('n '), t('in ', 'kw'), t('range', 'fn'), t('('), t('1', 'num'), t(', '), t('10', 'num'), t('):')],
+  [
+    t('for ', 'kw'),
+    t('n '),
+    t('in ', 'kw'),
+    t('range', 'fn'),
+    t('('),
+    t('1', 'num'),
+    t(', '),
+    t('10', 'num'),
+    t('):'),
+  ],
   [t('    total'), t(' += ', 'op'), t('n')],
   [t('print', 'fn'), t('(total)')],
 ];
@@ -32,7 +42,14 @@ const TESTS: readonly (TestCase & { input: string; expected: string; actual: str
       heading="Write real code from lesson one"
       lead="No passive videos. Every lesson ends with you typing code, running it against tests and fixing it until it is green."
     >
-      <app-pill-tabs copy class="mt-2" idPrefix="doing" label="How lessons work" [tabs]="tabs" [(selected)]="selected" />
+      <app-pill-tabs
+        copy
+        class="mt-2"
+        idPrefix="doing"
+        label="How lessons work"
+        [tabs]="tabs"
+        [(selected)]="selected"
+      />
 
       <div
         visual
@@ -42,14 +59,25 @@ const TESTS: readonly (TestCase & { input: string; expected: string; actual: str
         class="mock-window w-full max-w-lg"
       >
         <div class="mock-header">
-          <span class="mock-chip"><span class="h-2 w-2 rounded-full bg-info"></span>sum_numbers.py</span>
-          <span class="mock-chip bg-primary text-primary-contrast"><app-icon name="play" [size]="14" [filled]="true" />Run</span>
+          <span class="mock-chip"
+            ><span class="h-2 w-2 rounded-full bg-info"></span>sum_numbers.py</span
+          >
+          <span class="mock-chip bg-primary text-primary-contrast"
+            ><app-icon name="play" [size]="14" [filled]="true" />Run</span
+          >
         </div>
 
         @switch (selected()) {
           @case ('write') {
-            <app-code-window [lines]="code" label="Python loop that sums numbers" class="animate-fade-up" />
-            <p class="border-t px-4 py-3 text-xs" style="border-color: var(--mock-border); color: var(--mock-muted)">
+            <app-code-window
+              [lines]="code"
+              label="Python loop that sums numbers"
+              class="animate-fade-up"
+            />
+            <p
+              class="border-t px-4 py-3 text-xs"
+              style="border-color: var(--mock-border); color: var(--mock-muted)"
+            >
               Task: add up every number from 1 to 10 and print the total.
             </p>
           }
@@ -57,18 +85,40 @@ const TESTS: readonly (TestCase & { input: string; expected: string; actual: str
             <div class="grid animate-fade-up grid-cols-[120px_1fr] text-sm">
               <ul class="border-r py-2" style="border-color: var(--mock-border)">
                 @for (test of tests; track test.label; let i = $index) {
-                  <li class="flex items-center justify-between px-4 py-2.5" [style.background]="i === 2 ? 'var(--mock-chip)' : null">
+                  <li
+                    class="flex items-center justify-between px-4 py-2.5"
+                    [style.background]="i === 2 ? 'var(--mock-chip)' : null"
+                  >
                     {{ test.label }}
-                    <app-icon [name]="test.passed ? 'check-circle' : 'x-circle'" [size]="16" [class]="test.passed ? 'text-success' : 'text-danger'" />
+                    <app-icon
+                      [name]="test.passed ? 'check-circle' : 'x-circle'"
+                      [size]="16"
+                      [class]="test.passed ? 'text-success' : 'text-danger'"
+                    />
                   </li>
                 }
               </ul>
               <dl class="flex flex-col gap-1 p-4 font-mono text-[13px]">
-                <dt class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--mock-muted)">Input</dt>
+                <dt
+                  class="text-[11px] font-bold uppercase tracking-wider"
+                  style="color: var(--mock-muted)"
+                >
+                  Input
+                </dt>
                 <dd class="mb-2">{{ tests[2].input }}</dd>
-                <dt class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--mock-muted)">Expected</dt>
+                <dt
+                  class="text-[11px] font-bold uppercase tracking-wider"
+                  style="color: var(--mock-muted)"
+                >
+                  Expected
+                </dt>
                 <dd class="mb-2 text-success">{{ tests[2].expected }}</dd>
-                <dt class="text-[11px] font-bold uppercase tracking-wider" style="color: var(--mock-muted)">Your output</dt>
+                <dt
+                  class="text-[11px] font-bold uppercase tracking-wider"
+                  style="color: var(--mock-muted)"
+                >
+                  Your output
+                </dt>
                 <dd class="text-danger">{{ tests[2].actual }}</dd>
               </dl>
             </div>
@@ -80,7 +130,8 @@ const TESTS: readonly (TestCase & { input: string; expected: string; actual: str
                 <app-icon name="lightbulb" class="text-ai" />
                 <p>
                   <span class="font-semibold text-ai">Hint 1 of 3:</span>
-                  your total is 45, so the loop stops one number early. Check whether the end value of
+                  your total is 45, so the loop stops one number early. Check whether the end value
+                  of
                   <code class="rounded bg-black/30 px-1">range()</code> is included.
                 </p>
               </div>

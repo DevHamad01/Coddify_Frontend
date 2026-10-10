@@ -33,7 +33,9 @@ import { Mascot } from '../../shared/ui/mascot/mascot';
 export class ComingSoon {
   protected readonly auth = inject(AuthService);
   protected readonly title = toSignal(
-    inject(ActivatedRoute).data.pipe(map((data) => (data['title'] as string | undefined) ?? 'This page')),
+    inject(ActivatedRoute).data.pipe(
+      map((data) => (data['title'] as string | undefined) ?? 'This page'),
+    ),
     { initialValue: 'This page' },
   );
 }

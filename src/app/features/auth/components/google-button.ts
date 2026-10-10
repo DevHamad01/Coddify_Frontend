@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { finalize } from 'rxjs';
 
@@ -16,7 +23,14 @@ import { ToastService } from '../../../shared/ui/toast/toast.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Button],
   template: `
-    <button appButton type="button" variant="secondary" [block]="true" [loading]="pending()" (click)="signIn()">
+    <button
+      appButton
+      type="button"
+      variant="secondary"
+      [block]="true"
+      [loading]="pending()"
+      (click)="signIn()"
+    >
       @if (!pending()) {
         <span
           class="flex h-6 w-6 items-center justify-center rounded-full border border-border font-display text-sm font-extrabold"

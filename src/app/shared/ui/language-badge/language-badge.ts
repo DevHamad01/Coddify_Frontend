@@ -7,7 +7,8 @@ import { Language } from '../../data/languages';
   selector: 'app-language-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
-    class: 'inline-flex shrink-0 items-center justify-center rounded-[28%] font-mono font-bold leading-none',
+    class:
+      'inline-flex shrink-0 items-center justify-center rounded-[28%] font-mono font-bold leading-none',
     '[style.width.px]': 'size()',
     '[style.height.px]': 'size()',
     '[style.font-size.px]': 'fontSize()',

@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, ElementRef, input, signal, viewChildren } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  ElementRef,
+  input,
+  signal,
+  viewChildren,
+} from '@angular/core';
 
 import { Icon } from '../icon/icon';
 

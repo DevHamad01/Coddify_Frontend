@@ -1,6 +1,11 @@
 import { Routes } from '@angular/router';
 
-import { authGuard, guestGuard, onboardingGuard, onboardingPendingGuard } from './core/guards/auth.guards';
+import {
+  authGuard,
+  guestGuard,
+  onboardingGuard,
+  onboardingPendingGuard,
+} from './core/guards/auth.guards';
 import { MinimalLayout } from './layouts/minimal-layout/minimal-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 
@@ -17,10 +22,30 @@ export const routes: Routes = [
         title: 'Coddify | Learn to code, one small win a day',
         loadComponent: () => import('./features/landing/landing/landing').then((m) => m.Landing),
       },
-      { path: 'about', title: 'About | Coddify', data: { title: 'About Coddify' }, loadComponent: comingSoon },
-      { path: 'contact', title: 'Contact | Coddify', data: { title: 'Contact us' }, loadComponent: comingSoon },
-      { path: 'privacy', title: 'Privacy | Coddify', data: { title: 'Privacy policy' }, loadComponent: comingSoon },
-      { path: 'terms', title: 'Terms | Coddify', data: { title: 'Terms of use' }, loadComponent: comingSoon },
+      {
+        path: 'about',
+        title: 'About | Coddify',
+        data: { title: 'About Coddify' },
+        loadComponent: comingSoon,
+      },
+      {
+        path: 'contact',
+        title: 'Contact | Coddify',
+        data: { title: 'Contact us' },
+        loadComponent: comingSoon,
+      },
+      {
+        path: 'privacy',
+        title: 'Privacy | Coddify',
+        data: { title: 'Privacy policy' },
+        loadComponent: comingSoon,
+      },
+      {
+        path: 'terms',
+        title: 'Terms | Coddify',
+        data: { title: 'Terms of use' },
+        loadComponent: comingSoon,
+      },
     ],
   },
   {
@@ -37,20 +62,25 @@ export const routes: Routes = [
         path: 'register',
         title: 'Create your account | Coddify',
         canActivate: [guestGuard],
-        loadComponent: () => import('./features/auth/components/register/register').then((m) => m.Register),
+        loadComponent: () =>
+          import('./features/auth/components/register/register').then((m) => m.Register),
       },
       {
         path: 'forgot-password',
         title: 'Forgot password | Coddify',
         canActivate: [guestGuard],
         loadComponent: () =>
-          import('./features/auth/components/forgot-password/forgot-password').then((m) => m.ForgotPassword),
+          import('./features/auth/components/forgot-password/forgot-password').then(
+            (m) => m.ForgotPassword,
+          ),
       },
       {
         path: 'reset-password',
         title: 'Reset password | Coddify',
         loadComponent: () =>
-          import('./features/auth/components/reset-password/reset-password').then((m) => m.ResetPassword),
+          import('./features/auth/components/reset-password/reset-password').then(
+            (m) => m.ResetPassword,
+          ),
       },
       {
         path: 'verify-email',
@@ -62,8 +92,7 @@ export const routes: Routes = [
         path: 'onboarding',
         title: 'Get started | Coddify',
         canActivate: [authGuard, onboardingPendingGuard],
-        data: { title: 'Onboarding' },
-        loadComponent: comingSoon,
+        loadComponent: () => import('./features/onboarding/onboarding').then((m) => m.Onboarding),
       },
     ],
   },
@@ -73,8 +102,18 @@ export const routes: Routes = [
     component: MinimalLayout,
     canActivate: [authGuard, onboardingGuard],
     children: [
-      { path: '', title: 'Dashboard | Coddify', data: { title: 'Your learning journey' }, loadComponent: comingSoon },
-      { path: '**', title: 'Coming soon | Coddify', data: { title: 'This screen' }, loadComponent: comingSoon },
+      {
+        path: '',
+        title: 'Dashboard | Coddify',
+        data: { title: 'Your learning journey' },
+        loadComponent: comingSoon,
+      },
+      {
+        path: '**',
+        title: 'Coming soon | Coddify',
+        data: { title: 'This screen' },
+        loadComponent: comingSoon,
+      },
     ],
   },
   { path: '**', redirectTo: '' },

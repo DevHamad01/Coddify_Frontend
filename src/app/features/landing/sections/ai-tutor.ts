@@ -11,7 +11,10 @@ interface ChatMessage {
 }
 
 const CHAT: readonly ChatMessage[] = [
-  { from: 'student', text: 'My loop prints 1 to 9 but the task says 1 to 10. Can you just fix it for me?' },
+  {
+    from: 'student',
+    text: 'My loop prints 1 to 9 but the task says 1 to 10. Can you just fix it for me?',
+  },
   {
     from: 'tutor',
     text: "I won't paste the answer, but here's a nudge: when range() gets an end number, does it include that number or stop just before it?",
@@ -33,7 +36,9 @@ const CHAT: readonly ChatMessage[] = [
     >
       <ul copy class="flex flex-col gap-3 text-[15px] text-muted">
         @for (point of points; track point) {
-          <li class="flex items-center gap-2.5"><app-icon name="sparkles" [size]="18" class="text-ai" />{{ point }}</li>
+          <li class="flex items-center gap-2.5">
+            <app-icon name="sparkles" [size]="18" class="text-ai" />{{ point }}
+          </li>
         }
       </ul>
 
@@ -48,7 +53,10 @@ const CHAT: readonly ChatMessage[] = [
           </span>
           <app-chip tone="ai" icon="lightbulb">Hint 1 of 3</app-chip>
         </div>
-        <ol class="flex flex-col gap-3 p-4 text-sm leading-6" aria-label="Example conversation with the AI tutor">
+        <ol
+          class="flex flex-col gap-3 p-4 text-sm leading-6"
+          aria-label="Example conversation with the AI tutor"
+        >
           @for (message of chat; track $index) {
             <li
               class="max-w-[85%] rounded-2xl px-4 py-2.5"
@@ -63,11 +71,19 @@ const CHAT: readonly ChatMessage[] = [
             </li>
           }
         </ol>
-        <div class="flex items-center gap-2 border-t px-4 py-3" style="border-color: var(--mock-border)">
-          <span class="flex-1 rounded-xl px-3 py-2 text-sm" style="background: var(--mock-chip); color: var(--mock-muted)">
+        <div
+          class="flex items-center gap-2 border-t px-4 py-3"
+          style="border-color: var(--mock-border)"
+        >
+          <span
+            class="flex-1 rounded-xl px-3 py-2 text-sm"
+            style="background: var(--mock-chip); color: var(--mock-muted)"
+          >
             Ask for a hint...
           </span>
-          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-ai text-white"><app-icon name="send" [size]="16" /></span>
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-ai text-white"
+            ><app-icon name="send" [size]="16"
+          /></span>
         </div>
       </div>
     </app-feature-split>

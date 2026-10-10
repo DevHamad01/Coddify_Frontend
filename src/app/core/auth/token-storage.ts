@@ -74,5 +74,9 @@ function isSession(value: unknown): value is AuthSession {
     return false;
   }
   const candidate = value as Partial<AuthSession>;
-  return typeof candidate.accessToken === 'string' && typeof candidate.refreshToken === 'string' && !!candidate.user;
+  return (
+    typeof candidate.accessToken === 'string' &&
+    typeof candidate.refreshToken === 'string' &&
+    !!candidate.user
+  );
 }

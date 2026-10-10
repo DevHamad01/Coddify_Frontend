@@ -4,7 +4,11 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { FeatureSplit } from '../components/feature-split';
 import { LEAGUE_ROWS, PROMOTION_SPOTS } from '../landing-content';
 
-const MEDAL: Partial<Record<number, string>> = { 1: 'bg-xp text-[#0B1220]', 2: 'bg-[#CBD5E1] text-[#0B1220]', 3: 'bg-streak text-[#0B1220]' };
+const MEDAL: Partial<Record<number, string>> = {
+  1: 'bg-xp text-[#0B1220]',
+  2: 'bg-[#CBD5E1] text-[#0B1220]',
+  3: 'bg-streak text-[#0B1220]',
+};
 
 @Component({
   selector: 'app-league',
@@ -19,9 +23,14 @@ const MEDAL: Partial<Record<number, string>> = { 1: 'bg-xp text-[#0B1220]', 2: '
       heading="Compete with friends"
       lead="Earn XP for every lesson and climb a weekly league with learners at your level. Finish in the top five and you move up a division."
     >
-      <div visual class="w-full max-w-sm rounded-card border border-border bg-surface p-5 shadow-modal">
+      <div
+        visual
+        class="w-full max-w-sm rounded-card border border-border bg-surface p-5 shadow-modal"
+      >
         <div class="flex items-center gap-3 border-b border-border pb-4">
-          <span class="flex h-12 w-12 items-center justify-center rounded-2xl bg-success/15 text-success">
+          <span
+            class="flex h-12 w-12 items-center justify-center rounded-2xl bg-success/15 text-success"
+          >
             <app-icon name="shield" [size]="28" [filled]="true" />
           </span>
           <div>
@@ -33,7 +42,9 @@ const MEDAL: Partial<Record<number, string>> = { 1: 'bg-xp text-[#0B1220]', 2: '
           @for (row of rows; track row.rank) {
             <li
               class="flex items-center gap-3 rounded-xl border px-3 py-2"
-              [class]="row.isYou ? 'border-primary bg-primary/10' : 'border-transparent bg-surface-2'"
+              [class]="
+                row.isYou ? 'border-primary bg-primary/10' : 'border-transparent bg-surface-2'
+              "
               [attr.aria-current]="row.isYou ? 'true' : null"
             >
               <span
@@ -58,8 +69,11 @@ const MEDAL: Partial<Record<number, string>> = { 1: 'bg-xp text-[#0B1220]', 2: '
               <span class="font-display text-sm font-bold text-xp">{{ row.xp }} XP</span>
             </li>
             @if (row.rank === promotionSpots) {
-              <li class="flex items-center justify-center gap-2 py-1 text-xs font-bold text-success">
-                <app-icon name="arrow-up" [size]="14" /> Promotion zone <app-icon name="arrow-up" [size]="14" />
+              <li
+                class="flex items-center justify-center gap-2 py-1 text-xs font-bold text-success"
+              >
+                <app-icon name="arrow-up" [size]="14" /> Promotion zone
+                <app-icon name="arrow-up" [size]="14" />
               </li>
             }
           }

@@ -27,12 +27,20 @@ const BAR_COLOR = ['bg-border', 'bg-danger', 'bg-streak', 'bg-xp', 'bg-success']
           ></span>
         }
       </div>
-      <span class="w-24 text-right text-xs font-semibold text-muted" aria-live="polite">{{ strength().label }}</span>
+      <span class="w-24 text-right text-xs font-semibold text-muted" aria-live="polite">{{
+        strength().label
+      }}</span>
     </div>
     <ul class="mt-2 grid grid-cols-2 gap-x-3 gap-y-1 text-xs" aria-label="Password requirements">
       @for (rule of rules; track rule.key) {
-        <li class="flex items-center gap-1.5" [class]="strength().checks[rule.key] ? 'text-success' : 'text-muted'">
-          <app-icon [name]="strength().checks[rule.key] ? 'check-circle' : 'x-circle'" [size]="14" />
+        <li
+          class="flex items-center gap-1.5"
+          [class]="strength().checks[rule.key] ? 'text-success' : 'text-muted'"
+        >
+          <app-icon
+            [name]="strength().checks[rule.key] ? 'check-circle' : 'x-circle'"
+            [size]="14"
+          />
           {{ rule.label }}
           <span class="sr-only">{{ strength().checks[rule.key] ? '(met)' : '(not met)' }}</span>
         </li>

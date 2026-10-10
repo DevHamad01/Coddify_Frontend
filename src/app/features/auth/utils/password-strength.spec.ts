@@ -1,6 +1,10 @@
 import { FormControl, FormGroup } from '@angular/forms';
 
-import { evaluatePassword, matchFieldsValidator, strongPasswordValidator } from './password-strength';
+import {
+  evaluatePassword,
+  matchFieldsValidator,
+  strongPasswordValidator,
+} from './password-strength';
 
 describe('evaluatePassword', () => {
   it('returns an empty label and score 0 for an empty password', () => {
@@ -11,9 +15,24 @@ describe('evaluatePassword', () => {
   });
 
   it('checks each rule independently', () => {
-    expect(evaluatePassword('abc').checks).toEqual({ minLength: false, upper: false, lower: true, number: false });
-    expect(evaluatePassword('ABCDEFGH').checks).toEqual({ minLength: true, upper: true, lower: false, number: false });
-    expect(evaluatePassword('12345678').checks).toEqual({ minLength: true, upper: false, lower: false, number: true });
+    expect(evaluatePassword('abc').checks).toEqual({
+      minLength: false,
+      upper: false,
+      lower: true,
+      number: false,
+    });
+    expect(evaluatePassword('ABCDEFGH').checks).toEqual({
+      minLength: true,
+      upper: true,
+      lower: false,
+      number: false,
+    });
+    expect(evaluatePassword('12345678').checks).toEqual({
+      minLength: true,
+      upper: false,
+      lower: false,
+      number: true,
+    });
   });
 
   it.each([

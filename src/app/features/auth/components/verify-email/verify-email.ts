@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, OnInit, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  OnInit,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
@@ -29,17 +37,29 @@ type VerifyState = 'loading' | 'success' | 'error';
         </app-auth-shell>
       }
       @case ('success') {
-        <app-auth-shell heading="Email verified!" pose="celebrating" panelHeading="Welcome to Coddify">
+        <app-auth-shell
+          heading="Email verified!"
+          pose="celebrating"
+          panelHeading="Welcome to Coddify"
+        >
           <div class="flex flex-col gap-5">
             <app-alert tone="success" message="Your email is confirmed. Your account is ready." />
-            <a appButton [routerLink]="auth.isAuthenticated() ? auth.homeRoute() : '/login'" [block]="true">
+            <a
+              appButton
+              [routerLink]="auth.isAuthenticated() ? auth.homeRoute() : '/login'"
+              [block]="true"
+            >
               {{ auth.isAuthenticated() ? 'Continue' : 'Log in to start learning' }}
             </a>
           </div>
         </app-auth-shell>
       }
       @case ('error') {
-        <app-auth-shell heading="We could not verify your email" pose="thinking" panelHeading="Let's fix that">
+        <app-auth-shell
+          heading="We could not verify your email"
+          pose="thinking"
+          panelHeading="Let's fix that"
+        >
           <div class="flex flex-col gap-5">
             <app-alert [message]="errorMessage()" />
             @if (email()) {
@@ -51,10 +71,14 @@ type VerifyState = 'loading' | 'success' | 'error';
                 [disabled]="cooldown.active()"
                 (click)="resend()"
               >
-                {{ cooldown.active() ? 'Resend in ' + cooldown.remaining() + 's' : 'Send a new link' }}
+                {{
+                  cooldown.active() ? 'Resend in ' + cooldown.remaining() + 's' : 'Send a new link'
+                }}
               </button>
             } @else {
-              <p class="text-sm text-muted">Log in with your email and we will offer to send a fresh verification link.</p>
+              <p class="text-sm text-muted">
+                Log in with your email and we will offer to send a fresh verification link.
+              </p>
             }
             <a appButton variant="secondary" routerLink="/login" [block]="true">Back to log in</a>
           </div>
@@ -81,7 +105,9 @@ export class VerifyEmail implements OnInit {
     const token = this.token();
     const email = this.email();
     if (!token || !email) {
-      this.fail('This verification link is incomplete. Open the latest email from us, or request a new link.');
+      this.fail(
+        'This verification link is incomplete. Open the latest email from us, or request a new link.',
+      );
       return;
     }
     this.auth

@@ -21,8 +21,14 @@ export type MascotPose = 'happy' | 'thinking' | 'celebrating';
       animation: blink 5s infinite;
     }
     @keyframes blink {
-      0%, 94%, 100% { transform: scaleY(1); }
-      96% { transform: scaleY(0.1); }
+      0%,
+      94%,
+      100% {
+        transform: scaleY(1);
+      }
+      96% {
+        transform: scaleY(0.1);
+      }
     }
   `,
   template: `

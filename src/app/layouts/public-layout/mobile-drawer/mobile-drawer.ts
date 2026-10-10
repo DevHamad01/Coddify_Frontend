@@ -26,7 +26,11 @@ import { NAV_MENUS } from '../nav-items';
     '(keydown)': 'trapFocus($event)',
   },
   template: `
-    <div class="absolute inset-0 bg-black/50 backdrop-blur-sm" aria-hidden="true" (click)="closed.emit()"></div>
+    <div
+      class="absolute inset-0 bg-black/50 backdrop-blur-sm"
+      aria-hidden="true"
+      (click)="closed.emit()"
+    ></div>
     <aside
       role="dialog"
       aria-modal="true"
@@ -103,7 +107,9 @@ export class MobileDrawer {
 
   constructor() {
     afterNextRender(() => {
-      this.host.nativeElement.querySelector<HTMLButtonElement>('button[aria-label="Close menu"]')?.focus();
+      this.host.nativeElement
+        .querySelector<HTMLButtonElement>('button[aria-label="Close menu"]')
+        ?.focus();
     });
   }
 

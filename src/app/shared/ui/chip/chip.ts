@@ -3,7 +3,8 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
 import { Icon } from '../icon/icon';
 import { IconName } from '../icon/icons';
 
-export type ChipTone = 'neutral' | 'primary' | 'xp' | 'streak' | 'ai' | 'success' | 'danger' | 'info';
+export type ChipTone =
+  'neutral' | 'primary' | 'xp' | 'streak' | 'ai' | 'success' | 'danger' | 'info';
 
 const TONES: Record<ChipTone, string> = {
   neutral: 'bg-surface-2 text-text border-border',

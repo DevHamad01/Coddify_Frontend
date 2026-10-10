@@ -3,12 +3,14 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 import { Observable, defer, map, timer } from 'rxjs';
 
 import { User } from '../../auth/auth.models';
+import { SaveOnboardingRequest } from '../../onboarding/onboarding.models';
 
 export interface MockUserRecord extends User {
   /** Plain text is acceptable here: this store only exists in the browser for demos. */
   password: string;
   verificationToken?: string;
   resetToken?: string;
+  onboarding?: SaveOnboardingRequest;
 }
 
 interface MockState {
@@ -29,7 +31,14 @@ export const MOCK_PASSWORD = 'Coddify123';
 const SEED: MockUserRecord[] = [
   seedUser('u-demo', 'Ali Raza', 'demo@coddify.dev', true, true),
   seedUser('u-new', 'Sana Tariq', 'new@coddify.dev', true, false),
-  seedUser('u-unverified', 'Usman Ahmed', 'unverified@coddify.dev', false, false, 'verify-unverified'),
+  seedUser(
+    'u-unverified',
+    'Usman Ahmed',
+    'unverified@coddify.dev',
+    false,
+    false,
+    'verify-unverified',
+  ),
 ];
 
 /**
@@ -117,5 +126,13 @@ function seedUser(
   onboardingCompleted: boolean,
   verificationToken?: string,
 ): MockUserRecord {
-  return { id, fullName, email, emailVerified, onboardingCompleted, password: MOCK_PASSWORD, verificationToken };
+  return {
+    id,
+    fullName,
+    email,
+    emailVerified,
+    onboardingCompleted,
+    password: MOCK_PASSWORD,
+    verificationToken,
+  };
 }

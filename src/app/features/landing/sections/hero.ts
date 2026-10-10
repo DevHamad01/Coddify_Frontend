@@ -23,16 +23,21 @@ import { LanguageMarquee } from './language-marquee';
 
     <div class="container-page relative flex flex-col items-center pt-12 text-center sm:pt-16">
       <h1 class="text-balance max-w-3xl text-[40px] font-extrabold leading-[1.05] sm:text-6xl">
-        Learn to code<span class="tight-comma">,</span> one small <span class="text-primary">win</span> a day
+        Learn to code<span class="tight-comma">,</span> one small
+        <span class="text-primary">win</span> a day
       </h1>
       <p class="mt-5 max-w-xl text-lg leading-8 text-muted">
-        Join <strong class="font-semibold text-text" [appCountUp]="stats.learners"></strong> learners
-        building real skills in Python, JavaScript, C++, Java and C#, five focused minutes at a time.
+        Join
+        <strong class="font-semibold text-text" [appCountUp]="stats.learners"></strong> learners
+        building real skills in Python, JavaScript, C++, Java and C#, five focused minutes at a
+        time.
       </p>
 
       <div class="mt-8 flex w-full max-w-sm flex-col gap-3">
         <a appButton size="lg" routerLink="/register" [block]="true">Get Started</a>
-        <a appButton variant="secondary" routerLink="/login" [block]="true">I already have an account</a>
+        <a appButton variant="secondary" routerLink="/login" [block]="true"
+          >I already have an account</a
+        >
       </div>
       <p class="mt-4 flex items-center gap-1.5 text-sm text-muted">
         <app-icon name="check-circle" [size]="16" class="text-success" />
@@ -41,20 +46,35 @@ import { LanguageMarquee } from './language-marquee';
 
       <!-- Visual: owl peeking over the editor mock -->
       <div class="relative mt-28 w-full max-w-3xl">
-        <app-mascot pose="happy" [size]="112" class="absolute -top-[84px] left-1/2 z-10 -translate-x-1/2" />
+        <app-mascot
+          pose="happy"
+          [size]="112"
+          class="absolute -top-[84px] left-1/2 z-10 -translate-x-1/2"
+        />
         <div class="mock-window relative text-left">
           <div class="mock-header">
-            <span class="mock-chip"><span class="h-2 w-2 rounded-full bg-primary"></span>greet.py</span>
+            <span class="mock-chip"
+              ><span class="h-2 w-2 rounded-full bg-primary"></span>greet.py</span
+            >
             <span class="flex gap-2">
-              <span class="mock-chip hidden sm:inline-flex"><app-icon name="lightbulb" [size]="14" />Hint</span>
+              <span class="mock-chip hidden sm:inline-flex"
+                ><app-icon name="lightbulb" [size]="14" />Hint</span
+              >
               <span class="mock-chip bg-primary text-primary-contrast">
                 <app-icon name="play" [size]="14" [filled]="true" />Run
               </span>
             </span>
           </div>
           <app-code-window [lines]="code" label="Python exercise: a greet function" />
-          <div class="flex flex-wrap items-center gap-2 border-t px-4 py-3" style="border-color: var(--mock-border)">
-            <span class="mr-1 text-xs font-bold uppercase tracking-wider" style="color: var(--mock-muted)">Tests</span>
+          <div
+            class="flex flex-wrap items-center gap-2 border-t px-4 py-3"
+            style="border-color: var(--mock-border)"
+          >
+            <span
+              class="mr-1 text-xs font-bold uppercase tracking-wider"
+              style="color: var(--mock-muted)"
+              >Tests</span
+            >
             @for (test of tests; track test.label) {
               <span
                 class="inline-flex items-center gap-1.5 rounded-full px-3 py-1 text-xs font-semibold"
@@ -72,11 +92,16 @@ import { LanguageMarquee } from './language-marquee';
           class="absolute -bottom-5 left-4 flex items-center gap-2 rounded-full border border-border bg-surface px-3 py-1.5 text-xs text-muted shadow-modal sm:left-6"
         >
           <span class="relative flex h-2 w-2">
-            <span class="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60"></span>
+            <span
+              class="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60"
+            ></span>
             <span class="relative inline-flex h-2 w-2 rounded-full bg-success"></span>
           </span>
           <span class="font-bold uppercase text-success">Live</span>
-          <span><strong class="font-semibold text-text" [appCountUp]="stats.codeRunsToday"></strong> code runs today</span>
+          <span
+            ><strong class="font-semibold text-text" [appCountUp]="stats.codeRunsToday"></strong>
+            code runs today</span
+          >
         </div>
       </div>
     </div>

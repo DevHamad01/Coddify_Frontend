@@ -31,7 +31,14 @@ interface PathNode {
       heading="Learn for a career, not just a syntax"
       lead="Free guided paths that put courses in the order a good senior would teach them. Pick a goal and start with step one."
     >
-      <app-pill-tabs copy class="mt-2" idPrefix="roadmap" label="Career roadmaps" [tabs]="tabs" [(selected)]="selected" />
+      <app-pill-tabs
+        copy
+        class="mt-2"
+        idPrefix="roadmap"
+        label="Career roadmaps"
+        [tabs]="tabs"
+        [(selected)]="selected"
+      />
 
       <div
         visual
@@ -42,7 +49,9 @@ interface PathNode {
       >
         <div class="mock-header">
           <span class="mock-chip">{{ roadmap().title }}</span>
-          <a appButton size="sm" routerLink="/register" class="!h-8 !px-3 !text-xs">See the roadmap</a>
+          <a appButton size="sm" routerLink="/register" class="!h-8 !px-3 !text-xs"
+            >See the roadmap</a
+          >
         </div>
         <p class="px-6 pt-5 text-sm" style="color: var(--mock-muted)">{{ roadmap().summary }}</p>
         <ol class="grid grid-cols-3 gap-y-6 px-2 pb-8 pt-6">
@@ -54,7 +63,11 @@ interface PathNode {
             >
               <span
                 class="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl border-2"
-                [class]="node.number ? 'border-primary/70 bg-[#16233a] text-primary' : 'border-dashed border-xp/70 bg-[#16233a] text-xp'"
+                [class]="
+                  node.number
+                    ? 'border-primary/70 bg-[#16233a] text-primary'
+                    : 'border-dashed border-xp/70 bg-[#16233a] text-xp'
+                "
               >
                 <app-icon [name]="node.icon" [size]="24" />
                 @if (node.number) {
@@ -68,16 +81,24 @@ interface PathNode {
               <span class="text-xs font-semibold leading-4">{{ node.label }}</span>
               @switch (node.link) {
                 @case ('right') {
-                  <span class="connector left-[calc(50%+28px)] top-7 w-[calc(100%-56px)] border-t-2"></span>
+                  <span
+                    class="connector left-[calc(50%+28px)] top-7 w-[calc(100%-56px)] border-t-2"
+                  ></span>
                 }
                 @case ('left') {
-                  <span class="connector right-[calc(50%+28px)] top-7 w-[calc(100%-56px)] border-t-2"></span>
+                  <span
+                    class="connector right-[calc(50%+28px)] top-7 w-[calc(100%-56px)] border-t-2"
+                  ></span>
                 }
                 @case ('down-right') {
-                  <span class="connector right-0 top-7 h-[calc(100%+24px)] w-[calc(50%-28px)] rounded-r-2xl border-y-2 border-r-2"></span>
+                  <span
+                    class="connector right-0 top-7 h-[calc(100%+24px)] w-[calc(50%-28px)] rounded-r-2xl border-y-2 border-r-2"
+                  ></span>
                 }
                 @case ('down-left') {
-                  <span class="connector left-0 top-7 h-[calc(100%+24px)] w-[calc(50%-28px)] rounded-l-2xl border-y-2 border-l-2"></span>
+                  <span
+                    class="connector left-0 top-7 h-[calc(100%+24px)] w-[calc(50%-28px)] rounded-l-2xl border-y-2 border-l-2"
+                  ></span>
                 }
               }
             </li>

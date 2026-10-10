@@ -30,13 +30,21 @@ const OPTIONS: readonly { value: ThemePreference; label: string; icon: IconName 
         <app-icon [name]="current().icon" [size]="18" />
       </button>
     } @else {
-      <div role="radiogroup" aria-label="Theme" class="inline-flex rounded-btn border border-border bg-surface-2 p-1">
+      <div
+        role="radiogroup"
+        aria-label="Theme"
+        class="inline-flex rounded-btn border border-border bg-surface-2 p-1"
+      >
         @for (option of options; track option.value) {
           <button
             type="button"
             role="radio"
             class="flex h-9 items-center gap-1.5 rounded-lg px-3 text-sm font-medium transition-colors duration-hover"
-            [class]="theme.preference() === option.value ? 'bg-surface text-text shadow-sm' : 'text-muted hover:text-text'"
+            [class]="
+              theme.preference() === option.value
+                ? 'bg-surface text-text shadow-sm'
+                : 'text-muted hover:text-text'
+            "
             [attr.aria-checked]="theme.preference() === option.value"
             (click)="theme.setPreference(option.value)"
           >

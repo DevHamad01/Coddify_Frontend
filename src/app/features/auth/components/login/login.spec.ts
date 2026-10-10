@@ -21,7 +21,9 @@ describe('Login', () => {
     el.querySelector<HTMLButtonElement>('form button[type=submit]')?.click();
     await fixture.whenStable();
 
-    const errors = Array.from(el.querySelectorAll('[role=alert]')).map((node) => node.textContent?.trim());
+    const errors = Array.from(el.querySelectorAll('[role=alert]')).map((node) =>
+      node.textContent?.trim(),
+    );
     expect(errors).toContain('Enter your email address.');
     expect(errors).toContain('Enter your password.');
     expect(el.querySelector('input[type=email]')?.getAttribute('aria-invalid')).toBe('true');

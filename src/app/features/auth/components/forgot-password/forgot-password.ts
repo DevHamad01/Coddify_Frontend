@@ -48,13 +48,21 @@ import { CheckInbox } from '../check-inbox';
             [required]="true"
             [error]="emailError()"
           />
-          <button appButton type="submit" [block]="true" [loading]="pending()" loadingLabel="Sending link">
+          <button
+            appButton
+            type="submit"
+            [block]="true"
+            [loading]="pending()"
+            loadingLabel="Sending link"
+          >
             Send reset link
           </button>
         </form>
         <p class="mt-6 text-center text-sm text-muted">
           Remembered it?
-          <a routerLink="/login" class="font-semibold text-primary hover:underline">Back to log in</a>
+          <a routerLink="/login" class="font-semibold text-primary hover:underline"
+            >Back to log in</a
+          >
         </p>
       </app-auth-shell>
     }

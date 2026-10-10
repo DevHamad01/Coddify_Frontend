@@ -65,7 +65,8 @@ export function toApiError(error: unknown): ApiError {
   if (!(error instanceof HttpErrorResponse)) {
     return new ApiError('unknown', 'Something went wrong. Please try again.');
   }
-  const body: ProblemBody = typeof error.error === 'object' && error.error !== null ? error.error : {};
+  const body: ProblemBody =
+    typeof error.error === 'object' && error.error !== null ? error.error : {};
   const [fallbackCode, fallbackMessage] = FALLBACK_BY_STATUS[error.status] ?? [
     'unknown',
     'Something went wrong on our side. Please try again in a moment.',

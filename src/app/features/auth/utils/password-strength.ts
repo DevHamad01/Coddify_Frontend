@@ -35,9 +35,13 @@ export function evaluatePassword(password: string): PasswordStrength {
 }
 
 /** Control validator → `{ weakPassword: true }` unless every rule passes. */
-export const strongPasswordValidator: ValidatorFn = (control: AbstractControl): ValidationErrors | null => {
+export const strongPasswordValidator: ValidatorFn = (
+  control: AbstractControl,
+): ValidationErrors | null => {
   const value: unknown = control.value;
-  return typeof value === 'string' && evaluatePassword(value).isValid ? null : { weakPassword: true };
+  return typeof value === 'string' && evaluatePassword(value).isValid
+    ? null
+    : { weakPassword: true };
 };
 
 /** Group validator → `{ passwordMismatch: true }` when the two fields differ (once confirm is filled). */

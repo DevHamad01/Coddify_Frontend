@@ -1,4 +1,11 @@
-import { ChangeDetectionStrategy, Component, computed, forwardRef, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  computed,
+  forwardRef,
+  input,
+  signal,
+} from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Icon } from '../icon/icon';
@@ -59,7 +66,11 @@ export type InputType = 'text' | 'email' | 'password' | 'search' | 'tel' | 'url'
       }
     </div>
     @if (error()) {
-      <p [id]="id + '-error'" class="mt-1.5 flex items-center gap-1.5 text-sm text-danger" role="alert">
+      <p
+        [id]="id + '-error'"
+        class="mt-1.5 flex items-center gap-1.5 text-sm text-danger"
+        role="alert"
+      >
         <app-icon name="alert-circle" [size]="16" />
         {{ error() }}
       </p>

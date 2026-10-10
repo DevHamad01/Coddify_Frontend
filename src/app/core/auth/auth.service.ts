@@ -88,7 +88,9 @@ export class AuthService {
   refreshAccessToken(): Observable<string> {
     const refreshToken = this.session()?.refreshToken;
     if (!refreshToken) {
-      return throwError(() => new ApiError('unauthorized', 'Your session has expired. Please log in again.', 401));
+      return throwError(
+        () => new ApiError('unauthorized', 'Your session has expired. Please log in again.', 401),
+      );
     }
     this.refreshInFlight ??= this.api.refreshToken({ refreshToken }).pipe(
       tap((session) => this.startSession(session, this.remember)),
@@ -110,7 +112,10 @@ export class AuthService {
   markOnboardingCompleted(): void {
     const current = this.session();
     if (current) {
-      this.startSession({ ...current, user: { ...current.user, onboardingCompleted: true } }, this.remember);
+      this.startSession(
+        { ...current, user: { ...current.user, onboardingCompleted: true } },
+        this.remember,
+      );
     }
   }
 

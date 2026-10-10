@@ -31,12 +31,16 @@ export type InboxKind = 'verify' | 'reset';
   imports: [RouterLink, Button, Icon],
   template: `
     <div class="flex flex-col items-center text-center">
-      <span class="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary">
+      <span
+        class="flex h-16 w-16 items-center justify-center rounded-2xl bg-primary/10 text-primary"
+      >
         <app-icon name="mail" [size]="32" />
       </span>
       <p class="mt-4 text-muted">{{ message() }}</p>
       <p class="mt-1 break-all font-semibold">{{ email() }}</p>
-      <p class="mt-3 text-sm text-muted">The link expires in 24 hours. Check your spam folder if it is not there in a minute.</p>
+      <p class="mt-3 text-sm text-muted">
+        The link expires in 24 hours. Check your spam folder if it is not there in a minute.
+      </p>
 
       @if (demoLink(); as link) {
         <a
@@ -60,7 +64,9 @@ export type InboxKind = 'verify' | 'reset';
       >
         {{ cooldown.active() ? 'Resend in ' + cooldown.remaining() + 's' : 'Resend email' }}
       </button>
-      <a routerLink="/login" class="mt-4 text-sm font-semibold text-primary hover:underline">Back to log in</a>
+      <a routerLink="/login" class="mt-4 text-sm font-semibold text-primary hover:underline"
+        >Back to log in</a
+      >
     </div>
   `,
 })

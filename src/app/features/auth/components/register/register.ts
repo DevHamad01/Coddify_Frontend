@@ -62,7 +62,9 @@ export class Register {
     },
     { validators: matchFieldsValidator('password', 'confirmPassword') },
   );
-  protected readonly password = toSignal(this.form.controls.password.valueChanges, { initialValue: '' });
+  protected readonly password = toSignal(this.form.controls.password.valueChanges, {
+    initialValue: '',
+  });
   protected readonly submitted = signal(false);
   protected readonly pending = signal(false);
   protected readonly serverError = signal<ApiError | null>(null);

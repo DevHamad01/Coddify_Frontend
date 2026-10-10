@@ -12,7 +12,8 @@ interface FooterColumn {
   readonly links: readonly NavLink[];
 }
 
-const linksOf = (id: string): readonly NavLink[] => NAV_MENUS.find((menu) => menu.id === id)?.links ?? [];
+const linksOf = (id: string): readonly NavLink[] =>
+  NAV_MENUS.find((menu) => menu.id === id)?.links ?? [];
 
 const COLUMNS: readonly FooterColumn[] = [
   {

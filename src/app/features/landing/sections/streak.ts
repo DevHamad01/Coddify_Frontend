@@ -37,7 +37,10 @@ const LEADING_BLANKS = 3;
           </div>
           <div class="my-4 h-px bg-border"></div>
           <p class="mb-3 text-center text-sm font-semibold text-muted">October 2026</p>
-          <ol class="grid grid-cols-7 gap-1.5 text-center text-xs font-semibold" aria-label="Streak calendar">
+          <ol
+            class="grid grid-cols-7 gap-1.5 text-center text-xs font-semibold"
+            aria-label="Streak calendar"
+          >
             @for (day of weekdays; track $index) {
               <li class="pb-1 text-muted" aria-hidden="true">{{ day }}</li>
             }

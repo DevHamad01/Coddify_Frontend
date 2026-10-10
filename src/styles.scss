@@ -103,6 +103,7 @@
       --press-color: rgb(var(--c-primary-press));
       border-color: rgb(var(--c-primary));
       background: rgb(var(--c-primary) / 0.1);
+      transform: scale(1.02);
     }
   }
 }

@@ -25,12 +25,18 @@ const REWARDS: readonly { icon: IconName; color: string; pos: string; delay: str
       <h2 class="text-balance max-w-2xl text-4xl font-extrabold leading-tight sm:text-5xl">
         Your first small win is five minutes away
       </h2>
-      <p class="mt-4 max-w-lg text-lg text-muted">Pick a language, write a line of code, and start your streak today.</p>
+      <p class="mt-4 max-w-lg text-lg text-muted">
+        Pick a language, write a line of code, and start your streak today.
+      </p>
       <a appButton size="lg" routerLink="/register" class="mt-8 w-full max-w-xs">Get Started</a>
     </div>
 
     <div class="relative mt-12 h-64 overflow-hidden sm:h-72" aria-hidden="true">
-      <svg class="absolute inset-0 h-full w-full text-primary" viewBox="0 0 1440 300" preserveAspectRatio="none">
+      <svg
+        class="absolute inset-0 h-full w-full text-primary"
+        viewBox="0 0 1440 300"
+        preserveAspectRatio="none"
+      >
         <path
           fill="currentColor"
           d="M0 40C180 40 260 120 420 150c180 34 300 80 300 80s120-46 300-80c160-30 240-110 420-110v260H0z"
@@ -46,7 +52,11 @@ const REWARDS: readonly { icon: IconName; color: string; pos: string; delay: str
           [style.animation-delay]="reward.delay"
         />
       }
-      <app-mascot pose="celebrating" [size]="150" class="absolute bottom-4 left-1/2 -translate-x-1/2" />
+      <app-mascot
+        pose="celebrating"
+        [size]="150"
+        class="absolute bottom-4 left-1/2 -translate-x-1/2"
+      />
     </div>
   `,
 })

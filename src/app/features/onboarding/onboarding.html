@@ -1,0 +1,126 @@
+@if (store.step() === INTRO) {
+  <section
+    class="container-page flex flex-1 animate-fade-up flex-col items-center justify-center py-12 text-center"
+  >
+    <app-mascot-bubble
+      pose="happy"
+      [size]="120"
+      [text]="'Salam, ' + firstName() + '! I am Owlbit.'"
+    />
+    <h1
+      tabindex="-1"
+      class="mt-8 max-w-xl text-4xl font-extrabold leading-tight outline-none sm:text-5xl"
+    >
+      Let's build your learning plan
+    </h1>
+    <p class="mt-4 max-w-md text-lg text-muted">
+      Four quick questions, under a minute. Then Owlbit picks the perfect first course for you.
+    </p>
+    <button appButton size="lg" class="mt-8 w-full max-w-xs" (click)="next()">Let's go</button>
+  </section>
+} @else {
+  <div class="mx-auto flex w-full max-w-2xl flex-1 flex-col px-4">
+    <!-- Top bar: back, progress, exit -->
+    <div class="flex items-center gap-4 py-3">
+      <button
+        type="button"
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-btn text-muted hover:bg-surface-2 hover:text-text"
+        aria-label="Back"
+        (click)="back()"
+      >
+        <app-icon name="undo" />
+      </button>
+      <app-progress-bar class="flex-1" [value]="store.progress()" label="Onboarding progress" />
+      <a
+        routerLink="/"
+        class="flex h-10 w-10 shrink-0 items-center justify-center rounded-btn text-muted hover:bg-surface-2 hover:text-text"
+        aria-label="Exit onboarding"
+      >
+        <app-icon name="x" />
+      </a>
+    </div>
+
+    <div
+      class="flex-1 pb-32 pt-4"
+      [appAnimateOnChange]="store.step()"
+      [animateWith]="store.direction() === 1 ? 'slide-forward' : 'slide-back'"
+    >
+      @if (store.currentStep(); as step) {
+        <app-mascot-bubble [pose]="step.mascotPose" [text]="mascotText()" />
+        <h1
+          [id]="'question-' + step.key"
+          tabindex="-1"
+          class="mt-4 text-2xl font-extrabold outline-none sm:text-3xl"
+        >
+          {{ step.question }}
+        </h1>
+        <p class="mt-1 text-sm text-muted">
+          Step {{ store.step() + 1 }} of {{ SUMMARY }} · tip: press 1–{{ step.options.length }}
+        </p>
+
+        <div
+          role="radiogroup"
+          [attr.aria-labelledby]="'question-' + step.key"
+          class="mt-6 grid gap-3 sm:grid-cols-2"
+          (keydown)="onGroupKeydown($event)"
+        >
+          @for (option of step.options; track option.value; let i = $index) {
+            <button
+              appOptionTile
+              [label]="option.label"
+              [description]="option.description ?? ''"
+              [icon]="option.icon ?? null"
+              [languageId]="option.languageId ?? null"
+              [selected]="store.currentValue() === option.value"
+              [focusable]="
+                store.currentValue() === null ? i === 0 : store.currentValue() === option.value
+              "
+              [shortcut]="i + 1"
+              (click)="choose(option.value)"
+            ></button>
+          }
+        </div>
+      } @else if (recommendation(); as rec) {
+        <app-mascot-bubble pose="celebrating" text="I found the perfect match for you!" />
+        <h1 tabindex="-1" class="mb-6 mt-4 text-2xl font-extrabold outline-none sm:text-3xl">
+          Your plan is ready
+        </h1>
+        <app-course-summary
+          [recommendation]="rec"
+          [dailyMinutes]="store.answers().dailyMinutes ?? 10"
+        />
+        @if (saveError(); as err) {
+          <app-alert class="mt-4" [message]="err.message" />
+        }
+      }
+    </div>
+  </div>
+
+  <!-- Sticky action bar -->
+  <div class="sticky bottom-0 border-t border-border bg-bg/90 backdrop-blur-md">
+    <div class="mx-auto flex max-w-2xl justify-end px-4 py-4">
+      @if (store.step() === SUMMARY) {
+        <button
+          appButton
+          size="lg"
+          class="w-full sm:w-auto"
+          [loading]="saving()"
+          loadingLabel="Saving your plan"
+          (click)="startLearning()"
+        >
+          Start learning
+        </button>
+      } @else {
+        <button
+          appButton
+          size="lg"
+          class="w-full sm:w-auto sm:min-w-44"
+          [disabled]="!store.canContinue()"
+          (click)="next()"
+        >
+          Continue
+        </button>
+      }
+    </div>
+  </div>
+}

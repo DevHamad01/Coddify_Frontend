@@ -29,18 +29,38 @@ import { FeatureSplit } from '../components/feature-split';
 
       <!-- Stacked paper certificate mock -->
       <div visual class="relative w-full max-w-sm py-4" aria-label="Example certificate" role="img">
-        <div class="absolute inset-x-6 inset-y-6 rotate-[-6deg] rounded-card border border-border bg-surface-2"></div>
-        <div class="absolute inset-x-4 inset-y-5 rotate-[-3deg] rounded-card border border-border bg-surface-2"></div>
-        <div class="relative rounded-card border border-border bg-surface p-7 text-center shadow-modal">
-          <span class="absolute left-3 top-3 h-6 w-6 rounded-tl-lg border-l-2 border-t-2 border-xp/70"></span>
-          <span class="absolute right-3 top-3 h-6 w-6 rounded-tr-lg border-r-2 border-t-2 border-xp/70"></span>
-          <span class="absolute bottom-3 left-3 h-6 w-6 rounded-bl-lg border-b-2 border-l-2 border-xp/70"></span>
-          <span class="absolute bottom-3 right-3 h-6 w-6 rounded-br-lg border-b-2 border-r-2 border-xp/70"></span>
+        <div
+          class="absolute inset-x-6 inset-y-6 rotate-[-6deg] rounded-card border border-border bg-surface-2"
+        ></div>
+        <div
+          class="absolute inset-x-4 inset-y-5 rotate-[-3deg] rounded-card border border-border bg-surface-2"
+        ></div>
+        <div
+          class="relative rounded-card border border-border bg-surface p-7 text-center shadow-modal"
+        >
+          <span
+            class="absolute left-3 top-3 h-6 w-6 rounded-tl-lg border-l-2 border-t-2 border-xp/70"
+          ></span>
+          <span
+            class="absolute right-3 top-3 h-6 w-6 rounded-tr-lg border-r-2 border-t-2 border-xp/70"
+          ></span>
+          <span
+            class="absolute bottom-3 left-3 h-6 w-6 rounded-bl-lg border-b-2 border-l-2 border-xp/70"
+          ></span>
+          <span
+            class="absolute bottom-3 right-3 h-6 w-6 rounded-br-lg border-b-2 border-r-2 border-xp/70"
+          ></span>
 
           <app-icon name="award" [size]="36" class="text-xp" />
-          <p class="mt-2 text-[11px] font-bold uppercase tracking-[0.2em] text-muted">Certificate of completion</p>
+          <p class="mt-2 text-[11px] font-bold uppercase tracking-[0.2em] text-muted">
+            Certificate of completion
+          </p>
           <p class="mt-5 text-sm italic text-muted">This certifies that</p>
-          <p class="mx-auto mt-1 w-fit border-b-2 border-xp/40 px-4 pb-1 font-display text-2xl font-bold">Ayesha Khan</p>
+          <p
+            class="mx-auto mt-1 w-fit border-b-2 border-xp/40 px-4 pb-1 font-display text-2xl font-bold"
+          >
+            Ayesha Khan
+          </p>
           <p class="mt-3 text-sm italic text-muted">has successfully completed</p>
           <div class="mt-3 inline-flex items-center gap-2 rounded-full bg-surface-2 px-3 py-1.5">
             <app-language-badge [language]="python" [size]="22" />

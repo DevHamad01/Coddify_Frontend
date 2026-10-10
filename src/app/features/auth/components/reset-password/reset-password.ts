@@ -1,4 +1,12 @@
-import { ChangeDetectionStrategy, Component, DestroyRef, computed, inject, input, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  DestroyRef,
+  computed,
+  inject,
+  input,
+  signal,
+} from '@angular/core';
 import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
@@ -17,7 +25,15 @@ import { PasswordStrengthMeter } from '../password-strength-meter';
 @Component({
   selector: 'app-reset-password',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [ReactiveFormsModule, RouterLink, Alert, Button, Input, AuthShell, PasswordStrengthMeter],
+  imports: [
+    ReactiveFormsModule,
+    RouterLink,
+    Alert,
+    Button,
+    Input,
+    AuthShell,
+    PasswordStrengthMeter,
+  ],
   templateUrl: './reset-password.html',
 })
 export class ResetPassword {
@@ -36,7 +52,9 @@ export class ResetPassword {
     },
     { validators: matchFieldsValidator('password', 'confirmPassword') },
   );
-  protected readonly password = toSignal(this.form.controls.password.valueChanges, { initialValue: '' });
+  protected readonly password = toSignal(this.form.controls.password.valueChanges, {
+    initialValue: '',
+  });
   protected readonly submitted = signal(false);
   protected readonly pending = signal(false);
   protected readonly serverError = signal<ApiError | null>(null);
@@ -45,16 +63,25 @@ export class ResetPassword {
   protected passwordError(): string | null {
     return fieldError(
       this.form.controls.password,
-      { required: 'Choose a new password.', weakPassword: 'Use 8+ characters with upper and lower case letters and a number.' },
+      {
+        required: 'Choose a new password.',
+        weakPassword: 'Use 8+ characters with upper and lower case letters and a number.',
+      },
       this.submitted(),
     );
   }
 
   protected confirmError(): string | null {
     const control = this.form.controls.confirmPassword;
-    const own = fieldError(control, { required: 'Type your new password again.' }, this.submitted());
+    const own = fieldError(
+      control,
+      { required: 'Type your new password again.' },
+      this.submitted(),
+    );
     const show = control.touched || this.submitted();
-    return own ?? (show && this.form.hasError('passwordMismatch') ? 'Passwords do not match.' : null);
+    return (
+      own ?? (show && this.form.hasError('passwordMismatch') ? 'Passwords do not match.' : null)
+    );
   }
 
   protected submit(): void {

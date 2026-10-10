@@ -15,7 +15,10 @@ const COPIES = 6;
   selector: 'app-language-marquee',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [RouterLink, LanguageBadge],
-  host: { id: 'languages', class: 'block scroll-mt-16 border-y border-border bg-surface-2/70 py-5' },
+  host: {
+    id: 'languages',
+    class: 'block scroll-mt-16 border-y border-border bg-surface-2/70 py-5',
+  },
   template: `
     <h2 class="sr-only">Languages you can learn</h2>
     <div

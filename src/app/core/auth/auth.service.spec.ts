@@ -53,7 +53,9 @@ describe('AuthService (mock API)', () => {
   });
 
   it('logs in a seeded user and persists the session in localStorage when remembered', async () => {
-    const user = await settle(auth.login({ email: 'demo@coddify.dev', password: MOCK_PASSWORD }, true));
+    const user = await settle(
+      auth.login({ email: 'demo@coddify.dev', password: MOCK_PASSWORD }, true),
+    );
 
     expect(user.email).toBe('demo@coddify.dev');
     expect(auth.isAuthenticated()).toBe(true);
@@ -69,30 +71,44 @@ describe('AuthService (mock API)', () => {
   });
 
   it('rejects wrong credentials with a typed error', async () => {
-    const error = await settleError(auth.login({ email: 'demo@coddify.dev', password: 'nope' }, true));
+    const error = await settleError(
+      auth.login({ email: 'demo@coddify.dev', password: 'nope' }, true),
+    );
     expect(error).toBeInstanceOf(ApiError);
     expect(error.code).toBe('invalid_credentials');
     expect(auth.isAuthenticated()).toBe(false);
   });
 
   it('blocks unverified accounts', async () => {
-    const error = await settleError(auth.login({ email: 'unverified@coddify.dev', password: MOCK_PASSWORD }, true));
+    const error = await settleError(
+      auth.login({ email: 'unverified@coddify.dev', password: MOCK_PASSWORD }, true),
+    );
     expect(error.code).toBe('email_not_verified');
   });
 
   it('registers, verifies the email and then logs in', async () => {
-    const request = { fullName: 'Ayesha Khan', email: 'ayesha@example.com', password: 'Coddify2026' };
+    const request = {
+      fullName: 'Ayesha Khan',
+      email: 'ayesha@example.com',
+      password: 'Coddify2026',
+    };
     const registered = await settle(auth.register(request));
     expect(registered.requiresVerification).toBe(true);
 
     const duplicate = await settleError(auth.register(request));
     expect(duplicate.code).toBe('email_taken');
 
-    const beforeVerify = await settleError(auth.login({ email: request.email, password: request.password }, true));
+    const beforeVerify = await settleError(
+      auth.login({ email: request.email, password: request.password }, true),
+    );
     expect(beforeVerify.code).toBe('email_not_verified');
 
-    await settle(auth.verifyEmail({ email: request.email, token: registered.debugVerificationToken ?? '' }));
-    const user = await settle(auth.login({ email: request.email, password: request.password }, true));
+    await settle(
+      auth.verifyEmail({ email: request.email, token: registered.debugVerificationToken ?? '' }),
+    );
+    const user = await settle(
+      auth.login({ email: request.email, password: request.password }, true),
+    );
     expect(user.fullName).toBe('Ayesha Khan');
     expect(user.onboardingCompleted).toBe(false);
   });
