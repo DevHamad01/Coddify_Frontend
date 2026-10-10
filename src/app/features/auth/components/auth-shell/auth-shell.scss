@@ -1,0 +1,21 @@
+.auth-tab {
+  @apply -mb-px border-b-2 border-transparent pb-3 text-center font-display text-base font-semibold text-muted transition-colors duration-hover hover:text-text;
+
+  &.tab-active {
+    @apply border-primary text-primary;
+  }
+}
+
+/* Teal gradient in light mode, deep teal-navy in dark mode; panel text stays white in both. */
+.auth-panel {
+  background:
+    radial-gradient(80% 60% at 100% 0%, rgb(255 255 255 / 0.14), transparent),
+    linear-gradient(140deg, #0d9488, #0b7a70 55%, #115e59);
+}
+
+:host-context([data-theme='dark']) .auth-panel {
+  background:
+    radial-gradient(80% 60% at 100% 0%, rgb(20 184 166 / 0.25), transparent),
+    linear-gradient(140deg, #0f3d3a, #12263a 60%, #121a2b);
+  border: 1px solid rgb(var(--c-border));
+}

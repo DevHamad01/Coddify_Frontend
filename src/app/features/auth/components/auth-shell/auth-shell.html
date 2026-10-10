@@ -1,0 +1,53 @@
+<div class="grid w-full items-stretch gap-10 lg:grid-cols-[minmax(0,460px)_1fr] lg:gap-14">
+  <section
+    class="mx-auto w-full max-w-[460px] animate-fade-up rounded-modal border border-border bg-surface p-6 shadow-modal sm:p-8"
+  >
+    @if (showTabs()) {
+      <nav class="mb-6 grid grid-cols-2 border-b border-border" aria-label="Account">
+        <a
+          routerLink="/login"
+          queryParamsHandling="preserve"
+          routerLinkActive="tab-active"
+          ariaCurrentWhenActive="page"
+          class="auth-tab"
+        >
+          Log in
+        </a>
+        <a
+          routerLink="/register"
+          queryParamsHandling="preserve"
+          routerLinkActive="tab-active"
+          ariaCurrentWhenActive="page"
+          class="auth-tab"
+        >
+          Register
+        </a>
+      </nav>
+    }
+    <h1 class="text-2xl font-bold sm:text-[28px]">{{ heading() }}</h1>
+    @if (subheading()) {
+      <p class="mt-1.5 text-[15px] text-muted">{{ subheading() }}</p>
+    }
+    <div class="mt-6">
+      <ng-content />
+    </div>
+  </section>
+
+  <aside
+    class="auth-panel relative hidden overflow-hidden rounded-modal p-10 lg:flex lg:flex-col lg:justify-center"
+    aria-label="Why Coddify"
+  >
+    <app-mascot [pose]="pose()" [size]="132" class="animate-float" />
+    <h2 class="mt-6 max-w-sm text-4xl font-extrabold leading-tight !text-white">{{ panelHeading() }}</h2>
+    <ul class="mt-8 flex flex-col gap-4">
+      @for (benefit of benefits; track benefit.text) {
+        <li class="flex items-center gap-3 text-[15px] font-medium text-white/90">
+          <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-white/15">
+            <app-icon [name]="benefit.icon" [size]="18" />
+          </span>
+          {{ benefit.text }}
+        </li>
+      }
+    </ul>
+  </aside>
+</div>

@@ -1,1 +1,61 @@
-<p>login works!</p>
+<app-auth-shell
+  heading="Welcome back"
+  subheading="Log in to keep your streak alive."
+  [showTabs]="true"
+  panelHeading="Your streak missed you"
+>
+  <app-google-button [returnUrl]="returnUrl()" />
+
+  <div class="my-5 flex items-center gap-3 text-xs font-semibold uppercase tracking-wider text-muted">
+    <span class="h-px flex-1 bg-border"></span>or<span class="h-px flex-1 bg-border"></span>
+  </div>
+
+  <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="flex flex-col gap-4">
+    @if (serverError(); as err) {
+      <app-alert [message]="err.message">
+        @if (err.code === 'email_not_verified') {
+          <button
+            type="button"
+            class="mt-1 font-semibold text-primary underline-offset-2 hover:underline disabled:opacity-60"
+            [disabled]="resending()"
+            (click)="resendVerification()"
+          >
+            {{ resending() ? 'Sending...' : 'Resend verification email' }}
+          </button>
+        }
+      </app-alert>
+    }
+
+    <app-input
+      label="Email"
+      type="email"
+      icon="mail"
+      autocomplete="email"
+      placeholder="you@example.com"
+      formControlName="email"
+      [required]="true"
+      [error]="error('email')"
+    />
+    <app-input
+      label="Password"
+      type="password"
+      icon="lock"
+      autocomplete="current-password"
+      formControlName="password"
+      [required]="true"
+      [error]="error('password')"
+    />
+
+    <div class="flex items-center justify-between gap-3">
+      <app-checkbox formControlName="remember">Remember me</app-checkbox>
+      <a routerLink="/forgot-password" class="text-sm font-semibold text-primary hover:underline">Forgot password?</a>
+    </div>
+
+    <button appButton type="submit" [block]="true" [loading]="pending()" loadingLabel="Logging in">Log in</button>
+  </form>
+
+  <p class="mt-6 text-center text-sm text-muted">
+    New to Coddify?
+    <a routerLink="/register" class="font-semibold text-primary hover:underline">Create a free account</a>
+  </p>
+</app-auth-shell>

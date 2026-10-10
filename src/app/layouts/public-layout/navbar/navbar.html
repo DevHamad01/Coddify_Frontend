@@ -93,8 +93,12 @@
 
   <div class="ml-auto flex items-center gap-2">
     <app-theme-toggle class="hidden sm:block" />
-    <a appButton variant="ghost" size="sm" routerLink="/login" class="hidden md:inline-flex">Log in</a>
-    <a appButton size="sm" routerLink="/register" class="hidden sm:inline-flex">Get Started</a>
+    @if (auth.isAuthenticated()) {
+      <a appButton size="sm" [routerLink]="auth.homeRoute()" class="hidden sm:inline-flex">Continue learning</a>
+    } @else {
+      <a appButton variant="ghost" size="sm" routerLink="/login" class="hidden md:inline-flex">Log in</a>
+      <a appButton size="sm" routerLink="/register" class="hidden sm:inline-flex">Get Started</a>
+    }
     <button
       type="button"
       class="flex h-10 w-10 items-center justify-center rounded-btn border border-border text-text hover:bg-surface-2 lg:hidden"
