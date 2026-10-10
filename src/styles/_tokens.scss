@@ -1,0 +1,57 @@
+// Theme tokens. Colours are stored as space-separated RGB channels so Tailwind
+// opacity modifiers work (e.g. `bg-primary/10`). See tailwind.config.js.
+// Dark is the default; light overrides it via [data-theme='light'].
+
+:root,
+[data-theme='dark'] {
+  color-scheme: dark;
+
+  --c-bg: 11 18 32; // #0B1220
+  --c-surface: 18 26 43; // #121A2B
+  --c-surface-2: 26 36 56; // #1A2438
+  --c-border: 38 50 72; // #263248
+  --c-text: 232 238 248; // #E8EEF8
+  --c-text-muted: 147 161 184; // #93A1B8
+  --c-primary: 20 184 166; // #14B8A6
+  --c-primary-press: 15 143 130; // #0F8F82
+  --c-primary-contrast: 4 32 30; // text on primary
+  --c-xp: 251 191 36; // #FBBF24
+  --c-streak: 251 146 60; // #FB923C
+  --c-ai: 139 92 246; // #8B5CF6
+  --c-success: 34 197 94; // #22C55E
+  --c-danger: 239 68 68; // #EF4444
+  --c-info: 56 189 248; // #38BDF8
+
+  // Mock "app window" surfaces stay dark in both themes.
+  --mock-bg: #0f1726;
+  --mock-header: #151f33;
+  --mock-border: #24314a;
+  --mock-chip: #1e2a41;
+  --mock-text: #e8eef8;
+  --mock-muted: #8b9ab3;
+}
+
+[data-theme='light'] {
+  color-scheme: light;
+
+  --c-bg: 246 248 251; // #F6F8FB
+  --c-surface: 255 255 255; // #FFFFFF
+  --c-surface-2: 238 242 248; // #EEF2F8
+  --c-border: 221 228 238; // #DDE4EE
+  --c-text: 15 23 42; // #0F172A
+  --c-text-muted: 91 107 130; // #5B6B82
+  --c-primary: 13 148 136; // #0D9488
+  --c-primary-press: 11 122 112; // #0B7A70
+  --c-primary-contrast: 255 255 255;
+  --c-xp: 217 154 6; // #D99A06
+  --c-streak: 234 106 10; // #EA6A0A
+  --c-ai: 124 58 237; // #7C3AED
+  --c-success: 22 163 74; // #16A34A
+  --c-danger: 220 38 38; // #DC2626
+  --c-info: 2 132 199; // #0284C7
+
+  --mock-bg: #111a2b;
+  --mock-header: #172238;
+  --mock-border: #24314a;
+  --mock-chip: #22304a;
+}

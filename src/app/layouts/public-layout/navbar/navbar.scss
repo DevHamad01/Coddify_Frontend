@@ -1,0 +1,11 @@
+.nav-trigger {
+  @apply flex h-9 items-center gap-1 rounded-input border border-border px-3 text-sm font-medium text-text transition-colors duration-hover hover:bg-surface-2;
+
+  &[aria-expanded='true'] {
+    @apply border-primary/50 bg-surface-2;
+  }
+}
+
+.nav-panel {
+  @apply absolute left-0 top-[calc(100%+10px)] z-50 animate-fade-up rounded-card border border-border bg-surface p-2 shadow-modal;
+}

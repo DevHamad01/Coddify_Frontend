@@ -1,3 +1,122 @@
+@use './styles/tokens';
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: 80px;
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-bg font-sans text-text antialiased;
+    min-height: 100dvh;
+    transition:
+      background-color 250ms ease,
+      color 250ms ease;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    @apply font-display text-text;
+    letter-spacing: -0.02em;
+  }
+
+  code,
+  pre,
+  kbd {
+    @apply font-mono;
+  }
+
+  :focus-visible {
+    outline: 2px solid rgb(var(--c-primary));
+    outline-offset: 2px;
+  }
+
+  ::selection {
+    background: rgb(var(--c-primary) / 0.3);
+  }
+}
+
+@layer components {
+  /* Page container: 1200px max, 16px gutter on phones, 24px from tablet up. */
+  .container-page {
+    @apply mx-auto w-full max-w-content px-4 sm:px-6;
+  }
+
+  .section {
+    @apply py-16 md:py-24;
+  }
+
+  .section-band {
+    background: rgb(var(--c-primary) / 0.06);
+  }
+
+  .eyebrow {
+    @apply font-display text-xs font-bold uppercase tracking-[0.14em] text-primary;
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+
+  /* Dark "app window" used by every mock UI card on the landing page. */
+  .mock-window {
+    @apply overflow-hidden rounded-[24px] border shadow-mock;
+    background: var(--mock-bg);
+    border-color: var(--mock-border);
+    color: var(--mock-text);
+  }
+
+  .mock-header {
+    @apply flex items-center justify-between gap-3 border-b px-4 py-3;
+    border-color: var(--mock-border);
+    background: var(--mock-header);
+  }
+
+  .mock-chip {
+    @apply inline-flex items-center gap-2 rounded-lg px-3 py-1.5 text-xs font-semibold;
+    background: var(--mock-chip);
+  }
+
+  /* Tile used by onboarding options and selectable cards: same "press" lip as buttons. */
+  .press-tile {
+    --press-color: rgb(var(--c-border));
+    @apply relative rounded-card border-2 border-border bg-surface text-left shadow-press transition-[transform,box-shadow,border-color,background-color] duration-hover;
+
+    &:hover {
+      @apply bg-surface-2;
+    }
+
+    &:active {
+      transform: translateY(4px);
+      box-shadow: none;
+    }
+
+    &[aria-checked='true'],
+    &[aria-pressed='true'] {
+      --press-color: rgb(var(--c-primary-press));
+      border-color: rgb(var(--c-primary));
+      background: rgb(var(--c-primary) / 0.1);
+    }
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -1,1 +1,33 @@
-<p>landing works!</p>
+<div class="container-page flex flex-col gap-10 py-12">
+  <section class="flex flex-wrap items-end gap-6">
+    <app-mascot pose="happy" />
+    <app-mascot pose="thinking" />
+    <app-mascot pose="celebrating" />
+  </section>
+  <section class="flex flex-wrap gap-4">
+    <button appButton>Primary</button>
+    <button appButton variant="secondary">Secondary</button>
+    <button appButton variant="ghost">Ghost</button>
+    <button appButton variant="danger">Danger</button>
+    <button appButton [loading]="true">Saving</button>
+    <button appButton [disabled]="true">Disabled</button>
+    <button appButton variant="secondary" (click)="toast.success('Saved! Nice work.')">Toast</button>
+    <button appButton variant="secondary" (click)="toast.error('Something went wrong.')">Error toast</button>
+  </section>
+  <section class="flex flex-wrap gap-2">
+    <app-chip>Neutral</app-chip>
+    <app-chip tone="primary" icon="check">Primary</app-chip>
+    <app-chip tone="xp" icon="bolt" [filledIcon]="true">+20 XP</app-chip>
+    <app-chip tone="streak" icon="flame" [filledIcon]="true">12 day streak</app-chip>
+    <app-chip tone="ai" icon="sparkles">AI hint</app-chip>
+    <app-chip tone="info" icon="snowflake">Streak freeze</app-chip>
+  </section>
+  <app-card class="grid max-w-md gap-4">
+    <app-input label="Email" type="email" icon="mail" [formControl]="email" hint="We never share it." />
+    <app-input label="Password" type="password" icon="lock" [formControl]="password" error="Use at least 8 characters." />
+    <app-checkbox [formControl]="terms">I agree to the terms</app-checkbox>
+    <app-progress-bar [value]="60" />
+    <app-stepper [total]="4" [current]="1" />
+  </app-card>
+  <app-accordion class="max-w-2xl" [items]="[{ question: 'Is it free?', answer: 'Yes.' }, { question: 'Mobile?', answer: 'Yes, it works in the browser.' }]" />
+</div>
