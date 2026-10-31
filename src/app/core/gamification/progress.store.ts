@@ -1,6 +1,7 @@
-import { Injectable, computed, inject, signal } from '@angular/core';
+import { Injectable, computed, effect, inject, signal } from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
+import { EditorThemeService } from '../../shared/ui/code-editor/editor-theme.service';
 import { LessonReward } from '../learning/learning.models';
 import { GamificationApi } from './gamification-api';
 import { MissionsSummary, UserStats } from './gamification.models';
@@ -24,6 +25,17 @@ export class ProgressStore {
     const stats = this.stats();
     return stats ? stats.levelXpTarget - stats.levelXp : 0;
   });
+
+  constructor() {
+    // The equipped editor theme follows the learner into every code editor.
+    const editorTheme = inject(EditorThemeService);
+    effect(() => {
+      const theme = this.stats()?.equipped.theme;
+      if (theme) {
+        editorTheme.use(theme);
+      }
+    });
+  }
 
   /** Loads stats and missions; safe to call again to refresh. */
   refresh(): void {

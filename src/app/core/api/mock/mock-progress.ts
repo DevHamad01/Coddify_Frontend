@@ -23,8 +23,8 @@ export interface MockProgressState {
   xpToday: number;
   perfectToday: boolean;
   activityDay: string | null;
-  equippedTitle: string;
-  ownedItems: string[];
+  /** Equipped item id per store slot (title, frame, theme, tutor…). */
+  equipped: Record<string, string>;
   submissions: Record<string, Submission[]>;
   solvedProblems: string[];
   interviewDate: string | null;
@@ -52,8 +52,7 @@ const FRESH: MockProgressState = {
   xpToday: 0,
   perfectToday: false,
   activityDay: null,
-  equippedTitle: 'bit-apprentice',
-  ownedItems: ['bit-apprentice', 'code-crusader', 'loop-legend'],
+  equipped: {},
   submissions: {},
   solvedProblems: [],
   interviewDate: null,

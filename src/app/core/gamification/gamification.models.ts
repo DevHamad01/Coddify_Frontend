@@ -15,6 +15,8 @@ export interface UserStats {
   readonly activitiesToday: number;
   /** Leaderboards unlock at this much total XP. */
   readonly leaderboardUnlockXp: number;
+  /** Equipped cosmetics, so the editor theme, tutor and frame apply app-wide. */
+  readonly equipped: EquippedItems;
 }
 
 export interface StreakSummary {
@@ -63,23 +65,37 @@ export interface Leaderboard {
   readonly entries: readonly LeaderboardEntry[];
 }
 
-export type StoreTab = 'boosts' | 'themes' | 'tutors' | 'profile';
+export type StoreTab = 'themes' | 'tutors' | 'profile';
 export type ProfileItemKind = 'title' | 'frame' | 'name-effect' | 'streak-flame';
-export type StoreItemState = 'equipped' | 'owned' | 'buyable' | 'locked';
+export type StoreItemKind = ProfileItemKind | 'theme' | 'tutor';
+export type StoreItemState = 'equipped' | 'unlocked' | 'locked';
+
+/** What a learner has to reach to unlock an item. Nothing is ever bought: Coddify is free. */
+export type UnlockMetric = 'xp' | 'level' | 'streak' | 'lessons' | 'solved';
+
+export interface UnlockRule {
+  readonly metric: UnlockMetric;
+  readonly target: number;
+}
 
 export interface StoreItem {
   readonly id: string;
   readonly tab: StoreTab;
-  readonly kind: ProfileItemKind | 'boost' | 'theme' | 'tutor';
+  readonly kind: StoreItemKind;
   readonly name: string;
   readonly description: string;
   readonly state: StoreItemState;
-  readonly price?: number;
-  /** Shown on locked items, e.g. "7+ day streak". */
-  readonly requirement?: string;
-  /** Icon key the store view knows how to draw. */
+  /** null: available from the start. */
+  readonly unlock: UnlockRule | null;
+  /** The learner's current value for the unlock metric (for the progress bar). */
+  readonly progress: number;
+  /** Key the store and profile views use to draw the item (icon, frame style, tutor look…). */
   readonly art: string;
+  readonly rarity: 'common' | 'rare' | 'legendary';
 }
+
+/** The item equipped in each slot. */
+export type EquippedItems = Readonly<Record<StoreItemKind, string>>;
 
 export interface Badge {
   readonly id: string;

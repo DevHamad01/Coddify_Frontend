@@ -8,13 +8,16 @@ import { MockDb } from '../api/mock/mock-db';
 import { MockProgress } from '../api/mock/mock-progress';
 import { AuthService } from '../auth/auth.service';
 import { APP_ENV } from '../config/environment';
+import { COSMETICS, DEFAULT_EQUIPPED } from './mock/cosmetics.mock';
 import {
   Leaderboard,
   LeaderboardScope,
   MissionsSummary,
   ProfileSummary,
+  EquippedItems,
   StoreItem,
   StoreTab,
+  UnlockMetric,
   StreakSummary,
   UserStats,
 } from './gamification.models';
@@ -22,7 +25,6 @@ import {
   badgesFor,
   FRIENDS,
   LEAGUE_RIVALS,
-  STORE_ITEMS,
   quoteOfTheDay,
   levelFor,
 } from './mock/gamification.mock';
@@ -37,8 +39,6 @@ export abstract class GamificationApi {
   abstract getLeaderboard(scope: LeaderboardScope): Observable<Leaderboard>;
   abstract getStore(tab: StoreTab): Observable<readonly StoreItem[]>;
   abstract equip(itemId: string): Observable<readonly StoreItem[]>;
-  /** Spends gems on an item and returns the refreshed tab. */
-  abstract buy(itemId: string): Observable<readonly StoreItem[]>;
   abstract getProfile(): Observable<ProfileSummary>;
 }
 
@@ -74,10 +74,6 @@ export class HttpGamificationApi extends GamificationApi {
 
   equip(itemId: string): Observable<readonly StoreItem[]> {
     return this.http.post<StoreItem[]>(this.baseUrl + this.urls.equip(itemId), {});
-  }
-
-  buy(itemId: string): Observable<readonly StoreItem[]> {
-    return this.http.post<StoreItem[]>(this.baseUrl + this.urls.buy(itemId), {});
   }
 
   getProfile(): Observable<ProfileSummary> {
@@ -188,29 +184,12 @@ export class MockGamificationApi extends GamificationApi {
 
   equip(itemId: string): Observable<readonly StoreItem[]> {
     return this.db.respond(() => {
-      const item = STORE_ITEMS.find((candidate) => candidate.id === itemId);
-      if (!item || !this.progress.get().ownedItems.includes(itemId)) {
-        throw new ApiError('validation', 'You do not own that item yet.', 400);
+      const item = this.allItems().find((candidate) => candidate.id === itemId);
+      if (!item || item.state === 'locked') {
+        throw new ApiError('validation', 'Reach the goal first to unlock that item.', 400);
       }
-      this.progress.update({ equippedTitle: itemId });
-      return this.storeItems(item.tab);
-    });
-  }
-
-  buy(itemId: string): Observable<readonly StoreItem[]> {
-    return this.db.respond(() => {
-      const item = STORE_ITEMS.find((candidate) => candidate.id === itemId);
       const state = this.progress.get();
-      if (!item || item.state !== 'buyable' || item.price === undefined) {
-        throw new ApiError('validation', 'That item is not for sale.', 400);
-      }
-      if (state.gems < item.price) {
-        throw new ApiError('validation', `You need ${item.price - state.gems} more gems.`, 400);
-      }
-      this.progress.update({
-        gems: state.gems - item.price,
-        ownedItems: [...state.ownedItems, itemId],
-      });
+      this.progress.update({ equipped: { ...state.equipped, [item.kind]: itemId } });
       return this.storeItems(item.tab);
     });
   }
@@ -220,7 +199,8 @@ export class MockGamificationApi extends GamificationApi {
       const user = this.auth.user();
       const state = this.progress.get();
       const level = levelFor(state.totalXp);
-      const title = STORE_ITEMS.find((item) => item.id === state.equippedTitle)?.name ?? '';
+      const equipped = this.equipped();
+      const title = COSMETICS.find((item) => item.id === equipped.title)?.name ?? '';
       return {
         userId: user?.id ?? 'me',
         fullName: user?.fullName ?? 'Coddify learner',
@@ -233,8 +213,8 @@ export class MockGamificationApi extends GamificationApi {
         league: state.totalXp >= LEADERBOARD_UNLOCK_XP ? 'Starter League' : null,
         level: level.level,
         levelName: level.name,
-        collectionUnlocked: state.ownedItems.length + state.claimedChests.length,
-        collectionTotal: 120,
+        collectionUnlocked: this.allItems().filter((item) => item.state !== 'locked').length,
+        collectionTotal: COSMETICS.length,
         historyUnlockXp: 100,
         badges: badgesFor(state),
         joinedAt: '2026-10-01',
@@ -257,19 +237,41 @@ export class MockGamificationApi extends GamificationApi {
       dailyGoal: state.dailyGoal,
       activitiesToday: state.activitiesToday,
       leaderboardUnlockXp: LEADERBOARD_UNLOCK_XP,
+      equipped: this.equipped(),
     };
   }
 
   private storeItems(tab: StoreTab): StoreItem[] {
+    return this.allItems().filter((item) => item.tab === tab);
+  }
+
+  /** Every cosmetic with its state worked out from the learner's progress. */
+  private allItems(): StoreItem[] {
+    const metrics = this.metrics();
+    const equipped = this.equipped();
+    return COSMETICS.map((item) => {
+      const progress = item.unlock ? metrics[item.unlock.metric] : 0;
+      const unlocked = !item.unlock || progress >= item.unlock.target;
+      return {
+        ...item,
+        progress,
+        state: equipped[item.kind] === item.id ? 'equipped' : unlocked ? 'unlocked' : 'locked',
+      };
+    });
+  }
+
+  private equipped(): EquippedItems {
+    return { ...DEFAULT_EQUIPPED, ...this.progress.get().equipped } as EquippedItems;
+  }
+
+  private metrics(): Record<UnlockMetric, number> {
     const state = this.progress.get();
-    return STORE_ITEMS.filter((item) => item.tab === tab).map((item) => ({
-      ...item,
-      state:
-        item.id === state.equippedTitle
-          ? 'equipped'
-          : state.ownedItems.includes(item.id)
-            ? 'owned'
-            : item.state,
-    }));
+    return {
+      xp: state.totalXp,
+      level: levelFor(state.totalXp).level,
+      streak: Math.max(state.longestStreak, state.streak),
+      lessons: state.completedNodes.length,
+      solved: state.solvedProblems.length,
+    };
   }
 }
