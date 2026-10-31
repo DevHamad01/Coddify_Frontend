@@ -6,6 +6,8 @@ export interface AppNavItem {
   readonly art: NavArtName;
   /** Shown in the phone bottom bar (max five). */
   readonly mobile?: boolean;
+  /** Still being designed: shows a "Soon" tag next to the label. */
+  readonly soon?: boolean;
 }
 
 export interface AppNavSection {
@@ -19,8 +21,7 @@ export const APP_NAV: readonly AppNavSection[] = [
     items: [
       { label: 'Journey', path: '/app/journey', art: 'journey', mobile: true },
       { label: 'Practice', path: '/app/practice', art: 'practice', mobile: true },
-      { label: 'Projects', path: '/app/projects', art: 'projects' },
-      { label: 'History', path: '/app/history', art: 'history' },
+      { label: 'History', path: '/app/history', art: 'history', soon: true },
     ],
   },
   {

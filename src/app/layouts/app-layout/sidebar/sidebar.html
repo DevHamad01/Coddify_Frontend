@@ -1,12 +1,12 @@
-<div class="flex h-20 items-center px-3 lg:px-5">
-  <app-logo class="hidden lg:block" />
-  <app-logo class="mx-auto lg:hidden" [showWordmark]="false" />
+<div class="flex h-16 shrink-0 items-center px-3 lg:px-5">
+  <app-logo class="hidden lg:block" href="/app/journey" />
+  <app-logo class="mx-auto lg:hidden" [showWordmark]="false" href="/app/journey" />
 </div>
 
-<nav class="flex flex-1 flex-col overflow-y-auto px-3 pb-3" aria-label="App">
+<nav class="flex min-h-0 flex-1 flex-col px-3 pb-3" aria-label="App">
   @for (section of sections; track section.label) {
     <p class="section-label">{{ section.label }}</p>
-    <ul class="flex flex-col gap-1">
+    <ul class="flex flex-col gap-0.5">
       @for (item of section.items; track item.path) {
         <li>
           <a
@@ -16,17 +16,20 @@
             class="nav-item"
             [attr.title]="item.label"
           >
-            <app-nav-art [name]="item.art" [size]="30" />
+            <app-nav-art [name]="item.art" [size]="24" />
             <span class="label">{{ item.label }}</span>
+            @if (item.soon) {
+              <span class="soon">Soon</span>
+            }
           </a>
         </li>
       }
     </ul>
   }
 
-  <div class="mt-auto flex flex-col gap-1 border-t border-border pt-3">
+  <div class="mt-auto flex flex-col gap-0.5 border-t border-border pt-2">
     <button type="button" class="nav-item" title="Search (Ctrl K)" (click)="search.open()">
-      <app-nav-art name="search" [size]="30" />
+      <app-nav-art name="search" [size]="24" />
       <span class="label">Search</span>
       <kbd class="kbd">Ctrl K</kbd>
     </button>
@@ -37,7 +40,7 @@
       class="nav-item"
       [attr.title]="profile.label"
     >
-      <app-nav-art [name]="profile.art" [size]="30" />
+      <app-nav-art [name]="profile.art" [size]="24" />
       <span class="label">{{ profile.label }}</span>
     </a>
   </div>

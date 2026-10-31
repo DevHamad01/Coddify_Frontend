@@ -3,22 +3,27 @@
 }
 
 .section-label {
-  @apply mb-2 mt-5 hidden px-3 font-display text-xs font-bold uppercase tracking-[0.1em] text-muted lg:block;
+  @apply mb-1 mt-3 hidden px-3 font-display text-[11px] font-bold uppercase tracking-[0.1em] text-muted lg:block;
 }
 
 .nav-item {
-  @apply flex w-full items-center justify-center gap-4 rounded-btn border-2 border-transparent px-3 py-2.5 text-left font-display text-lg font-semibold text-text transition-colors duration-hover hover:bg-surface lg:justify-start;
+  @apply flex w-full items-center justify-center gap-3 rounded-btn border-2 border-transparent px-3 py-1.5 text-left font-display text-[15px] font-semibold text-text transition-colors duration-hover hover:bg-surface lg:justify-start;
 
   &.is-active {
     @apply border-border bg-surface;
   }
 
   .label,
-  .kbd {
+  .kbd,
+  .soon {
     @apply hidden lg:inline;
   }
 }
 
 .kbd {
   @apply ml-auto rounded-md border border-border px-1.5 py-0.5 font-mono text-[11px] text-muted;
+}
+
+.soon {
+  @apply ml-auto rounded-full bg-surface-2 px-2 py-0.5 text-[10px] font-bold uppercase tracking-wide text-muted;
 }

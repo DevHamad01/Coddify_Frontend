@@ -160,12 +160,6 @@ export const routes: Routes = [
         loadComponent: comingSoon,
       },
       {
-        path: 'projects',
-        title: 'Projects | Coddify',
-        data: { title: 'Projects' },
-        loadComponent: comingSoon,
-      },
-      {
         path: 'history',
         title: 'History | Coddify',
         data: { title: 'History' },
