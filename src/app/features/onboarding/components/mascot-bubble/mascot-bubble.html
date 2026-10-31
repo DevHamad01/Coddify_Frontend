@@ -1,0 +1,7 @@
+<app-mascot [pose]="pose()" [size]="size()" class="shrink-0" />
+<p
+  class="relative mb-4 rounded-2xl rounded-bl-md border border-border bg-surface px-4 py-2.5 text-sm font-medium text-text shadow-sm"
+  aria-live="polite"
+>
+  <span class="block" [appAnimateOnChange]="text()">{{ text() }}</span>
+</p>

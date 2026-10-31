@@ -1,0 +1,4 @@
+<pre
+  class="overflow-x-auto px-4 py-4 font-mono text-[13px] leading-6 sm:text-sm"
+  [attr.aria-label]="label()"
+><code>@for (line of lines(); track $index; let n = $index) {<span class="flex"><span class="mr-4 w-5 shrink-0 select-none text-right" style="color: var(--mock-muted)" aria-hidden="true">{{ n + 1 }}</span><span>@for (token of line; track $index) {<span [style.color]="colors[token.kind]">{{ token.text }}</span>}</span></span>}</code></pre>

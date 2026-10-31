@@ -1,0 +1,27 @@
+<div class="flex items-start gap-3">
+  <span class="relative mt-0.5 flex h-5 w-5 shrink-0">
+    <input
+      type="checkbox"
+      [id]="id"
+      [checked]="checked()"
+      [disabled]="disabled()"
+      [attr.aria-invalid]="error() ? 'true' : null"
+      [attr.aria-describedby]="error() ? id + '-error' : null"
+      (change)="onToggle($event)"
+      (blur)="onTouched()"
+      class="peer h-5 w-5 cursor-pointer appearance-none rounded-md border-2 bg-surface transition-colors duration-hover checked:border-primary checked:bg-primary focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary disabled:opacity-60"
+      [class.border-border]="!error()"
+      [class.border-danger]="!!error()"
+    />
+    <app-icon
+      name="check"
+      [size]="14"
+      [strokeWidth]="3"
+      class="pointer-events-none absolute inset-0 m-auto hidden text-primary-contrast peer-checked:flex"
+    />
+  </span>
+  <label [for]="id" class="cursor-pointer text-sm leading-6 text-muted"><ng-content /></label>
+</div>
+@if (error()) {
+  <p [id]="id + '-error'" class="ml-8 mt-1 text-sm text-danger" role="alert">{{ error() }}</p>
+}

@@ -1,0 +1,20 @@
+.confetti {
+  position: fixed;
+  top: -16px;
+  animation: confetti var(--duration) ease-in var(--delay) 1 both;
+  pointer-events: none;
+  z-index: 30;
+}
+@keyframes confetti {
+  0% {
+    transform: translateY(0) rotate(0deg);
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(105vh) rotate(540deg);
+    opacity: 0;
+  }
+}

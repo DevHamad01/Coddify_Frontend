@@ -1,15 +1,15 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Meta, Title } from '@angular/platform-browser';
 
-import { AiTutor } from '../sections/ai-tutor';
-import { Certificates } from '../sections/certificates';
-import { Faq } from '../sections/faq';
-import { FinalCta } from '../sections/final-cta';
-import { Hero } from '../sections/hero';
-import { LearnByDoing } from '../sections/learn-by-doing';
-import { League } from '../sections/league';
-import { Roadmaps } from '../sections/roadmaps';
-import { Streak } from '../sections/streak';
+import { AiTutor } from '../sections/ai-tutor/ai-tutor';
+import { Certificates } from '../sections/certificates/certificates';
+import { Faq } from '../sections/faq/faq';
+import { FinalCta } from '../sections/final-cta/final-cta';
+import { Hero } from '../sections/hero/hero';
+import { LearnByDoing } from '../sections/learn-by-doing/learn-by-doing';
+import { League } from '../sections/league/league';
+import { Roadmaps } from '../sections/roadmaps/roadmaps';
+import { Streak } from '../sections/streak/streak';
 
 const TITLE = 'Coddify | Learn to code, one small win a day';
 const DESCRIPTION =

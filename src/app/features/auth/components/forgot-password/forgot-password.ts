@@ -11,62 +11,14 @@ import { Alert } from '../../../../shared/ui/alert/alert';
 import { Button } from '../../../../shared/ui/button/button';
 import { Input } from '../../../../shared/ui/input/input';
 import { AuthShell } from '../auth-shell/auth-shell';
-import { CheckInbox } from '../check-inbox';
+import { CheckInbox } from '../check-inbox/check-inbox';
 
 @Component({
   selector: 'app-forgot-password',
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ReactiveFormsModule, RouterLink, Alert, Button, Input, AuthShell, CheckInbox],
-  template: `
-    @if (sent(); as result) {
-      <app-auth-shell heading="Check your inbox" pose="happy" panelHeading="Back in no time">
-        <app-check-inbox
-          kind="reset"
-          [email]="result.email"
-          [demoToken]="result.token"
-          message="If an account exists, we sent a password reset link to"
-        />
-      </app-auth-shell>
-    } @else {
-      <app-auth-shell
-        heading="Forgot your password?"
-        subheading="No stress. Enter your email and we will send you a reset link."
-        pose="thinking"
-        panelHeading="Happens to the best of us"
-      >
-        <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="flex flex-col gap-4">
-          @if (serverError(); as err) {
-            <app-alert [message]="err.message" />
-          }
-          <app-input
-            label="Email"
-            type="email"
-            icon="mail"
-            autocomplete="email"
-            placeholder="you@example.com"
-            formControlName="email"
-            [required]="true"
-            [error]="emailError()"
-          />
-          <button
-            appButton
-            type="submit"
-            [block]="true"
-            [loading]="pending()"
-            loadingLabel="Sending link"
-          >
-            Send reset link
-          </button>
-        </form>
-        <p class="mt-6 text-center text-sm text-muted">
-          Remembered it?
-          <a routerLink="/login" class="font-semibold text-primary hover:underline"
-            >Back to log in</a
-          >
-        </p>
-      </app-auth-shell>
-    }
-  `,
+  templateUrl: './forgot-password.html',
+  styleUrl: './forgot-password.scss',
 })
 export class ForgotPassword {
   private readonly auth = inject(AuthService);

@@ -20,7 +20,7 @@ import { Button } from '../../../../shared/ui/button/button';
 import { Input } from '../../../../shared/ui/input/input';
 import { matchFieldsValidator, strongPasswordValidator } from '../../utils/password-strength';
 import { AuthShell } from '../auth-shell/auth-shell';
-import { PasswordStrengthMeter } from '../password-strength-meter';
+import { PasswordStrengthMeter } from '../password-strength-meter/password-strength-meter';
 
 @Component({
   selector: 'app-reset-password',

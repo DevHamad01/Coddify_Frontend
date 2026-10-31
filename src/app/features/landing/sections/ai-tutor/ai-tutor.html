@@ -1,0 +1,58 @@
+<app-feature-split
+  eyebrow="AI tutor"
+  heading="A tutor that hints but never gives the answer"
+  lead="Owlbit reads your code and your last error, then asks the right question to get you unstuck. You still do the thinking, which is how it actually sticks."
+>
+  <ul copy class="flex flex-col gap-3 text-[15px] text-muted">
+    @for (point of points; track point) {
+      <li class="flex items-center gap-2.5">
+        <app-icon name="sparkles" [size]="18" class="text-ai" />{{ point }}
+      </li>
+    }
+  </ul>
+
+  <div visual class="mock-window w-full max-w-md">
+    <div class="mock-header">
+      <span class="flex items-center gap-2.5">
+        <app-mascot pose="thinking" [size]="34" label="" />
+        <span>
+          <span class="block text-sm font-bold">Owlbit</span>
+          <span class="block text-xs" style="color: var(--mock-muted)">Your AI tutor</span>
+        </span>
+      </span>
+      <app-chip tone="ai" icon="lightbulb">Hint 1 of 3</app-chip>
+    </div>
+    <ol
+      class="flex flex-col gap-3 p-4 text-sm leading-6"
+      aria-label="Example conversation with the AI tutor"
+    >
+      @for (message of chat; track $index) {
+        <li
+          class="max-w-[85%] rounded-2xl px-4 py-2.5"
+          [class]="
+            message.from === 'student'
+              ? 'self-end rounded-br-md bg-primary text-primary-contrast'
+              : 'self-start rounded-bl-md border border-ai/30 bg-ai/15'
+          "
+        >
+          <span class="sr-only">{{ message.from === 'student' ? 'Student:' : 'Owlbit:' }}</span>
+          {{ message.text }}
+        </li>
+      }
+    </ol>
+    <div
+      class="flex items-center gap-2 border-t px-4 py-3"
+      style="border-color: var(--mock-border)"
+    >
+      <span
+        class="flex-1 rounded-xl px-3 py-2 text-sm"
+        style="background: var(--mock-chip); color: var(--mock-muted)"
+      >
+        Ask for a hint...
+      </span>
+      <span class="flex h-9 w-9 items-center justify-center rounded-xl bg-ai text-white"
+        ><app-icon name="send" [size]="16"
+      /></span>
+    </div>
+  </div>
+</app-feature-split>

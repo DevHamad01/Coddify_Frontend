@@ -23,9 +23,9 @@ import { Button } from '../../shared/ui/button/button';
 import { Icon } from '../../shared/ui/icon/icon';
 import { ProgressBar } from '../../shared/ui/progress-bar/progress-bar';
 import { ToastService } from '../../shared/ui/toast/toast.service';
-import { CourseSummary } from './components/course-summary';
-import { MascotBubble } from './components/mascot-bubble';
-import { OptionTile } from './components/option-tile';
+import { CourseSummary } from './components/course-summary/course-summary';
+import { MascotBubble } from './components/mascot-bubble/mascot-bubble';
+import { OptionTile } from './components/option-tile/option-tile';
 import { INTRO_STEP, OnboardingStore, SUMMARY_STEP } from './onboarding.store';
 import { recommendCourse } from './recommend-course';
 

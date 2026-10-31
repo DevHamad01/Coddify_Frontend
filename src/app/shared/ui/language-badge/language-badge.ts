@@ -16,7 +16,8 @@ import { Language } from '../../data/languages';
     '[style.color]': 'language().badgeText',
     'aria-hidden': 'true',
   },
-  template: `{{ language().badge }}`,
+  templateUrl: './language-badge.html',
+  styleUrl: './language-badge.scss',
 })
 export class LanguageBadge {
   readonly language = input.required<Language>();

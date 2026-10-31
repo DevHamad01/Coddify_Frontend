@@ -12,10 +12,10 @@ import { Button } from '../../../../shared/ui/button/button';
 import { Checkbox } from '../../../../shared/ui/checkbox/checkbox';
 import { Input } from '../../../../shared/ui/input/input';
 import { AuthShell } from '../auth-shell/auth-shell';
-import { GoogleButton } from '../google-button';
-import { PasswordStrengthMeter } from '../password-strength-meter';
+import { GoogleButton } from '../google-button/google-button';
+import { PasswordStrengthMeter } from '../password-strength-meter/password-strength-meter';
 import { matchFieldsValidator, strongPasswordValidator } from '../../utils/password-strength';
-import { CheckInbox } from '../check-inbox';
+import { CheckInbox } from '../check-inbox/check-inbox';
 
 type Field = 'fullName' | 'email' | 'password' | 'confirmPassword' | 'terms';
 

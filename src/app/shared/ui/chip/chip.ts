@@ -23,12 +23,8 @@ const TONES: Record<ChipTone, string> = {
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [Icon],
   host: { '[class]': 'classes()' },
-  template: `
-    @if (icon(); as name) {
-      <app-icon [name]="name" [size]="14" [filled]="filledIcon()" />
-    }
-    <ng-content />
-  `,
+  templateUrl: './chip.html',
+  styleUrl: './chip.scss',
 })
 export class Chip {
   readonly tone = input<ChipTone>('neutral');

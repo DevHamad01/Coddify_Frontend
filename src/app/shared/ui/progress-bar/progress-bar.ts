@@ -12,15 +12,8 @@ import { ChangeDetectionStrategy, Component, computed, input } from '@angular/co
     '[attr.aria-valuenow]': 'clamped()',
     '[attr.aria-label]': 'label()',
   },
-  template: `
-    <div
-      class="relative h-full rounded-full bg-primary transition-[width] duration-panel ease-out"
-      [style.width.%]="clamped()"
-    >
-      <!-- Highlight stripe for the game-like look. -->
-      <span class="absolute inset-x-2 top-[3px] h-[3px] rounded-full bg-white/30"></span>
-    </div>
-  `,
+  templateUrl: './progress-bar.html',
+  styleUrl: './progress-bar.scss',
 })
 export class ProgressBar {
   readonly value = input<number>(0);

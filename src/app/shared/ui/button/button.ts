@@ -41,12 +41,8 @@ const SIZES: Record<ButtonSize, string> = {
     '[attr.aria-disabled]': 'isDisabled() ? "true" : null',
     '[attr.aria-busy]': 'loading() ? "true" : null',
   },
-  template: `
-    @if (loading()) {
-      <app-spinner [size]="18" [label]="loadingLabel()" />
-    }
-    <ng-content />
-  `,
+  templateUrl: './button.html',
+  styleUrl: './button.scss',
 })
 export class Button {
   readonly variant = input<ButtonVariant>('primary');

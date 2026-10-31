@@ -20,13 +20,8 @@ const TONES: Record<AlertTone, { icon: IconName; classes: string }> = {
     '[class]': '"flex gap-3 rounded-input border p-3.5 text-sm " + styles().classes',
     '[attr.role]': 'tone() === "error" ? "alert" : "status"',
   },
-  template: `
-    <app-icon [name]="styles().icon" [size]="18" class="mt-px" />
-    <div class="flex-1 text-text">
-      <p class="font-medium">{{ message() }}</p>
-      <ng-content />
-    </div>
-  `,
+  templateUrl: './alert.html',
+  styleUrl: './alert.scss',
 })
 export class Alert {
   readonly message = input.required<string>();

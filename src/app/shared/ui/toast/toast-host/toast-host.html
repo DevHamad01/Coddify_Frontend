@@ -1,0 +1,17 @@
+@for (toast of toasts(); track toast.id) {
+  <div
+    class="pointer-events-auto flex w-full max-w-sm animate-fade-up items-start gap-3 rounded-card border border-border bg-surface p-4 shadow-modal"
+    [attr.role]="toast.tone === 'error' ? 'alert' : 'status'"
+  >
+    <app-icon [name]="tone[toast.tone].icon" [class]="tone[toast.tone].color" />
+    <p class="flex-1 text-sm font-medium text-text">{{ toast.message }}</p>
+    <button
+      type="button"
+      class="-m-1 rounded-md p-1 text-muted hover:bg-surface-2 hover:text-text"
+      aria-label="Dismiss notification"
+      (click)="dismiss(toast.id)"
+    >
+      <app-icon name="x" [size]="16" />
+    </button>
+  </div>
+}

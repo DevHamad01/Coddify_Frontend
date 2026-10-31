@@ -9,7 +9,8 @@ const PADDING: Record<CardPadding, string> = { none: '', sm: 'p-4', md: 'p-6', l
   selector: 'app-card',
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class]': 'classes()' },
-  template: `<ng-content />`,
+  templateUrl: './card.html',
+  styleUrl: './card.scss',
 })
 export class Card {
   readonly padding = input<CardPadding>('md');

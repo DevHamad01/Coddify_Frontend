@@ -20,7 +20,7 @@ import { Checkbox } from '../../../../shared/ui/checkbox/checkbox';
 import { Input } from '../../../../shared/ui/input/input';
 import { ToastService } from '../../../../shared/ui/toast/toast.service';
 import { AuthShell } from '../auth-shell/auth-shell';
-import { GoogleButton } from '../google-button';
+import { GoogleButton } from '../google-button/google-button';
 
 @Component({
   selector: 'app-login',
