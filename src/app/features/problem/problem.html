@@ -1,0 +1,159 @@
+<header class="topbar">
+  <a
+    [routerLink]="backLink()"
+    [queryParams]="backQuery()"
+    class="icon-btn"
+    aria-label="Close and go back"
+  >
+    <app-icon name="x" [size]="22" />
+  </a>
+  <p class="ml-3 min-w-0 flex-1 truncate font-display text-xl font-semibold">
+    {{ problem()?.title ?? 'Loading…' }}
+  </p>
+  @if (store.stats(); as stats) {
+    <ul class="hidden items-center gap-5 sm:flex" aria-label="Your stats">
+      <li class="stat" [class.text-streak]="stats.activitiesToday">
+        {{ stats.streak }}
+        <app-nav-art name="flame" [size]="20" [muted]="!stats.activitiesToday" />
+      </li>
+      <li class="stat text-xp">{{ stats.gems }} <app-nav-art name="gem" [size]="20" /></li>
+    </ul>
+  }
+  <a routerLink="/app/profile" class="ml-3" aria-label="Your profile">
+    <app-nav-art name="profile" [size]="34" />
+  </a>
+</header>
+
+@if (problem(); as problem) {
+  <div class="workspace">
+    <section class="left" aria-label="Problem">
+      <nav class="tabs" role="tablist" aria-label="Problem sections">
+        @for (item of tabs; track item.id) {
+          <button
+            type="button"
+            role="tab"
+            class="tab"
+            [attr.aria-selected]="tab() === item.id"
+            [attr.aria-label]="item.label"
+            [title]="item.label"
+            (click)="selectTab(item.id)"
+          >
+            <app-icon [name]="item.icon" [size]="18" />
+            @if (tab() === item.id) {
+              <span>{{ item.label }}</span>
+              @if (item.id === 'hints') {
+                <span class="count">{{ problem.hints.length }}</span>
+              } @else if (item.id === 'similar') {
+                <span class="count">{{ problem.similar.length }}</span>
+              } @else if (item.id === 'solution') {
+                <span class="count">{{ problem.solution.approaches.length }}</span>
+              }
+            }
+          </button>
+        }
+      </nav>
+
+      <div class="panel" role="tabpanel">
+        @switch (tab()) {
+          @case ('hints') {
+            <app-problem-hints [hints]="problem.hints" (openSolution)="selectTab('solution')" />
+          }
+          @case ('solution') {
+            <app-problem-solution [solution]="problem.solution" [language]="language()" />
+          }
+          @case ('similar') {
+            <app-similar-problems
+              [problems]="problem.similar"
+              [allLink]="backLink()"
+            />
+          }
+          @case ('submissions') {
+            <app-problem-submissions
+              [submissions]="submissions()"
+              (loadCode)="loadSubmission($event)"
+            />
+          }
+          @default {
+            <app-problem-description [problem]="problem" />
+          }
+        }
+      </div>
+    </section>
+
+    <section class="right" aria-label="Code editor">
+      <div class="editor-bar">
+        <label class="sr-only" for="language">Language</label>
+        <select
+          id="language"
+          class="language"
+          [value]="language()"
+          (change)="setLanguage($any($event.target).value)"
+        >
+          @for (option of problem.languages; track option) {
+            <option [value]="option">{{ labels[option] }}</option>
+          }
+        </select>
+        <span class="ml-auto"></span>
+        <button type="button" class="icon-btn" title="Save draft" aria-label="Save draft" (click)="save()">
+          <app-icon name="save" [size]="18" />
+        </button>
+        <button type="button" class="icon-btn" title="Reset code" aria-label="Reset code" (click)="reset()">
+          <app-icon name="undo" [size]="18" />
+        </button>
+        <button
+          type="button"
+          class="icon-btn"
+          [title]="testsOpen() ? 'Hide test cases' : 'Show test cases'"
+          [attr.aria-label]="testsOpen() ? 'Hide test cases' : 'Show test cases'"
+          (click)="testsOpen.set(!testsOpen())"
+        >
+          <app-icon name="panel-bottom" [size]="18" />
+        </button>
+      </div>
+
+      <div class="editor-wrap">
+        <app-code-editor
+          class="absolute inset-0"
+          [(value)]="code"
+          [language]="language()"
+          [ariaLabel]="problem.title + ' code'"
+          (run)="run()"
+        />
+        <div class="actions">
+          <button type="button" class="ghost" (click)="askAi()">
+            <app-icon name="sparkles" [size]="18" /> Ask AI
+          </button>
+          <button type="button" class="ghost" [disabled]="running() !== null" (click)="run()">
+            <app-icon name="play" [size]="16" />
+            {{ running() === 'run' ? 'Running…' : 'Run Code' }}
+          </button>
+          <button type="button" class="submit" [disabled]="running() !== null" (click)="submit()">
+            <app-icon name="send" [size]="16" />
+            {{ running() === 'submit' ? 'Submitting…' : 'Submit' }}
+          </button>
+        </div>
+      </div>
+
+      @if (testsOpen()) {
+        <app-test-cases
+          class="tests"
+          [tests]="problem.tests"
+          [result]="result()"
+          [running]="running() !== null"
+        />
+      }
+    </section>
+  </div>
+} @else if (notFound()) {
+  <div class="m-auto text-center">
+    <p class="font-display text-xl font-bold">We could not find that problem.</p>
+    <a routerLink="/app/practice" class="mt-3 inline-block font-semibold text-primary"
+      >Back to practice</a
+    >
+  </div>
+} @else {
+  <div class="workspace">
+    <div class="m-6 h-80 animate-pulse rounded-card bg-surface"></div>
+    <div class="m-6 h-80 animate-pulse rounded-card bg-surface"></div>
+  </div>
+}

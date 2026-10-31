@@ -142,12 +142,6 @@ export const routes: Routes = [
         loadComponent: () => import('./features/interview/interview').then((m) => m.Interview),
       },
       {
-        path: 'interview/problem/:slug',
-        title: 'Problem | Coddify',
-        data: { title: 'Problem workspace' },
-        loadComponent: comingSoon,
-      },
-      {
         path: 'missions',
         title: 'Missions | Coddify',
         loadComponent: () => import('./features/missions/missions').then((m) => m.Missions),
@@ -194,6 +188,13 @@ export const routes: Routes = [
     title: 'Lesson | Coddify',
     canActivate: [authGuard, onboardingGuard],
     loadComponent: () => import('./features/lesson/lesson').then((m) => m.Lesson),
+  },
+  {
+    // Full-screen workspace for interview problems and challenges.
+    path: 'practice/problem/:id',
+    title: 'Problem | Coddify',
+    canActivate: [authGuard, onboardingGuard],
+    loadComponent: () => import('./features/problem/problem').then((m) => m.Problem),
   },
   { path: '**', redirectTo: '' },
 ];

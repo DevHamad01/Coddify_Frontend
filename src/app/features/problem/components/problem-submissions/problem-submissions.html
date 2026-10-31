@@ -1,0 +1,29 @@
+<h2 class="font-display text-3xl font-bold">Submissions</h2>
+<p class="mt-2 text-[15px] text-muted">Every time you submit, the code is saved here.</p>
+
+@if (submissions(); as submissions) {
+  <ul class="mt-4 flex flex-col gap-2">
+    @for (submission of submissions; track submission.id) {
+      <li class="item">
+        <app-icon
+          [name]="submission.passed ? 'check-circle' : 'x-circle'"
+          [size]="20"
+          [class]="submission.passed ? 'text-success' : 'text-danger'"
+        />
+        <span class="min-w-0 flex-1">
+          <span class="block font-semibold" [class]="submission.passed ? 'text-success' : 'text-danger'">
+            {{ submission.passed ? 'Accepted' : 'Wrong answer' }}
+          </span>
+          <span class="block text-xs text-muted"
+            >{{ submission.submittedAt | date: 'MMM d, h:mm a' }} · {{ submission.language }}</span
+          >
+        </span>
+        <button type="button" class="load" (click)="loadCode.emit(submission)">Load code</button>
+      </li>
+    } @empty {
+      <li class="mt-6 text-center text-muted">No submissions yet. Solve it and press Submit!</li>
+    }
+  </ul>
+} @else {
+  <div class="mt-4 h-16 animate-pulse rounded-card bg-surface"></div>
+}

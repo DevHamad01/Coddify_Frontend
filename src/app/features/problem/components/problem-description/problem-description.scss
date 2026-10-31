@@ -1,0 +1,39 @@
+:host {
+  @apply block;
+}
+
+.tag {
+  @apply rounded-full bg-surface-2 px-3 py-1 text-xs font-bold;
+}
+
+.heading {
+  @apply mb-2 mt-7 font-display text-lg font-bold;
+}
+
+.box {
+  @apply overflow-hidden rounded-card border border-border;
+}
+
+.row {
+  @apply border-b border-border px-4 py-3 last:border-b-0;
+
+  &:nth-child(even) {
+    @apply bg-surface;
+  }
+}
+
+.type {
+  @apply ml-1 rounded bg-surface-2 px-1.5 py-0.5 font-mono text-xs font-normal text-muted;
+}
+
+.label {
+  @apply text-xs font-bold uppercase tracking-wide text-muted;
+}
+
+.example-tab {
+  @apply flex h-8 w-8 items-center justify-center rounded-full border border-border text-sm font-bold text-muted transition-colors duration-hover hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply border-info bg-info text-white;
+  }
+}

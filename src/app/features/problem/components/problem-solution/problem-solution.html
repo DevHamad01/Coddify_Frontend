@@ -1,0 +1,85 @@
+<h2 class="font-display text-3xl font-bold">Solution</h2>
+<p class="mt-2 text-[15px] leading-7"><app-rich-text [text]="solution().summary" /></p>
+
+<div class="box mt-4">
+  <div class="approach grid-cols-[1fr_70px_70px] text-xs font-bold text-muted">
+    <span class="pl-9">Approaches</span><span>Time</span><span>Space</span>
+  </div>
+  @for (approach of solution().approaches; track approach.title) {
+    <div class="approach grid-cols-[1fr_70px_70px] text-sm">
+      <span class="flex items-start gap-3 font-semibold">
+        <span class="number" [class.is-best]="approach.best">{{ $index + 1 }}</span>
+        <span>
+          {{ approach.title }}
+          @if (approach.best) {
+            <span class="best">Best</span>
+          }
+        </span>
+      </span>
+      <code class="font-mono text-xs text-success">{{ approach.time }}</code>
+      <code class="font-mono text-xs text-success">{{ approach.space }}</code>
+    </div>
+  }
+</div>
+
+<h3 class="heading">Intuition</h3>
+@for (paragraph of solution().intuition; track $index) {
+  <p class="mt-2 text-[15px] leading-7"><app-rich-text [text]="paragraph" /></p>
+}
+
+<h3 class="heading">Algorithm</h3>
+<ol class="ml-5 list-decimal space-y-1.5 text-[15px]">
+  @for (step of solution().steps; track $index) {
+    <li><app-rich-text [text]="step" /></li>
+  }
+</ol>
+
+@if (codeLanguages().length) {
+  <div class="mt-6 flex gap-1 border-b border-border" role="tablist" aria-label="Solution code">
+    @for (language of codeLanguages(); track language) {
+      <button
+        type="button"
+        role="tab"
+        class="code-tab"
+        [attr.aria-selected]="codeTab() === language"
+        (click)="codeTab.set(language)"
+      >
+        {{ labels[language] }}
+      </button>
+    }
+  </div>
+  @if (codeTab(); as tab) {
+    <pre class="code" role="tabpanel"><code>{{ solution().code[tab] }}</code></pre>
+  }
+}
+
+@if (solution().pitfalls.length) {
+  <div class="box mt-6 p-4">
+    <h3 class="flex items-center gap-2 font-display font-bold">
+      <app-icon name="alert-circle" [size]="18" class="text-xp" /> Pitfalls and edge cases
+    </h3>
+    <ul class="ml-5 mt-3 list-disc space-y-2 text-[15px]">
+      @for (pitfall of solution().pitfalls; track $index) {
+        <li><app-rich-text [text]="pitfall" /></li>
+      }
+    </ul>
+  </div>
+}
+
+@if (solution().faqs.length) {
+  <div class="box mt-6">
+    <h3 class="flex items-center gap-2 border-b border-border px-4 py-3 font-display font-bold">
+      <app-icon name="help-circle" [size]="18" /> Frequently asked questions
+      <span class="count">{{ solution().faqs.length }}</span>
+    </h3>
+    @for (faq of solution().faqs; track faq.question) {
+      <details class="faq">
+        <summary>
+          {{ faq.question }}
+          <app-icon name="chevron-down" [size]="16" class="chevron" />
+        </summary>
+        <p class="pb-3 text-[15px] text-muted">{{ faq.answer }}</p>
+      </details>
+    }
+  </div>
+}

@@ -1,0 +1,72 @@
+<div class="bar">
+  <span class="font-display text-sm font-bold uppercase tracking-wide">Test cases</span>
+  @if (result(); as result) {
+    <span
+      class="ml-3 text-sm font-semibold"
+      [class]="result.passed ? 'text-success' : 'text-danger'"
+    >
+      {{ result.passed ? 'All tests passed' : 'Some tests failed' }}
+    </span>
+  }
+</div>
+
+<div class="grid min-h-0 flex-1 grid-cols-[110px_1fr] sm:grid-cols-[120px_1fr_1fr_1fr]">
+  <ul class="list" role="tablist" aria-label="Tests">
+    @for (test of tests(); track test.id) {
+      <li>
+        <button
+          type="button"
+          role="tab"
+          class="test"
+          [attr.aria-selected]="selected() === $index"
+          (click)="selected.set($index)"
+        >
+          @switch (passedOf(test.id)) {
+            @case (true) {
+              <app-icon name="check-circle" [size]="15" class="text-success" />
+            }
+            @case (false) {
+              <app-icon name="x-circle" [size]="15" class="text-danger" />
+            }
+          }
+          Test #{{ $index + 1 }}
+        </button>
+      </li>
+    }
+  </ul>
+
+  @if (current(); as test) {
+    <div class="cell">
+      <p class="cell-label">Argument</p>
+      <p class="value">{{ test.args }}</p>
+    </div>
+    <div class="cell">
+      <p class="cell-label">Output</p>
+      @if (running()) {
+        <p class="text-sm text-muted">Running…</p>
+      } @else if (currentResult(); as outcome) {
+        <p class="value" [class.text-danger]="!outcome.passed">{{ outcome.output }}</p>
+      } @else {
+        <p class="text-sm text-muted">Run your code to see the output.</p>
+      }
+    </div>
+    <div class="cell">
+      <div class="flex items-center gap-2">
+        <p class="cell-label">Expected output</p>
+        <button
+          type="button"
+          role="switch"
+          class="switch"
+          [attr.aria-checked]="showExpected()"
+          aria-label="Show expected output"
+          (click)="showExpected.set(!showExpected())"
+        >
+          <span></span>
+        </button>
+      </div>
+      @if (showExpected()) {
+        <p class="value">{{ test.expected }}</p>
+      }
+    </div>
+  }
+</div>

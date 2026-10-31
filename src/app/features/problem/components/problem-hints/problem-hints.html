@@ -1,0 +1,45 @@
+<h2 class="font-display text-3xl font-bold">Hints</h2>
+<p class="mt-2 text-[15px] text-muted">Open them one at a time. Each gives away a little more.</p>
+
+<div class="mt-4 flex items-center gap-2">
+  @for (hint of hints(); track $index) {
+    <span class="pip" [class.is-open]="$index < opened()"></span>
+  }
+  <span class="ml-2 text-sm text-muted">{{ opened() }} of {{ hints().length }} opened</span>
+</div>
+
+<ol class="mt-4 flex flex-col gap-3">
+  @for (hint of hints(); track $index) {
+    <li class="hint" [class.is-locked]="$index > opened()">
+      <div class="flex items-center gap-3">
+        <span class="number">{{ $index + 1 }}</span>
+        <span class="flex-1 font-display font-bold">Hint {{ $index + 1 }}</span>
+        @if ($index < opened()) {
+          <app-icon name="lock-open" [size]="16" class="text-info" />
+        } @else if ($index === opened()) {
+          <button type="button" class="reveal" (click)="opened.set($index + 1)">Reveal</button>
+        } @else {
+          <span class="flex items-center gap-1.5 text-sm text-muted">
+            <app-icon name="lock" [size]="14" /> After hint {{ $index }}
+          </span>
+        }
+      </div>
+      @if ($index < opened()) {
+        <p class="mt-3 animate-fade-up pl-10 text-[15px] leading-6">
+          <app-rich-text [text]="hint" />
+        </p>
+      }
+    </li>
+  }
+</ol>
+
+<button type="button" class="stuck" (click)="openSolution.emit()">
+  <app-icon name="target" [size]="24" class="shrink-0 text-info" />
+  <span class="flex-1 text-left">
+    <span class="block font-display font-bold">Still stuck?</span>
+    <span class="block text-sm text-muted"
+      >Read the walkthrough, from brute force to the best approach</span
+    >
+  </span>
+  <app-icon name="chevron-right" [size]="20" class="text-muted" />
+</button>

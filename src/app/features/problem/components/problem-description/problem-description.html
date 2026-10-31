@@ -1,0 +1,73 @@
+<div class="flex flex-wrap items-center gap-2">
+  <app-difficulty-badge [difficulty]="problem().difficulty" />
+  @for (topic of problem().topics; track topic) {
+    <span class="tag">{{ topic }}</span>
+  }
+  @if (problem().status === 'solved') {
+    <span class="tag text-success">Solved</span>
+  }
+</div>
+
+@for (paragraph of problem().statement; track $index) {
+  <p class="mt-4 text-[15px] leading-7"><app-rich-text [text]="paragraph" /></p>
+}
+
+<h3 class="heading">Function</h3>
+<div class="box">
+  <p class="row font-mono text-sm">
+    {{ problem().functionName }}({{ paramList() }}) →
+    <span class="text-info">{{ problem().returns.type }}</span>
+  </p>
+  @for (param of problem().params; track param.name) {
+    <div class="row grid grid-cols-[120px_1fr] gap-3 text-sm">
+      <span class="font-semibold">{{ param.name }} <code class="type">{{ param.type }}</code></span>
+      <span class="text-muted">{{ param.description }}</span>
+    </div>
+  }
+  <div class="row grid grid-cols-[120px_1fr] gap-3 text-sm">
+    <span class="font-semibold">Returns <code class="type">{{ problem().returns.type }}</code></span>
+    <span class="text-muted">{{ problem().returns.description }}</span>
+  </div>
+</div>
+
+<h3 class="heading">Constraints</h3>
+<div class="box">
+  @for (constraint of problem().constraints; track $index) {
+    <p class="row text-sm"><app-rich-text [text]="constraint" /></p>
+  }
+</div>
+
+<div class="heading flex items-center justify-between">
+  <h3>Examples</h3>
+  <div class="flex gap-1.5" role="tablist" aria-label="Examples">
+    @for (item of problem().examples; track $index) {
+      <button
+        type="button"
+        role="tab"
+        class="example-tab"
+        [attr.aria-selected]="example() === $index"
+        (click)="example.set($index)"
+      >
+        {{ $index + 1 }}
+      </button>
+    }
+  </div>
+</div>
+@if (problem().examples[example()]; as item) {
+  <div class="box" role="tabpanel">
+    <div class="row grid grid-cols-[90px_1fr] gap-3 text-sm">
+      <span class="label">Input</span>
+      <code class="font-mono">{{ item.input }}</code>
+    </div>
+    <div class="row grid grid-cols-[90px_1fr] gap-3 text-sm">
+      <span class="label">Output</span>
+      <code class="font-mono">{{ item.output }}</code>
+    </div>
+    @if (item.explanation) {
+      <div class="row grid grid-cols-[90px_1fr] gap-3 text-sm">
+        <span class="label">Why</span>
+        <span class="text-muted">{{ item.explanation }}</span>
+      </div>
+    }
+  </div>
+}

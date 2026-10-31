@@ -1,0 +1,63 @@
+:host {
+  @apply block;
+}
+
+.box {
+  @apply overflow-hidden rounded-card border border-border;
+}
+
+.approach {
+  @apply grid items-center gap-3 border-b border-border px-4 py-3 last:border-b-0;
+}
+
+.number {
+  @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-surface-2 text-xs font-bold text-muted;
+
+  &.is-best {
+    @apply bg-info text-white;
+  }
+}
+
+.best {
+  @apply ml-1 rounded bg-success/15 px-1.5 py-0.5 text-[11px] font-bold text-success;
+}
+
+.heading {
+  @apply mb-1 mt-7 font-display text-lg font-bold;
+}
+
+.code-tab {
+  @apply -mb-px border-b-2 border-transparent px-3 py-2 text-sm font-semibold text-muted hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply border-info text-text;
+  }
+}
+
+.code {
+  @apply mt-3 overflow-x-auto rounded-card border border-border bg-[#1e1e1e] p-4 font-mono text-sm leading-6 text-[#e5e5e5];
+}
+
+.count {
+  @apply rounded-full bg-surface-2 px-2 py-0.5 text-xs text-muted;
+}
+
+.faq {
+  @apply border-b border-border px-4 last:border-b-0;
+
+  summary {
+    @apply flex cursor-pointer list-none items-center justify-between gap-3 py-3 text-[15px] font-semibold;
+
+    &::-webkit-details-marker {
+      display: none;
+    }
+  }
+
+  &[open] .chevron {
+    @apply rotate-180;
+  }
+}
+
+.chevron {
+  @apply shrink-0 text-muted transition-transform duration-hover;
+}

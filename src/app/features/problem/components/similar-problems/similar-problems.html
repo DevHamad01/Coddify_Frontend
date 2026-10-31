@@ -1,0 +1,25 @@
+<h2 class="font-display text-3xl font-bold">Similar problems</h2>
+<p class="mt-2 text-[15px] text-muted">
+  Problems that use the same ideas. Solving two or three of them is what makes a pattern stick.
+</p>
+
+<ul class="mt-4 flex flex-col gap-3">
+  @for (problem of problems(); track problem.id) {
+    <li>
+      <a class="item" [routerLink]="['/practice/problem', problem.id]">
+        <span class="min-w-0 flex-1">
+          <span class="block font-display text-lg font-bold">{{ problem.title }}</span>
+          <span class="mt-1 flex flex-wrap items-center gap-2">
+            <app-difficulty-badge [difficulty]="problem.difficulty" />
+            <span class="tag">{{ problem.topic }}</span>
+          </span>
+        </span>
+        <app-icon name="chevron-right" [size]="20" class="text-muted" />
+      </a>
+    </li>
+  } @empty {
+    <li class="text-muted">No similar problems yet.</li>
+  }
+</ul>
+
+<a [routerLink]="allLink()" class="all">All problems</a>

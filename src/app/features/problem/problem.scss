@@ -1,0 +1,83 @@
+:host {
+  @apply flex h-dvh flex-col overflow-hidden bg-bg;
+}
+
+.topbar {
+  @apply flex h-14 shrink-0 items-center border-b border-border px-3;
+}
+
+.stat {
+  @apply flex items-center gap-1 font-display text-lg font-bold text-muted;
+}
+
+.icon-btn {
+  @apply flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors duration-hover hover:bg-surface hover:text-text;
+}
+
+// Problem | editor. Phones stack them and scroll.
+.workspace {
+  @apply grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:overflow-hidden;
+  grid-template-rows: auto minmax(600px, 1fr);
+
+  @screen lg {
+    grid-template-columns: minmax(380px, 40%) 1fr;
+    grid-template-rows: none;
+  }
+}
+
+.left {
+  @apply flex min-h-0 flex-col border-b border-border lg:border-b-0 lg:border-r;
+}
+
+.tabs {
+  @apply flex h-12 shrink-0 items-stretch gap-1 overflow-x-auto border-b border-border px-2;
+  scrollbar-width: none;
+}
+
+.tab {
+  @apply -mb-px flex items-center gap-2 border-b-2 border-transparent px-3 text-sm font-bold text-muted transition-colors duration-hover hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply border-info text-text;
+  }
+}
+
+.count {
+  @apply text-xs font-bold text-info;
+}
+
+.panel {
+  @apply min-h-0 flex-1 overflow-y-auto px-5 py-5 sm:px-7;
+}
+
+.right {
+  @apply flex min-h-0 min-w-0 flex-col;
+}
+
+.editor-bar {
+  @apply flex h-12 shrink-0 items-center gap-1 border-b border-border px-2;
+}
+
+.language {
+  @apply h-9 rounded-btn border border-border bg-surface px-3 font-display text-[15px] font-semibold text-text outline-none focus:border-info;
+}
+
+.editor-wrap {
+  @apply relative min-h-[300px] flex-[3];
+}
+
+.tests {
+  @apply min-h-[200px] flex-[2];
+}
+
+.actions {
+  @apply absolute bottom-4 right-4 z-10 flex flex-wrap justify-end gap-2;
+}
+
+.ghost {
+  @apply flex items-center gap-2 rounded-btn border border-border bg-surface px-4 py-2.5 font-display font-semibold text-text shadow-modal transition-colors duration-hover hover:bg-surface-2 disabled:opacity-60;
+}
+
+.submit {
+  @apply flex items-center gap-2 rounded-btn bg-info px-5 py-2.5 font-display font-bold text-white shadow-modal transition-[filter] duration-hover hover:brightness-110 disabled:opacity-60;
+}
