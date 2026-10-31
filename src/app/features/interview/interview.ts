@@ -5,7 +5,6 @@ import { PracticeApi } from '../../core/practice/practice-api';
 import { InterviewProgress } from '../../core/practice/practice.models';
 import { LeaderboardWidget } from '../../layouts/app-layout/rail/leaderboard-widget/leaderboard-widget';
 import { LevelCard } from '../../layouts/app-layout/rail/level-card/level-card';
-import { PromoCard } from '../../layouts/app-layout/rail/promo-card/promo-card';
 import { PageShell } from '../../layouts/app-layout/page-shell/page-shell';
 import { Icon } from '../../shared/ui/icon/icon';
 import { InterviewDay } from './components/interview-day/interview-day';
@@ -25,7 +24,6 @@ import { TodaySet } from './components/today-set/today-set';
     InterviewDay,
     InterviewProgressCard,
     LevelCard,
-    PromoCard,
     LeaderboardWidget,
   ],
   templateUrl: './interview.html',

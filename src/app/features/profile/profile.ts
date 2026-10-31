@@ -4,7 +4,6 @@ import { RouterLink } from '@angular/router';
 
 import { GamificationApi } from '../../core/gamification/gamification-api';
 import { Badge } from '../../core/gamification/gamification.models';
-import { PromoCard } from '../../layouts/app-layout/rail/promo-card/promo-card';
 import { LevelCard } from '../../layouts/app-layout/rail/level-card/level-card';
 import { PageShell } from '../../layouts/app-layout/page-shell/page-shell';
 import { Avatar } from '../../shared/ui/avatar/avatar';
@@ -18,7 +17,7 @@ import { ProfileMenu } from './components/profile-menu/profile-menu';
 @Component({
   selector: 'app-profile',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Avatar, Icon, Mascot, NavArt, PageShell, LevelCard, PromoCard, ProfileMenu],
+  imports: [RouterLink, Avatar, Icon, Mascot, NavArt, PageShell, LevelCard, ProfileMenu],
   templateUrl: './profile.html',
   styleUrl: './profile.scss',
 })

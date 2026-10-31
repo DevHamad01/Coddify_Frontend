@@ -4,7 +4,7 @@ import { ProgressStore } from '../../../../core/gamification/progress.store';
 import { NavArt } from '../../../../shared/ui/nav-art/nav-art';
 import { TechLogo } from '../../../../shared/ui/tech-logo/tech-logo';
 
-/** Current course, streak, gems and energy. The flame greys out until today's first lesson. */
+/** Current course, streak, and gems. The flame greys out until today's first lesson. */
 @Component({
   selector: 'app-stats-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,

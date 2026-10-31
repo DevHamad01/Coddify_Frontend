@@ -224,7 +224,6 @@ export class MockGamificationApi extends GamificationApi {
       courseId: 'python',
       streak: state.streak,
       gems: state.gems,
-      energy: 6,
       totalXp: state.totalXp,
       level: level.level,
       levelName: level.name,

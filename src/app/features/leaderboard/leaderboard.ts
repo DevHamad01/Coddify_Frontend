@@ -5,7 +5,6 @@ import { GamificationApi } from '../../core/gamification/gamification-api';
 import { Leaderboard as Board } from '../../core/gamification/gamification.models';
 import { InfoCard } from '../../layouts/app-layout/rail/info-card/info-card';
 import { LevelCard } from '../../layouts/app-layout/rail/level-card/level-card';
-import { PromoCard } from '../../layouts/app-layout/rail/promo-card/promo-card';
 import { PageShell } from '../../layouts/app-layout/page-shell/page-shell';
 import { Avatar } from '../../shared/ui/avatar/avatar';
 import { Button } from '../../shared/ui/button/button';
@@ -18,7 +17,7 @@ type Tab = 'league' | 'friends' | 'squad';
 @Component({
   selector: 'app-leaderboard',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [FormsModule, Avatar, Button, Icon, PageShell, LevelCard, PromoCard, InfoCard],
+  imports: [FormsModule, Avatar, Button, Icon, PageShell, LevelCard, InfoCard],
   templateUrl: './leaderboard.html',
   styleUrl: './leaderboard.scss',
 })

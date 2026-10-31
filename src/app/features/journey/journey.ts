@@ -14,7 +14,6 @@ import { Journey as JourneyData, JourneyNode } from '../../core/learning/learnin
 import { LevelCard } from '../../layouts/app-layout/rail/level-card/level-card';
 import { LeaderboardWidget } from '../../layouts/app-layout/rail/leaderboard-widget/leaderboard-widget';
 import { MissionsWidget } from '../../layouts/app-layout/rail/missions-widget/missions-widget';
-import { PromoCard } from '../../layouts/app-layout/rail/promo-card/promo-card';
 import { PageShell } from '../../layouts/app-layout/page-shell/page-shell';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { NodePopover } from './components/node-popover/node-popover';
@@ -42,7 +41,6 @@ interface PlacedNode {
     PathNode,
     NodePopover,
     LevelCard,
-    PromoCard,
     LeaderboardWidget,
     MissionsWidget,
   ],

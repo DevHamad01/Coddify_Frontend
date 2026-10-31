@@ -26,6 +26,7 @@ export class LessonCompleteModal {
   readonly reward = input.required<LessonReward>();
   readonly lessonTitle = input.required<string>();
   readonly chapterTitle = input.required<string>();
+  readonly streak = input<number>(0);
   readonly continued = output<void>();
 
   constructor() {

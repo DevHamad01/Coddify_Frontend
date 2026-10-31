@@ -5,8 +5,6 @@ export interface UserStats {
   readonly courseId: TechId;
   readonly streak: number;
   readonly gems: number;
-  /** Energy refills over time; lessons are free while the welcome offer runs. */
-  readonly energy: number;
   readonly totalXp: number;
   readonly level: number;
   readonly levelName: string;

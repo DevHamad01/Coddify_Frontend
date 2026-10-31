@@ -22,9 +22,6 @@
       <li class="stat text-xp" [title]="stats.gems + ' gems'">
         {{ stats.gems }} <app-nav-art name="gem" [size]="20" />
       </li>
-      <li class="stat text-ai" [title]="stats.energy + ' energy'">
-        {{ stats.energy }} <app-nav-art name="energy" [size]="20" />
-      </li>
     </ul>
   }
   <a routerLink="/app/profile" class="ml-3" aria-label="Your profile">
@@ -130,6 +127,7 @@
       [reward]="reward"
       [lessonTitle]="lesson.title"
       [chapterTitle]="lesson.chapterTitle"
+      [streak]="store.stats()?.streak ?? 0"
       (continued)="afterReward()"
     />
   }

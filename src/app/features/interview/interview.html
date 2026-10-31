@@ -13,7 +13,6 @@
   <app-problem-table class="mt-8" />
 
   <app-level-card rail />
-  <app-promo-card rail />
   <app-interview-day rail [date]="progress()?.interviewDate ?? null" (changed)="setDate($event)" />
   @if (progress(); as progress) {
     <app-interview-progress rail [progress]="progress" />

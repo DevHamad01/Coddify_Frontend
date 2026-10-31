@@ -5,7 +5,6 @@ import { ProgressStore } from '../../core/gamification/progress.store';
 import { InfoCard } from '../../layouts/app-layout/rail/info-card/info-card';
 import { LevelCard } from '../../layouts/app-layout/rail/level-card/level-card';
 import { MissionsWidget } from '../../layouts/app-layout/rail/missions-widget/missions-widget';
-import { PromoCard } from '../../layouts/app-layout/rail/promo-card/promo-card';
 import { PageShell } from '../../layouts/app-layout/page-shell/page-shell';
 import { Icon } from '../../shared/ui/icon/icon';
 import { Mascot } from '../../shared/ui/mascot/mascot';
@@ -23,7 +22,6 @@ import { NavArt } from '../../shared/ui/nav-art/nav-art';
     PageShell,
     MissionsWidget,
     LevelCard,
-    PromoCard,
     InfoCard,
   ],
   templateUrl: './missions.html',
