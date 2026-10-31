@@ -1,0 +1,18 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface p-5;
+}
+
+circle {
+  fill: none;
+  stroke-width: 12;
+}
+
+.track {
+  stroke: rgb(var(--c-surface-2));
+}
+
+.fill {
+  stroke: rgb(var(--c-primary));
+  stroke-linecap: round;
+  transition: stroke-dashoffset 600ms ease;
+}

@@ -1,0 +1,49 @@
+<app-page-shell>
+  <h1 class="sr-only">Practice</h1>
+  <div class="flex flex-col gap-5">
+    <section class="hero-card">
+      <div class="relative z-10 max-w-[70%]">
+        <h2 class="font-display text-2xl font-bold">Personalized Practice</h2>
+        <p class="mt-2 text-[15px] leading-6 opacity-90">
+          Practice tailored to your weak spots, past mistakes and learning goals.
+        </p>
+        <a appButton variant="secondary" routerLink="/app/journey" class="mt-5 uppercase">
+          Practice
+        </a>
+      </div>
+      <app-nav-art name="practice" [size]="150" class="hero-art" />
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Daily Challenge</h2>
+      @if (dailyUnlocked()) {
+        <p class="card-text">A fresh problem every day. Solve it to keep your streak glowing.</p>
+        <a appButton routerLink="/app/interview" class="mt-5 uppercase">Solve today's</a>
+      } @else {
+        <p class="card-text">Reach {{ dailyChallengeXp }} XP to unlock daily challenges!</p>
+        <button appButton [disabled]="true" class="mt-5 uppercase">Locked</button>
+      }
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Interview prep</h2>
+      <p class="card-text">
+        Interview problems every day, picked for you, in the language you will use.
+      </p>
+      <a appButton routerLink="/app/interview" class="mt-5 uppercase">Start preparing</a>
+    </section>
+
+    <section class="card">
+      <h2 class="card-title">Challenges</h2>
+      <p class="card-text">
+        Test yourself with coding challenges across languages and difficulty levels.
+      </p>
+      <a appButton routerLink="/app/interview" class="mt-5 uppercase">Browse all</a>
+    </section>
+  </div>
+
+  <app-level-card rail />
+  <app-promo-card rail />
+  <app-leaderboard-widget rail />
+  <app-missions-widget rail />
+</app-page-shell>

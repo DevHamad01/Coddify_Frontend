@@ -1,0 +1,28 @@
+<h2 class="font-display text-xl font-bold">Progress</h2>
+<div class="mt-4 flex items-center gap-6">
+  <div class="relative h-[124px] w-[124px] shrink-0">
+    <svg viewBox="0 0 124 124" class="-rotate-90" aria-hidden="true">
+      <circle cx="62" cy="62" [attr.r]="radius" class="track" />
+      <circle
+        cx="62"
+        cy="62"
+        [attr.r]="radius"
+        class="fill"
+        [attr.stroke-dasharray]="circumference"
+        [attr.stroke-dashoffset]="dashOffset()"
+      />
+    </svg>
+    <div class="absolute inset-0 flex flex-col items-center justify-center">
+      <span class="font-display text-2xl font-bold">{{ solved() }}</span>
+      <span class="text-xs text-muted">solved</span>
+    </div>
+  </div>
+  <ul class="flex flex-1 flex-col gap-2">
+    @for (difficulty of difficulties; track difficulty) {
+      <li class="flex items-center justify-between">
+        <app-difficulty-badge [difficulty]="difficulty" />
+        <span class="font-semibold">{{ progress().solved[difficulty] }}</span>
+      </li>
+    }
+  </ul>
+</div>

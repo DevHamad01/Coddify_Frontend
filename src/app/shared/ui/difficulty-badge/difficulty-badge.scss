@@ -1,0 +1,29 @@
+:host {
+  @apply inline-flex items-center gap-1.5 text-sm font-semibold;
+  --tone: rgb(var(--c-info));
+  color: var(--tone);
+}
+
+:host([data-level='2']) {
+  --tone: rgb(var(--c-success));
+}
+
+:host([data-level='3']) {
+  --tone: rgb(var(--c-xp));
+}
+
+:host([data-level='4']) {
+  --tone: rgb(var(--c-danger));
+}
+
+.bars {
+  @apply inline-flex items-end gap-[2px];
+
+  span {
+    @apply w-[3px] rounded-sm bg-border;
+
+    &.is-on {
+      background: var(--tone);
+    }
+  }
+}

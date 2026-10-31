@@ -1,0 +1,22 @@
+<app-page-shell width="wide">
+  <div class="flex items-center justify-between">
+    <h1 class="font-display text-2xl font-bold">Interview prep</h1>
+    <button type="button" class="settings"><app-icon name="sliders" [size]="16" /> Settings</button>
+  </div>
+
+  @if (todaySet(); as set) {
+    <app-today-set class="mt-5" [set]="set" />
+  } @else {
+    <div class="mt-5 h-64 animate-pulse rounded-card bg-surface"></div>
+  }
+
+  <app-problem-table class="mt-8" />
+
+  <app-level-card rail />
+  <app-promo-card rail />
+  <app-interview-day rail [date]="progress()?.interviewDate ?? null" (changed)="setDate($event)" />
+  @if (progress(); as progress) {
+    <app-interview-progress rail [progress]="progress" />
+  }
+  <app-leaderboard-widget rail />
+</app-page-shell>

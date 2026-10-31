@@ -1,0 +1,55 @@
+:host {
+  @apply block;
+}
+
+.search {
+  @apply flex h-10 min-w-[220px] flex-1 items-center gap-2 rounded-btn border border-border bg-surface px-3 text-sm focus-within:border-primary/60;
+}
+
+.filter {
+  @apply h-10 rounded-btn border border-border bg-surface px-3 text-sm font-semibold text-text outline-none focus:border-primary/60;
+}
+
+.table-wrap {
+  @apply mt-3 overflow-x-auto rounded-card border-2 border-border bg-surface transition-opacity;
+
+  &.is-loading {
+    @apply opacity-60;
+  }
+
+  th {
+    @apply border-b border-border px-4 py-3 text-sm font-semibold text-text;
+  }
+
+  td {
+    @apply border-b border-border/60 px-4 py-3 text-[15px];
+  }
+
+  tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  tbody tr:hover {
+    @apply bg-surface-2/60;
+  }
+}
+
+.sort {
+  @apply inline-flex items-center gap-1.5 hover:text-primary;
+}
+
+.title-link {
+  @apply font-semibold text-text hover:text-primary;
+}
+
+.topic {
+  @apply whitespace-nowrap rounded-md bg-surface-2 px-2 py-1 text-[13px] text-muted;
+}
+
+.page-btn {
+  @apply flex h-9 min-w-9 items-center justify-center rounded-lg border border-border px-2 text-sm font-semibold text-text transition-colors hover:bg-surface disabled:opacity-40;
+
+  &.is-current {
+    @apply border-primary text-primary;
+  }
+}

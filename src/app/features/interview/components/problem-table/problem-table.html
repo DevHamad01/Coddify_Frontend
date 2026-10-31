@@ -1,0 +1,153 @@
+<h2 class="font-display text-xl font-bold">All problems</h2>
+
+<div class="mt-3 flex flex-wrap gap-2">
+  <label class="search">
+    <app-icon name="search" [size]="16" class="text-muted" />
+    <input
+      #search
+      type="search"
+      class="min-w-0 flex-1 bg-transparent outline-none placeholder:text-muted"
+      placeholder="Search by title, topic or number"
+      aria-label="Search problems"
+      (input)="setSearch(search.value)"
+    />
+  </label>
+  <select
+    class="filter"
+    aria-label="Filter by status"
+    (change)="setStatus($any($event.target).value)"
+  >
+    <option value="">Status</option>
+    <option value="solved">Solved</option>
+    <option value="in-progress">In progress</option>
+    <option value="todo">To do</option>
+  </select>
+  <select
+    class="filter"
+    aria-label="Filter by topic"
+    (change)="setTopic($any($event.target).value)"
+  >
+    <option value="">Topics</option>
+    @for (topic of topics(); track topic) {
+      <option [value]="topic">{{ topic }}</option>
+    }
+  </select>
+  <select
+    class="filter"
+    aria-label="Filter by difficulty"
+    (change)="setDifficulty($any($event.target).value)"
+  >
+    <option value="">Difficulty</option>
+    @for (difficulty of difficulties; track difficulty) {
+      <option [value]="difficulty">{{ difficulty }}</option>
+    }
+  </select>
+</div>
+
+<div class="mt-3 flex items-center justify-between text-sm text-muted">
+  <span aria-live="polite">{{ rangeLabel() }}</span>
+  <span class="flex items-center gap-4">
+    <span class="flex items-center gap-1"
+      ><app-icon name="check" [size]="14" class="text-success" />Solved</span
+    >
+    <span class="flex items-center gap-1"
+      ><span class="h-2.5 w-2.5 rounded-full border-2 border-streak"></span>In progress</span
+    >
+  </span>
+</div>
+
+<div class="table-wrap" [class.is-loading]="loading()">
+  <table class="w-full text-left">
+    <thead>
+      <tr>
+        @for (column of columns; track column.id) {
+          <th
+            scope="col"
+            [attr.aria-sort]="ariaSort(column.id)"
+            [class.w-14]="column.id === 'number'"
+          >
+            <button type="button" class="sort" (click)="sortBy(column.id)">
+              {{ column.label }}
+              <app-icon
+                [name]="
+                  query().sort === column.id
+                    ? query().direction === 'asc'
+                      ? 'chevron-up'
+                      : 'chevron-down'
+                    : 'arrow-up-down'
+                "
+                [size]="12"
+              />
+            </button>
+          </th>
+        }
+      </tr>
+    </thead>
+    <tbody>
+      @for (problem of page()?.items ?? []; track problem.id) {
+        <tr>
+          <td class="text-center text-muted">
+            @if (problem.status === 'solved') {
+              <app-icon name="check" [size]="16" class="text-success" label="Solved" />
+            } @else {
+              {{ problem.number }}
+            }
+          </td>
+          <td>
+            <a [routerLink]="['/app/interview/problem', problem.id]" class="title-link">{{
+              problem.title
+            }}</a>
+          </td>
+          <td>
+            <span class="topic">{{ problem.topic }}</span>
+          </td>
+          <td><app-difficulty-badge [difficulty]="problem.difficulty" /></td>
+        </tr>
+      } @empty {
+        @if (!loading()) {
+          <tr>
+            <td colspan="4" class="py-10 text-center text-muted">Nothing matches those filters.</td>
+          </tr>
+        }
+      }
+    </tbody>
+  </table>
+</div>
+
+@if (pageCount() > 1) {
+  <nav class="mt-5 flex items-center justify-center gap-2" aria-label="Pagination">
+    <button
+      type="button"
+      class="page-btn"
+      aria-label="Previous page"
+      [disabled]="query().page === 1"
+      (click)="goTo(query().page - 1)"
+    >
+      <app-icon name="chevron-left" [size]="16" />
+    </button>
+    @for (number of pageNumbers(); track $index) {
+      @if (number === null) {
+        <span class="text-muted">…</span>
+      } @else {
+        <button
+          type="button"
+          class="page-btn"
+          [class.is-current]="number === query().page"
+          [attr.aria-current]="number === query().page ? 'page' : null"
+          (click)="goTo(number)"
+        >
+          {{ number }}
+        </button>
+      }
+    }
+    <button
+      type="button"
+      class="page-btn"
+      aria-label="Next page"
+      [disabled]="query().page === pageCount()"
+      (click)="goTo(query().page + 1)"
+    >
+      <app-icon name="chevron-right" [size]="16" />
+    </button>
+  </nav>
+}

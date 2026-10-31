@@ -1,0 +1,7 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface p-5;
+}
+
+.save {
+  @apply rounded-btn bg-primary px-4 text-sm font-bold text-primary-contrast;
+}

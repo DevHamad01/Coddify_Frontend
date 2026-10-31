@@ -1,0 +1,27 @@
+<h2 class="font-brand text-2xl">{{ set().title }}</h2>
+<div class="mt-2 flex items-center gap-3">
+  <span class="topic">{{ set().topic }}</span>
+  <app-difficulty-badge [difficulty]="set().difficulty" />
+</div>
+
+<ol class="mt-5 flex flex-col gap-3">
+  @for (problem of set().problems; track problem.id; let i = $index) {
+    <li class="flex items-center gap-3">
+      <span class="step" [class.is-current]="i === 0">{{ i + 1 }}</span>
+      <span class="flex-1 font-semibold">{{ problem.title }}</span>
+      @if (problem.surprise) {
+        <span class="text-xs text-muted">Surprise topic</span>
+      }
+      <app-difficulty-badge [difficulty]="problem.difficulty" />
+    </li>
+  }
+</ol>
+
+<a
+  appButton
+  variant="secondary"
+  [block]="true"
+  class="mt-6"
+  [routerLink]="['/app/interview/problem', set().problems[0].id]"
+  >Start</a
+>

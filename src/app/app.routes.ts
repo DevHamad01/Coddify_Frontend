@@ -116,6 +116,22 @@ export const routes: Routes = [
         loadComponent: () => import('./features/journey/journey').then((m) => m.Journey),
       },
       {
+        path: 'practice',
+        title: 'Practice | Coddify',
+        loadComponent: () => import('./features/practice/practice').then((m) => m.Practice),
+      },
+      {
+        path: 'interview',
+        title: 'Interview prep | Coddify',
+        loadComponent: () => import('./features/interview/interview').then((m) => m.Interview),
+      },
+      {
+        path: 'interview/problem/:slug',
+        title: 'Problem | Coddify',
+        data: { title: 'Problem workspace' },
+        loadComponent: comingSoon,
+      },
+      {
         path: 'projects',
         title: 'Projects | Coddify',
         data: { title: 'Projects' },

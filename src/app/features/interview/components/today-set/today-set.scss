@@ -1,0 +1,15 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface p-6;
+}
+
+.topic {
+  @apply rounded-md bg-surface-2 px-2 py-0.5 text-sm text-muted;
+}
+
+.step {
+  @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full border border-border text-xs font-bold text-muted;
+
+  &.is-current {
+    @apply border-primary text-primary;
+  }
+}

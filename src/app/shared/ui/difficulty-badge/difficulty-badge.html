@@ -1,0 +1,10 @@
+<span class="bars" aria-hidden="true">
+  @for (bar of bars; track bar) {
+    <span [class.is-on]="bar <= level()" [style.height.px]="4 + bar * 2"></span>
+  }
+</span>
+@if (showLabel()) {
+  <span class="label">{{ difficulty() }}</span>
+} @else {
+  <span class="sr-only">{{ difficulty() }}</span>
+}
