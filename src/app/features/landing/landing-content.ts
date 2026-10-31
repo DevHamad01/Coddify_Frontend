@@ -1,8 +1,35 @@
 import { AccordionItem } from '../../shared/ui/accordion/accordion';
 import { IconName } from '../../shared/ui/icon/icons';
 
+import { GlobePing } from './components/globe/globe-renderer';
+
 /** Static demo numbers for the hero counters (replace with live stats once the API exposes them). */
-export const HERO_STATS = { learners: 12480, codeRunsToday: 38950 } as const;
+export const HERO_STATS = { learners: 12480, countries: 64, submissions: 1289341 } as const;
+
+/** Mock live activity shown on the hero globe; later this comes from a websocket feed. */
+export const GLOBE_PINGS: readonly GlobePing[] = [
+  { lat: 31.5, lon: 74.3, label: 'Python · Pakistan' },
+  { lat: 51.5, lon: -0.1, label: '' },
+  { lat: 24.9, lon: 67.0, label: 'C++ · Karachi' },
+  { lat: 28.6, lon: 77.2, label: 'HTML · India' },
+  { lat: 41.0, lon: 28.9, label: '' },
+  { lat: 25.2, lon: 55.3, label: 'JavaScript · UAE' },
+  { lat: 52.5, lon: 13.4, label: 'Java · Germany' },
+  { lat: 33.7, lon: 73.0, label: '' },
+  { lat: 30.0, lon: 31.2, label: 'C# · Egypt' },
+  { lat: 48.9, lon: 2.4, label: '' },
+  { lat: 24.7, lon: 46.7, label: 'SQL · Saudi Arabia' },
+  { lat: 35.7, lon: 51.4, label: '' },
+  { lat: 55.8, lon: 37.6, label: 'Python · Russia' },
+  { lat: 23.8, lon: 90.4, label: 'C · Bangladesh' },
+  { lat: 1.35, lon: 103.8, label: '' },
+  { lat: 40.4, lon: -3.7, label: 'TypeScript · Spain' },
+  { lat: 39.9, lon: 116.4, label: '' },
+  { lat: 6.5, lon: 3.4, label: 'Python · Nigeria' },
+  { lat: 40.7, lon: -74.0, label: 'React · USA' },
+  { lat: -23.5, lon: -46.6, label: '' },
+  { lat: 35.7, lon: 139.7, label: 'Go · Japan' },
+];
 
 export type TokenKind = 'kw' | 'fn' | 'str' | 'num' | 'cm' | 'pl' | 'op';
 export interface CodeToken {
@@ -13,25 +40,10 @@ export type CodeLine = readonly CodeToken[];
 
 const t = (text: string, kind: TokenKind = 'pl'): CodeToken => ({ text, kind });
 
-/** Hero editor: a tiny Python exercise with one failing test case. */
-export const HERO_CODE: readonly CodeLine[] = [
-  [t('def ', 'kw'), t('greet', 'fn'), t('(name):')],
-  [t('    '), t('# Return a friendly greeting', 'cm')],
-  [t('    '), t('return ', 'kw'), t('"Salam, "', 'str'), t(' + ', 'op'), t('name')],
-  [],
-  [t('print', 'fn'), t('(greet('), t('"Ayesha"', 'str'), t('))')],
-];
-
 export interface TestCase {
   readonly label: string;
   readonly passed: boolean;
 }
-
-export const HERO_TESTS: readonly TestCase[] = [
-  { label: 'Test 1', passed: true },
-  { label: 'Test 2', passed: true },
-  { label: 'Test 3', passed: false },
-];
 
 export interface Roadmap {
   readonly id: string;

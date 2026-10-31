@@ -15,7 +15,7 @@ export class ThemeService {
   private readonly isBrowser = isPlatformBrowser(inject(PLATFORM_ID));
   private readonly systemPrefersLight = signal(false);
 
-  readonly preference = signal<ThemePreference>('system');
+  readonly preference = signal<ThemePreference>('dark');
   readonly resolved = computed<ResolvedTheme>(() => {
     const pref = this.preference();
     if (pref === 'system') {
@@ -77,8 +77,8 @@ export class ThemeService {
 function readPreference(): ThemePreference {
   try {
     const stored = localStorage.getItem(THEME_STORAGE_KEY);
-    return stored === 'dark' || stored === 'light' || stored === 'system' ? stored : 'system';
+    return stored === 'dark' || stored === 'light' || stored === 'system' ? stored : 'dark';
   } catch {
-    return 'system';
+    return 'dark';
   }
 }

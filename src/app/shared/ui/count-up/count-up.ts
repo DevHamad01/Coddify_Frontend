@@ -60,7 +60,8 @@ export class CountUp {
     const target = this.appCountUp();
     const begin = performance.now();
     const step = (now: number): void => {
-      const progress = Math.min(1, (now - begin) / this.duration());
+      // rAF timestamps can be slightly older than `begin`; clamp so the first frame is never negative.
+      const progress = Math.min(1, Math.max(0, (now - begin) / this.duration()));
       const eased = 1 - Math.pow(1 - progress, 3);
       this.el.nativeElement.textContent = formatter.format(Math.round(target * eased));
       if (progress < 1) {

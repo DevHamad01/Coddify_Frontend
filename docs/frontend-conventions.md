@@ -58,7 +58,7 @@ Tokens are CSS variables holding RGB channels in `src/styles/_tokens.scss`: dark
 
 Other scales: radius `rounded-input` (10px), `rounded-btn` (12px), `rounded-card` (16px), `rounded-modal` (20px), `rounded-full` for pills; `max-w-content` (1200px); `shadow-press` (button lip, uses `--press-color`), `shadow-modal`; durations `duration-hover` (150ms), `duration-panel` (250ms). Fonts: `font-brand` (Audiowide, hero and page titles), `font-display` (Plus Jakarta Sans), `font-sans` (Inter), `font-mono` (JetBrains Mono).
 
-Theme switching: `ThemeService` stores `dark | light | system` in `localStorage['coddify.theme']` and sets `data-theme` on `<html>`. An inline script in `index.html` applies the same logic before first paint, so there is no flash. The `dark:` variant targets `[data-theme="dark"]`.
+Theme switching: `ThemeService` stores `dark | light | system` (default `dark`) in `localStorage['coddify.theme']` and sets `data-theme` on `<html>`. An inline script in `index.html` applies the same logic before first paint, so there is no flash. The `dark:` variant targets `[data-theme="dark"]`.
 
 Mock app windows on the landing page stay dark in both themes (`.mock-window`, `--mock-*` variables).
 

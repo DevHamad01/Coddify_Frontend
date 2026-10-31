@@ -12,7 +12,7 @@
     <script>
       (function () {
         try {
-          var pref = localStorage.getItem('coddify.theme') || 'system';
+          var pref = localStorage.getItem('coddify.theme') || 'dark';
           var dark =
             pref === 'dark' ||
             (pref === 'system' && !window.matchMedia('(prefers-color-scheme: light)').matches);
