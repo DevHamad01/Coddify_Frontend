@@ -51,7 +51,11 @@ export interface Roadmap {
   readonly title: string;
   readonly summary: string;
   /** `tech` shows that course's official logo; otherwise `icon` is drawn. */
-  readonly steps: readonly { readonly label: string; readonly icon: IconName; readonly tech?: TechId }[];
+  readonly steps: readonly {
+    readonly label: string;
+    readonly icon: IconName;
+    readonly tech?: TechId;
+  }[];
 }
 
 export const ROADMAPS: readonly Roadmap[] = [

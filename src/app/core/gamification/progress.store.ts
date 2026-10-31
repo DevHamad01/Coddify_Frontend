@@ -1,0 +1,63 @@
+import { Injectable, computed, inject, signal } from '@angular/core';
+import { Observable, tap } from 'rxjs';
+
+import { LessonReward } from '../learning/learning.models';
+import { GamificationApi } from './gamification-api';
+import { MissionsSummary, UserStats } from './gamification.models';
+
+/**
+ * App-wide snapshot of the learner's stats and daily missions. Loaded once by the app shell,
+ * refreshed after anything that earns XP so every widget (rail, lesson header) stays in sync.
+ */
+@Injectable({ providedIn: 'root' })
+export class ProgressStore {
+  private readonly api = inject(GamificationApi);
+
+  readonly stats = signal<UserStats | null>(null);
+  readonly missions = signal<MissionsSummary | null>(null);
+
+  readonly leaderboardUnlocked = computed(() => {
+    const stats = this.stats();
+    return !!stats && stats.totalXp >= stats.leaderboardUnlockXp;
+  });
+  readonly xpToNextLevel = computed(() => {
+    const stats = this.stats();
+    return stats ? stats.levelXpTarget - stats.levelXp : 0;
+  });
+
+  /** Loads stats and missions; safe to call again to refresh. */
+  refresh(): void {
+    this.api.getStats().subscribe((stats) => this.stats.set(stats));
+    this.api.getMissions().subscribe((missions) => this.missions.set(missions));
+  }
+
+  ensureLoaded(): void {
+    if (!this.stats()) {
+      this.refresh();
+    }
+  }
+
+  setDailyGoal(activities: number): Observable<UserStats> {
+    return this.api.setDailyGoal(activities).pipe(tap((stats) => this.stats.set(stats)));
+  }
+
+  /** Applies a lesson reward right away (optimistic), then reloads the server's numbers. */
+  applyReward(reward: LessonReward): void {
+    this.stats.update((stats) =>
+      stats
+        ? {
+            ...stats,
+            streak: reward.streak,
+            gems: stats.gems + reward.gemsEarned,
+            totalXp: stats.totalXp + reward.xpEarned,
+            activitiesToday: stats.activitiesToday + (reward.xpEarned ? 1 : 0),
+          }
+        : stats,
+    );
+    this.refresh();
+  }
+
+  addGems(gems: number): void {
+    this.stats.update((stats) => (stats ? { ...stats, gems: stats.gems + gems } : stats));
+  }
+}

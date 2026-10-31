@@ -1,0 +1,20 @@
+@if (node().state === 'current' && !selected()) {
+  <span class="start-bubble" aria-hidden="true">Start</span>
+}
+<button
+  type="button"
+  class="hex"
+  [attr.data-state]="node().state"
+  [attr.aria-label]="ariaLabel()"
+  [attr.aria-expanded]="selected()"
+  (click)="pressed.emit()"
+>
+  <span class="hex-side"></span>
+  <span class="hex-top">
+    @if (node().kind === 'chest' && node().state !== 'completed') {
+      <app-nav-art name="chest" [size]="38" [muted]="node().state === 'locked'" />
+    } @else {
+      <app-icon [name]="icon()" [size]="30" [strokeWidth]="2.6" />
+    }
+  </span>
+</button>

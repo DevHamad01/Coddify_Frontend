@@ -1,0 +1,13 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface p-5;
+}
+
+// Hexagonal shield like a league badge.
+.shield {
+  @apply flex h-14 w-12 shrink-0 items-center justify-center bg-surface-2 text-muted;
+  clip-path: polygon(50% 0, 100% 18%, 100% 70%, 50% 100%, 0 70%, 0 18%);
+
+  &.is-open {
+    @apply bg-success text-white;
+  }
+}

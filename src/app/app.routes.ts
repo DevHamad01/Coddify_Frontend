@@ -6,6 +6,7 @@ import {
   onboardingGuard,
   onboardingPendingGuard,
 } from './core/guards/auth.guards';
+import { AppLayout } from './layouts/app-layout/app-layout';
 import { MinimalLayout } from './layouts/minimal-layout/minimal-layout';
 import { PublicLayout } from './layouts/public-layout/public-layout';
 
@@ -103,15 +104,27 @@ export const routes: Routes = [
     ],
   },
   {
-    // Signed-in area. Only placeholders this sprint: journey, lessons, leaderboard come later.
+    // Signed-in area: sidebar shell around every page except the full-screen lesson.
     path: 'app',
-    component: MinimalLayout,
+    component: AppLayout,
     canActivate: [authGuard, onboardingGuard],
     children: [
+      { path: '', pathMatch: 'full', redirectTo: 'journey' },
       {
-        path: '',
-        title: 'Dashboard | Coddify',
-        data: { title: 'Your learning journey' },
+        path: 'journey',
+        title: 'Journey | Coddify',
+        loadComponent: () => import('./features/journey/journey').then((m) => m.Journey),
+      },
+      {
+        path: 'projects',
+        title: 'Projects | Coddify',
+        data: { title: 'Projects' },
+        loadComponent: comingSoon,
+      },
+      {
+        path: 'history',
+        title: 'History | Coddify',
+        data: { title: 'History' },
         loadComponent: comingSoon,
       },
       {

@@ -1,0 +1,36 @@
+@if (showHeader()) {
+  <div class="mb-4 flex items-center justify-between">
+    <h2 class="font-display text-xl font-bold">Daily Missions</h2>
+    <a routerLink="/app/missions" class="text-[15px] font-semibold text-primary hover:underline"
+      >View</a
+    >
+  </div>
+}
+
+<ul class="flex flex-col gap-4">
+  @for (mission of store.missions()?.missions ?? []; track mission.id) {
+    <li class="mission" [class.is-done]="mission.progress >= mission.target">
+      <div class="min-w-0 flex-1">
+        <p class="title">{{ mission.title }}</p>
+        <div
+          class="bar"
+          role="progressbar"
+          aria-valuemin="0"
+          [attr.aria-valuemax]="mission.target"
+          [attr.aria-valuenow]="mission.progress"
+          [attr.aria-label]="mission.title"
+        >
+          <span [style.width.%]="(mission.progress / mission.target) * 100"></span>
+        </div>
+        <p class="mt-1 text-right text-xs text-muted">
+          {{ mission.progress }}/{{ mission.target }}
+        </p>
+      </div>
+      <app-nav-art name="mission-mark" [size]="34" [muted]="mission.progress < mission.target" />
+    </li>
+  } @empty {
+    @for (row of placeholders; track row) {
+      <li class="h-10 animate-pulse rounded-btn bg-surface-2"></li>
+    }
+  }
+</ul>

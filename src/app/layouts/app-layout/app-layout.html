@@ -1,0 +1,21 @@
+<a href="#app-main" class="skip-link">Skip to content</a>
+
+<app-sidebar class="sidebar" />
+
+<main id="app-main" class="min-w-0 flex-1 pb-24 md:pb-0" tabindex="-1">
+  <router-outlet />
+</main>
+
+<nav class="bottom-bar" aria-label="App">
+  @for (item of mobileNav; track item.path) {
+    <a
+      [routerLink]="item.path"
+      routerLinkActive="is-active"
+      ariaCurrentWhenActive="page"
+      class="bottom-item"
+    >
+      <app-nav-art [name]="item.art" [size]="26" />
+      <span>{{ item.label }}</span>
+    </a>
+  }
+</nav>

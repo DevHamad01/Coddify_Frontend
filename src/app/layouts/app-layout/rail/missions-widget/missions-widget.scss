@@ -1,0 +1,27 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface p-5;
+}
+
+.mission {
+  @apply flex items-center gap-3;
+
+  .title {
+    @apply mb-1.5 text-[15px] text-text;
+  }
+
+  &.is-done .title {
+    @apply text-muted;
+  }
+}
+
+.bar {
+  @apply h-2.5 overflow-hidden rounded-full bg-surface-2;
+
+  span {
+    @apply block h-full rounded-full bg-info transition-[width] duration-panel;
+  }
+}
+
+.is-done .bar span {
+  @apply bg-success;
+}

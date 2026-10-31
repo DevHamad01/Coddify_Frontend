@@ -1,0 +1,24 @@
+:host {
+  @apply flex h-full flex-col border-r border-border bg-bg;
+}
+
+.section-label {
+  @apply mb-2 mt-5 hidden px-3 font-display text-xs font-bold uppercase tracking-[0.1em] text-muted lg:block;
+}
+
+.nav-item {
+  @apply flex w-full items-center justify-center gap-4 rounded-btn border-2 border-transparent px-3 py-2.5 text-left font-display text-lg font-semibold text-text transition-colors duration-hover hover:bg-surface lg:justify-start;
+
+  &.is-active {
+    @apply border-border bg-surface;
+  }
+
+  .label,
+  .kbd {
+    @apply hidden lg:inline;
+  }
+}
+
+.kbd {
+  @apply ml-auto rounded-md border border-border px-1.5 py-0.5 font-mono text-[11px] text-muted;
+}

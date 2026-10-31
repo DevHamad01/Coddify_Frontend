@@ -1,0 +1,15 @@
+@if (store.stats(); as stats) {
+  <span class="level-dot" aria-hidden="true">{{ stats.level }}</span>
+  <div class="min-w-0 flex-1">
+    <div class="flex items-baseline justify-between gap-2">
+      <p class="font-display text-lg font-bold text-text">Level {{ stats.level }}</p>
+      <p class="text-sm text-muted">{{ store.xpToNextLevel() }} XP to go</p>
+    </div>
+    <app-progress-bar
+      class="mt-1.5"
+      [value]="percent()"
+      [label]="'Level ' + stats.level + ' progress'"
+    />
+    <p class="mt-1 text-sm text-muted">{{ stats.levelName }}</p>
+  </div>
+}

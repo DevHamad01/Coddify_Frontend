@@ -1,0 +1,16 @@
+:host {
+  @apply mx-auto flex w-full max-w-[1180px] justify-center gap-10 px-4 py-6 sm:px-6 lg:py-8;
+}
+
+.main {
+  @apply w-full min-w-0 max-w-[620px];
+
+  &.is-wide {
+    @apply max-w-[720px];
+  }
+}
+
+.rail {
+  @apply sticky top-8 hidden max-h-[calc(100dvh-4rem)] w-[340px] shrink-0 content-start gap-5 self-start overflow-y-auto pb-4 xl:grid;
+  scrollbar-width: none;
+}

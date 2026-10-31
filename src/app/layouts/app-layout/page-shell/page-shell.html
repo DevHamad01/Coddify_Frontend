@@ -1,0 +1,10 @@
+<div class="main" [class.is-wide]="width() === 'wide'">
+  <div class="mb-6 xl:hidden"><app-stats-bar /></div>
+  <ng-content />
+</div>
+
+<aside class="rail" aria-label="Your progress">
+  <app-stats-bar />
+  <ng-content select="[rail]" />
+  <app-rail-footer />
+</aside>

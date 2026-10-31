@@ -1,0 +1,14 @@
+:host {
+  @apply relative block overflow-hidden rounded-card border-2 border-streak/80 bg-surface p-5;
+}
+
+.art {
+  @apply absolute -right-2 -top-1;
+}
+
+// Warm amber button to match the offer card's border, independent of the brand teal.
+.pro-button {
+  --press-color: #8a4b12;
+  background: #c27a2c;
+  color: #fff;
+}

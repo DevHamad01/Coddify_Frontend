@@ -1,0 +1,15 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface px-5 py-4;
+}
+
+.chip-button {
+  @apply inline-flex items-center gap-1.5 rounded-lg bg-info/10 px-2.5 py-1 text-sm font-semibold text-info transition-colors duration-hover hover:bg-info/20;
+}
+
+.segment {
+  @apply h-2 flex-1 rounded-full bg-surface-2;
+
+  &.is-done {
+    @apply bg-info;
+  }
+}

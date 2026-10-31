@@ -1,0 +1,46 @@
+:host {
+  @apply block;
+}
+
+.chapter {
+  @apply mt-10;
+}
+
+// "———— Variables ————" divider between chapters.
+.divider {
+  @apply flex items-center gap-4 font-display text-xl font-semibold text-muted;
+
+  &::before,
+  &::after {
+    content: '';
+    @apply h-0.5 flex-1 bg-border;
+  }
+}
+
+.path {
+  @apply relative mx-auto mt-16;
+}
+
+.connector {
+  @apply pointer-events-none absolute inset-0 h-full w-full overflow-visible;
+
+  path {
+    fill: none;
+    stroke: rgb(var(--c-border));
+    stroke-width: 10;
+    stroke-linecap: round;
+  }
+}
+
+// Each slot is centred on its point; the popover drops below it and re-centres on the path.
+.slot {
+  @apply absolute flex -translate-x-1/2 flex-col items-center;
+
+  &.is-open {
+    @apply z-30;
+  }
+}
+
+.popover {
+  @apply mt-4;
+}

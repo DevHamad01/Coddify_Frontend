@@ -1,0 +1,43 @@
+<span class="arrow" aria-hidden="true"></span>
+<p class="font-display text-xl font-bold text-text">{{ node().title }}</p>
+
+@switch (node().state) {
+  @case ('locked') {
+    <p class="mt-1 text-[15px] text-muted">{{ lockedHint() }}</p>
+    <button appButton variant="secondary" [block]="true" [disabled]="true" class="mt-4 uppercase">
+      Locked
+    </button>
+  }
+  @case ('completed') {
+    <p class="mt-1 text-[15px] text-muted">{{ kindLabel() }} completed. Practice makes it stick.</p>
+    @if (node().kind !== 'chest') {
+      <a
+        appButton
+        variant="secondary"
+        [block]="true"
+        class="mt-4 uppercase"
+        [routerLink]="['/learn', node().id]"
+        >Review</a
+      >
+    }
+  }
+  @default {
+    @if (node().kind === 'chest') {
+      <p class="mt-1 text-[15px] text-muted">Chapter done! Open your reward.</p>
+      <button
+        appButton
+        [block]="true"
+        class="mt-4 uppercase"
+        [loading]="claiming()"
+        (click)="claim.emit()"
+      >
+        Open chest
+      </button>
+    } @else {
+      <p class="mt-1 text-[15px] text-muted">{{ kindLabel() }} · +{{ node().xp }} XP</p>
+      <a appButton [block]="true" class="mt-4 uppercase" [routerLink]="['/learn', node().id]"
+        >Start</a
+      >
+    }
+  }
+}

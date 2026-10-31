@@ -1,0 +1,74 @@
+// Two stacked hexagons: a darker "side" offset downward under the "top" face gives the 3D lip,
+// and pressing pushes the top face down onto it like the app's chunky buttons.
+$hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+
+:host {
+  @apply relative inline-flex flex-col items-center;
+}
+
+.hex {
+  @apply relative block h-[86px] w-[78px] outline-none;
+  --top: #3d3d3d;
+  --side: #2a2a2a;
+  --ink: #7a7a7a;
+
+  &[data-state='completed'] {
+    --top: #22c55e;
+    --side: #15803d;
+    --ink: #ffffff;
+  }
+
+  &[data-state='current'] {
+    --top: rgb(var(--c-primary));
+    --side: rgb(var(--c-primary-press));
+    --ink: rgb(var(--c-primary-contrast));
+    filter: drop-shadow(0 0 14px rgb(var(--c-primary) / 0.45));
+  }
+
+  &:focus-visible {
+    filter: drop-shadow(0 0 0 2px rgb(var(--c-primary)));
+    outline: 2px solid rgb(var(--c-primary));
+    outline-offset: 6px;
+    border-radius: 12px;
+  }
+
+  &:active .hex-top {
+    transform: translateY(8px);
+  }
+}
+
+.hex-side,
+.hex-top {
+  @apply absolute inset-x-0 h-[78px];
+  clip-path: $hex;
+}
+
+.hex-side {
+  top: 8px;
+  background: var(--side);
+}
+
+.hex-top {
+  @apply top-0 flex items-center justify-center transition-transform duration-hover;
+  background: var(--top);
+  color: var(--ink);
+
+  // Inner highlight ring.
+  &::after {
+    content: '';
+    @apply absolute inset-[6px];
+    clip-path: $hex;
+    box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.18);
+    border-radius: 2px;
+  }
+}
+
+.start-bubble {
+  @apply absolute -top-11 z-10 animate-bounce whitespace-nowrap rounded-btn border-2 border-border bg-surface px-3 py-1 font-display text-sm font-bold uppercase text-primary shadow-modal;
+  animation-duration: 1.6s;
+
+  &::after {
+    content: '';
+    @apply absolute left-1/2 top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-border bg-surface;
+  }
+}

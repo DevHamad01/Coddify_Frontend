@@ -1,0 +1,30 @@
+<div class="flex items-center justify-between">
+  <h2 class="font-display text-xl font-bold">
+    {{ store.leaderboardUnlocked() ? 'Starter League' : 'Leaderboard' }}
+  </h2>
+  <a routerLink="/app/leaderboard" class="text-[15px] font-semibold text-primary hover:underline"
+    >View</a
+  >
+</div>
+
+<div class="mt-4 flex items-center gap-4">
+  <span class="shield" [class.is-open]="store.leaderboardUnlocked()" aria-hidden="true">
+    <app-icon [name]="store.leaderboardUnlocked() ? 'arrow-up' : 'lock'" [size]="24" />
+  </span>
+  @if (store.leaderboardUnlocked()) {
+    @if (me(); as me) {
+      <p class="text-[15px] leading-6 text-text">
+        <span class="font-bold">Ranked</span>
+        <span class="font-bold text-success"> #{{ me.rank }}</span>
+        @if (ahead(); as ahead) {
+          <br />
+          <span class="text-muted">{{ ahead.xp - me.xp + 1 }} XP to catch #{{ ahead.rank }}</span>
+        }
+      </p>
+    }
+  } @else if (store.stats(); as stats) {
+    <p class="text-[15px] leading-6 text-text">
+      Reach {{ stats.leaderboardUnlockXp }} XP to unlock leaderboards!
+    </p>
+  }
+</div>
