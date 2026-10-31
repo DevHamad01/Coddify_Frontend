@@ -1,0 +1,20 @@
+:host {
+  @apply flex shrink-0 items-center justify-center text-text;
+
+  &.is-locked {
+    filter: grayscale(0.35);
+    opacity: 0.8;
+  }
+}
+
+.swatch {
+  @apply flex h-14 w-20 flex-col justify-center gap-1.5 rounded-lg border border-border px-2.5;
+}
+
+.line {
+  @apply block h-1.5 rounded-full;
+}
+
+.name-art {
+  @apply font-display text-lg font-bold;
+}

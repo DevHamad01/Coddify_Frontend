@@ -1,0 +1,33 @@
+@switch (item().kind) {
+  @case ('theme') {
+    @if (palette(); as colors) {
+      <span class="swatch" [style.background]="colors.background">
+        <span class="line" [style.background]="colors.keyword" style="width: 38%"></span>
+        <span class="line" [style.background]="colors.function" style="width: 64%; margin-left: 10%"></span>
+        <span class="line" [style.background]="colors.string" style="width: 48%; margin-left: 10%"></span>
+        <span class="line" [style.background]="colors.comment" style="width: 56%"></span>
+      </span>
+    }
+  }
+  @case ('tutor') {
+    <app-tutor-bot [look]="item().art" [size]="size()" [animated]="item().state === 'equipped'" label="" />
+  }
+  @case ('frame') {
+    <app-avatar-frame [frame]="item().art" [size]="size()">
+      <app-avatar [name]="fullName()" [size]="size()" />
+    </app-avatar-frame>
+  }
+  @case ('name-effect') {
+    <span class="name-art"><app-styled-name [name]="firstName()" [effect]="item().art" /></span>
+  }
+  @case ('streak-flame') {
+    <app-streak-flame [color]="item().art" [size]="size() * 0.8" />
+  }
+  @default {
+    @if (item().art === 'robot') {
+      <app-mascot pose="happy" [size]="size() * 0.7" [animated]="false" label="" />
+    } @else {
+      <app-icon [name]="icon()" [size]="size() * 0.6" [strokeWidth]="2.2" />
+    }
+  }
+}

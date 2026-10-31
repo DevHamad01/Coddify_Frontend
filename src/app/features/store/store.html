@@ -1,20 +1,20 @@
 <app-page-shell>
-  <h1 class="sr-only">Store</h1>
-  <div class="flex items-center gap-2" role="tablist" aria-label="Store sections">
+  <h1 class="font-display text-3xl font-bold">Store</h1>
+  <p class="mt-1 text-[15px] text-muted">
+    Everything here is free. Learn, practise and keep your streak to unlock it.
+  </p>
+
+  <div class="mt-5 flex flex-wrap items-center gap-2" role="tablist" aria-label="Store sections">
     @for (item of tabs; track item.id) {
       <button
         type="button"
         role="tab"
         class="top-tab"
         [attr.aria-selected]="tab() === item.id"
-        [attr.aria-label]="item.label"
-        [title]="item.label"
         (click)="selectTab(item.id)"
       >
         <app-icon [name]="item.icon" [size]="18" />
-        @if (tab() === item.id) {
-          <span>{{ item.label }}</span>
-        }
+        <span>{{ item.label }}</span>
       </button>
     }
   </div>
@@ -33,38 +33,45 @@
         </button>
       }
     </div>
-    <p class="intro">{{ intro() }}</p>
   }
 
+  <div class="intro">
+    <p class="flex-1">{{ intro() }}</p>
+    @if (items()) {
+      <span class="count">{{ unlockedCount() }} / {{ visibleItems().length }} unlocked</span>
+    }
+  </div>
+
   @if (items()) {
-    <ul class="mt-2">
+    <ul [class]="tab() === 'profile' ? 'mt-2' : 'mt-4 grid gap-3 sm:grid-cols-2'">
       @for (item of visibleItems(); track item.id) {
-        <li class="item">
-          <span class="art" aria-hidden="true">
-            @switch (item.art) {
-              @case ('robot') {
-                <app-mascot pose="happy" [size]="34" [animated]="false" label="" />
-              }
-              @case ('flame') {
-                <app-nav-art name="flame" [size]="34" />
-              }
-              @default {
-                <app-icon [name]="iconArt[item.art] ?? 'star'" [size]="32" [strokeWidth]="2.2" />
-              }
-            }
-          </span>
+        <li [class]="tab() === 'profile' ? 'row' : 'tile'" [attr.data-rarity]="item.rarity">
+          <app-store-item-art [item]="item" [size]="tab() === 'profile' ? 52 : 72" />
           <div class="min-w-0 flex-1">
-            <p class="font-display text-xl">{{ item.name }}</p>
-            <p class="mt-1 text-[15px] leading-6 text-muted">{{ item.description }}</p>
-            @if (item.state === 'locked' && item.requirement) {
-              <span class="requirement">{{ item.requirement }}</span>
+            <p class="flex flex-wrap items-center gap-2">
+              <span class="font-display text-lg font-bold">{{ item.name }}</span>
+              @if (item.rarity !== 'common') {
+                <span class="rarity">{{ item.rarity }}</span>
+              }
+            </p>
+            <p class="mt-0.5 text-sm leading-5 text-muted">{{ item.description }}</p>
+
+            @if (item.state === 'locked' && item.unlock) {
+              <p class="goal">
+                <app-icon name="lock" [size]="13" /> {{ goal(item.unlock) }}
+              </p>
+              <div class="mt-1.5 flex items-center gap-2">
+                <span class="bar"><span [style.width.%]="percent(item)"></span></span>
+                <span class="text-xs text-muted">{{ progressLabel(item.unlock, item.progress) }}</span>
+              </div>
             }
           </div>
+
           @switch (item.state) {
             @case ('equipped') {
-              <span class="action is-equipped">Equipped</span>
+              <span class="action is-equipped"><app-icon name="check" [size]="16" /> Equipped</span>
             }
-            @case ('owned') {
+            @case ('unlocked') {
               <button
                 type="button"
                 class="action"
@@ -74,23 +81,11 @@
                 Equip
               </button>
             }
-            @case ('buyable') {
-              <button
-                type="button"
-                class="action is-buy"
-                [disabled]="busyId() === item.id"
-                (click)="buy(item)"
-              >
-                {{ item.price }} <app-nav-art name="gem" [size]="18" />
-              </button>
-            }
             @default {
-              <span class="action is-locked">Locked</span>
+              <span class="action is-locked"><app-icon name="lock" [size]="15" /> Locked</span>
             }
           }
         </li>
-      } @empty {
-        <li class="py-12 text-center text-muted">Nothing here yet. New items drop every week.</li>
       }
     </ul>
   } @else {
