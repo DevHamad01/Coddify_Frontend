@@ -1,0 +1,23 @@
+.backdrop {
+  @apply fixed inset-0 z-[60] bg-black/60 backdrop-blur-sm;
+}
+
+.panel {
+  @apply fixed left-1/2 top-[12vh] z-[61] w-[calc(100%-32px)] max-w-xl -translate-x-1/2 animate-fade-up overflow-hidden rounded-modal border border-border bg-surface shadow-modal;
+}
+
+.kbd {
+  @apply rounded-md border border-border px-1.5 py-0.5 font-mono text-[11px] text-muted;
+}
+
+.result {
+  @apply flex cursor-pointer items-center gap-3 rounded-btn px-3 py-2.5;
+
+  &[aria-selected='true'] {
+    @apply bg-surface-2;
+  }
+}
+
+.result-icon {
+  @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-surface-2 text-primary;
+}

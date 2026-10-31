@@ -1,11 +1,23 @@
 .nav-trigger {
-  @apply flex h-9 items-center gap-1 rounded-input border border-border px-3 text-sm font-medium text-text transition-colors duration-hover hover:bg-surface-2;
+  @apply flex h-10 items-center gap-1.5 rounded-btn border border-border px-3.5 font-display text-[15px] font-bold text-text transition-colors duration-hover hover:bg-surface-2;
+
+  .chevron {
+    @apply transition-transform duration-hover;
+  }
 
   &[aria-expanded='true'] {
     @apply border-primary/50 bg-surface-2;
+
+    .chevron {
+      @apply rotate-180;
+    }
   }
 }
 
 .nav-panel {
-  @apply absolute left-0 top-[calc(100%+10px)] z-50 animate-fade-up rounded-card border border-border bg-surface p-2 shadow-modal;
+  @apply absolute left-0 top-[calc(100%+14px)] z-50 animate-fade-up overflow-hidden rounded-card border border-border bg-surface shadow-modal;
+}
+
+.icon-button {
+  @apply h-10 w-10 items-center justify-center rounded-btn border border-border text-text transition-colors duration-hover hover:bg-surface-2;
 }

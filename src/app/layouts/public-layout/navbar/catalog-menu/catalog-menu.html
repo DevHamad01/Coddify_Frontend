@@ -1,0 +1,75 @@
+<div class="flex">
+  <ul class="w-60 shrink-0 border-r border-border p-3" aria-label="Course categories">
+    @for (category of categories; track category.id; let i = $index) {
+      <li>
+        <button
+          type="button"
+          class="category"
+          [class.is-active]="active() === category.id"
+          [attr.aria-pressed]="active() === category.id"
+          (mouseenter)="active.set(category.id)"
+          (focus)="active.set(category.id)"
+          (keydown)="onCategoryKey($event, i)"
+        >
+          {{ category.label }}
+        </button>
+      </li>
+    }
+  </ul>
+
+  <div class="min-w-0 flex-1 p-5">
+    <p class="font-display text-xl font-bold text-text">{{ activeCategory().label }}</p>
+    <p class="mt-0.5 text-sm text-muted">{{ activeCategory().blurb }}</p>
+
+    <ul class="mt-4 grid grid-cols-2 gap-3">
+      @for (course of courses(); track course.id) {
+        <li class="course">
+          <a
+            routerLink="/register"
+            [queryParams]="{ lang: course.id }"
+            class="course-link"
+            [attr.aria-label]="'Start ' + course.name"
+          ></a>
+          <app-tech-logo [tech]="course.id" [size]="34" />
+          <div class="min-w-0">
+            <p class="font-display font-bold text-text">{{ course.name }}</p>
+            <p class="mt-0.5 flex items-center gap-3 text-[13px] text-muted">
+              <a routerLink="/resources/docs" class="shortcut">
+                <app-icon name="file-text" [size]="13" />Docs
+              </a>
+              <a routerLink="/resources/playground" class="shortcut">
+                <app-icon name="play" [size]="11" [filled]="true" />Playground
+              </a>
+              <span class="ml-auto hidden xl:inline">{{ formatLearners(course.learners) }}</span>
+            </p>
+          </div>
+        </li>
+      }
+    </ul>
+
+    @if (active() === 'popular') {
+      <p class="mt-5 text-xs font-bold uppercase tracking-[0.12em] text-muted">Learning paths</p>
+      <ul class="mt-2 grid grid-cols-2 gap-3">
+        @for (path of paths; track path.id) {
+          <li>
+            <a routerLink="/" fragment="roadmaps" class="path">
+              <app-tech-logo [tech]="path.tech" [size]="36" />
+              <span class="min-w-0">
+                <span class="block font-display font-bold text-text">{{ path.title }}</span>
+                <span class="line-clamp-2 text-[13px] leading-5 text-muted">{{
+                  path.summary
+                }}</span>
+              </span>
+            </a>
+          </li>
+        }
+      </ul>
+    }
+  </div>
+</div>
+
+<p class="footer-bar">
+  See
+  <a routerLink="/register" class="font-bold underline underline-offset-2">all courses</a>
+  or pick a course to start learning.
+</p>

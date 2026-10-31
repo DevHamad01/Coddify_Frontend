@@ -1,0 +1,15 @@
+:host {
+  @apply block w-[760px];
+}
+
+.group-tab {
+  @apply flex w-full items-center rounded-btn px-3 py-2.5 text-left text-[15px] text-muted transition-colors duration-hover hover:text-text;
+
+  &.is-active {
+    @apply bg-surface-2 font-semibold text-text;
+  }
+}
+
+.resource {
+  @apply flex items-start gap-3 rounded-btn p-3 transition-colors duration-hover hover:bg-surface-2;
+}

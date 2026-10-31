@@ -1,3 +1,4 @@
+import { TechCategory, TechId } from '../../shared/data/tech';
 import { IconName } from '../../shared/ui/icon/icons';
 
 export interface NavLink {
@@ -9,40 +10,119 @@ export interface NavLink {
 }
 
 export interface NavMenu {
-  readonly id: 'languages' | 'spaces' | 'resources' | 'company';
+  readonly id: 'resources' | 'company';
   readonly label: string;
   readonly links: readonly NavLink[];
 }
 
-/** Languages menu is rendered from LANGUAGES; these are the remaining dropdowns. */
-export const NAV_MENUS: readonly NavMenu[] = [
+export interface CatalogCategory {
+  readonly id: TechCategory;
+  readonly label: string;
+  readonly blurb: string;
+}
+
+export interface LearningPath {
+  readonly id: string;
+  readonly title: string;
+  readonly summary: string;
+  readonly tech: TechId;
+}
+
+export interface ResourceGroup {
+  readonly id: string;
+  readonly label: string;
+  readonly links: readonly NavLink[];
+}
+
+/** Left column of the Catalog mega menu; each category lists the courses tagged with it. */
+export const CATALOG_CATEGORIES: readonly CatalogCategory[] = [
+  { id: 'popular', label: 'Popular', blurb: 'The courses most Coddify learners take.' },
+  { id: 'web', label: 'Web', blurb: 'Build pages, apps and APIs for the browser.' },
+  { id: 'languages', label: 'Programming languages', blurb: 'Pick a language and go deep.' },
   {
-    id: 'spaces',
-    label: 'Spaces',
+    id: 'systems',
+    label: 'Systems & hardware',
+    blurb: 'Memory, speed and the machine underneath.',
+  },
+  { id: 'mobile', label: 'Mobile apps', blurb: 'Ship apps for Android and iOS.' },
+  { id: 'data', label: 'Data & AI', blurb: 'Query, clean and learn from data.' },
+  { id: 'tools', label: 'Tools & DevOps', blurb: 'Git, the terminal, containers and deploys.' },
+];
+
+export const LEARNING_PATHS: readonly LearningPath[] = [
+  {
+    id: 'software-engineer',
+    title: 'Software Engineer',
+    summary: 'Python, Linux, Git, SQL and data structures, then code others can read.',
+    tech: 'python',
+  },
+  {
+    id: 'web-developer',
+    title: 'Full Stack Web Developer',
+    summary: 'HTML, CSS and JavaScript to React and Node, with a deployed project.',
+    tech: 'react',
+  },
+];
+
+/** Resources mega menu. Pages that are not built yet route to the coming-soon placeholder. */
+export const RESOURCE_GROUPS: readonly ResourceGroup[] = [
+  {
+    id: 'coding',
+    label: 'Coding',
     links: [
       {
-        label: 'Learning journey',
-        description: 'Bite-sized lessons on a path that unlocks as you go.',
-        icon: 'route',
-        path: '/app',
+        label: 'Docs',
+        description: 'Reference documentation for every supported language.',
+        icon: 'file-text',
+        path: '/resources/docs',
       },
       {
-        label: 'Practice arena',
-        description: 'Short challenges with instant test results.',
+        label: 'Playground',
+        description: 'Write and run code in the browser, no setup required.',
         icon: 'code',
-        path: '/app',
+        path: '/resources/playground',
       },
       {
-        label: 'Leagues',
-        description: 'Weekly XP races with learners at your level.',
-        icon: 'trophy',
-        path: '/app',
+        label: 'Cheat sheets',
+        description: 'Quick-reference tables for the languages and tools you use.',
+        icon: 'table',
+        path: '/resources/cheat-sheets',
+      },
+      {
+        label: 'Glossary',
+        description: 'Plain definitions of programming terms, each with an example.',
+        icon: 'book',
+        path: '/resources/glossary',
+      },
+      {
+        label: 'Interview problems',
+        description: 'Coding problems you can run in the browser, with hints.',
+        icon: 'braces',
+        path: '/resources/interview-problems',
+      },
+      {
+        label: 'Git commands',
+        description: 'Every Git command you reach for, with flags and examples.',
+        icon: 'git-branch',
+        path: '/resources/git-commands',
+      },
+      {
+        label: 'Visualizations',
+        description: 'Watch algorithms and data structures run step by step.',
+        icon: 'bar-chart',
+        path: '/resources/visualizations',
+      },
+      {
+        label: 'Tools',
+        description: 'Formatters, converters and other small developer utilities.',
+        icon: 'wrench',
+        path: '/resources/tools',
       },
     ],
   },
   {
-    id: 'resources',
-    label: 'Resources',
+    id: 'learning',
+    label: 'Learning',
     links: [
       {
         label: 'Roadmaps',
@@ -60,11 +140,24 @@ export const NAV_MENUS: readonly NavMenu[] = [
       },
       {
         label: 'Certificates',
-        description: 'Proof of every course you finish.',
+        description: 'Proof of every course you finish, ready for LinkedIn.',
         icon: 'award',
         path: '/',
         fragment: 'certificates',
       },
+      {
+        label: 'Leagues',
+        description: 'Weekly XP races with learners at your level.',
+        icon: 'trophy',
+        path: '/',
+        fragment: 'league',
+      },
+    ],
+  },
+  {
+    id: 'help',
+    label: 'Help',
+    links: [
       {
         label: 'FAQ',
         description: 'Quick answers before you start.',
@@ -72,7 +165,24 @@ export const NAV_MENUS: readonly NavMenu[] = [
         path: '/',
         fragment: 'faq',
       },
+      {
+        label: 'Contact',
+        description: 'Questions, feedback or a bug to report.',
+        icon: 'mail',
+        path: '/contact',
+      },
     ],
+  },
+];
+
+/** Flat menus used by the footer and the mobile drawer. */
+export const NAV_MENUS: readonly NavMenu[] = [
+  {
+    id: 'resources',
+    label: 'Resources',
+    links: RESOURCE_GROUPS.flatMap((group) => group.links).filter((link) =>
+      ['Docs', 'Playground', 'Roadmaps', 'AI tutor', 'Certificates', 'FAQ'].includes(link.label),
+    ),
   },
   {
     id: 'company',

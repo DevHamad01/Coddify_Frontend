@@ -1,0 +1,32 @@
+:host {
+  @apply block w-[880px] overflow-hidden;
+}
+
+.category {
+  @apply flex w-full items-center rounded-btn px-3 py-2.5 text-left text-[15px] text-muted transition-colors duration-hover hover:text-text;
+
+  &.is-active {
+    @apply bg-surface-2 font-semibold text-text;
+  }
+}
+
+// The whole card is clickable (stretched link) while Docs / Playground stay separate links above it.
+.course {
+  @apply relative flex items-center gap-3 rounded-card border border-border px-4 py-3 transition-colors duration-hover hover:border-primary/60 hover:bg-surface-2;
+}
+
+.course-link {
+  @apply absolute inset-0 rounded-card;
+}
+
+.shortcut {
+  @apply relative z-10 inline-flex items-center gap-1 hover:text-primary;
+}
+
+.path {
+  @apply flex items-start gap-3 rounded-card border border-border p-3 transition-colors duration-hover hover:border-primary/60 hover:bg-surface-2;
+}
+
+.footer-bar {
+  @apply bg-primary px-5 py-3.5 text-[15px] text-primary-contrast;
+}

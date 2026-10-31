@@ -23,6 +23,12 @@ export const routes: Routes = [
         loadComponent: () => import('./features/landing/landing/landing').then((m) => m.Landing),
       },
       {
+        // Docs, playground, cheat sheets... linked from the Resources menu, built in later sprints.
+        path: 'resources/:slug',
+        title: 'Resources | Coddify',
+        loadComponent: comingSoon,
+      },
+      {
         path: 'about',
         title: 'About | Coddify',
         data: { title: 'About Coddify' },

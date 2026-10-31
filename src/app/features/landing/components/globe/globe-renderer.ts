@@ -69,7 +69,11 @@ function buildLandPoints(): Point3[] {
 function toVector(lat: number, lon: number): Point3 {
   const phi = lat * DEG;
   const lambda = lon * DEG;
-  return { x: Math.cos(phi) * Math.sin(lambda), y: Math.sin(phi), z: Math.cos(phi) * Math.cos(lambda) };
+  return {
+    x: Math.cos(phi) * Math.sin(lambda),
+    y: Math.sin(phi),
+    z: Math.cos(phi) * Math.cos(lambda),
+  };
 }
 
 /**
@@ -175,7 +179,11 @@ export class GlobeRenderer {
     while (this.pings.length && now - this.pings[0].bornAt > PING_LIFETIME) {
       this.pings.shift();
     }
-    if (!this.feed.length || now - this.lastPingAt < PING_INTERVAL || this.pings.length >= MAX_PINGS) {
+    if (
+      !this.feed.length ||
+      now - this.lastPingAt < PING_INTERVAL ||
+      this.pings.length >= MAX_PINGS
+    ) {
       return;
     }
     this.lastPingAt = now;

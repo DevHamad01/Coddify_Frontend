@@ -33,7 +33,8 @@ export type TechId =
   | 'linux'
   | 'bash';
 
-export type TechCategory = 'popular' | 'web' | 'languages' | 'systems' | 'mobile' | 'data' | 'tools';
+export type TechCategory =
+  'popular' | 'web' | 'languages' | 'systems' | 'mobile' | 'data' | 'tools';
 
 export interface Tech {
   readonly id: TechId;
@@ -46,7 +47,12 @@ export interface Tech {
 
 export const TECHS: readonly Tech[] = [
   { id: 'python', name: 'Python', categories: ['popular', 'languages', 'data'], learners: 48200 },
-  { id: 'javascript', name: 'JavaScript', categories: ['popular', 'web', 'languages'], learners: 36100 },
+  {
+    id: 'javascript',
+    name: 'JavaScript',
+    categories: ['popular', 'web', 'languages'],
+    learners: 36100,
+  },
   { id: 'html', name: 'HTML', categories: ['popular', 'web'], learners: 31400 },
   { id: 'cpp', name: 'C++', categories: ['popular', 'languages', 'systems'], learners: 29300 },
   { id: 'java', name: 'Java', categories: ['popular', 'languages', 'mobile'], learners: 22800 },
@@ -61,7 +67,13 @@ export const TECHS: readonly Tech[] = [
   { id: 'nextjs', name: 'Next.js', categories: ['web'], learners: 5900, invertOnDark: true },
   { id: 'php', name: 'PHP', categories: ['web', 'languages'], learners: 7200 },
   { id: 'go', name: 'Go', categories: ['languages', 'systems'], learners: 6800 },
-  { id: 'rust', name: 'Rust', categories: ['languages', 'systems'], learners: 6300, invertOnDark: true },
+  {
+    id: 'rust',
+    name: 'Rust',
+    categories: ['languages', 'systems'],
+    learners: 6300,
+    invertOnDark: true,
+  },
   { id: 'kotlin', name: 'Kotlin', categories: ['languages', 'mobile'], learners: 5600 },
   { id: 'swift', name: 'Swift', categories: ['languages', 'mobile'], learners: 4100 },
   { id: 'dart', name: 'Dart', categories: ['languages', 'mobile'], learners: 3900 },

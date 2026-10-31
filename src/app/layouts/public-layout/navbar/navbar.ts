@@ -10,21 +10,22 @@ import {
 import { NavigationStart, Router, RouterLink } from '@angular/router';
 
 import { AuthService } from '../../../core/auth/auth.service';
-import { LANGUAGES } from '../../../shared/data/languages';
 import { Button } from '../../../shared/ui/button/button';
 import { Icon } from '../../../shared/ui/icon/icon';
-import { LanguageBadge } from '../../../shared/ui/language-badge/language-badge';
 import { Logo } from '../../../shared/ui/logo/logo';
+import { SearchDialogService } from '../../../shared/ui/search-dialog/search-dialog.service';
 import { ThemeToggle } from '../../../shared/ui/theme-toggle/theme-toggle';
-import { NAV_MENUS, NavMenu } from '../nav-items';
+import { NAV_MENUS } from '../nav-items';
+import { CatalogMenu } from './catalog-menu/catalog-menu';
+import { ResourcesMenu } from './resources-menu/resources-menu';
 import { MobileDrawer } from '../mobile-drawer/mobile-drawer';
 
-type MenuId = NavMenu['id'];
+type MenuId = 'catalog' | 'resources' | 'company';
 
 @Component({
   selector: 'app-navbar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Button, Icon, LanguageBadge, Logo, ThemeToggle, MobileDrawer],
+  imports: [RouterLink, Button, Icon, Logo, ThemeToggle, MobileDrawer, CatalogMenu, ResourcesMenu],
   templateUrl: './navbar.html',
   styleUrl: './navbar.scss',
   host: {
@@ -39,8 +40,8 @@ export class Navbar {
   private readonly document = inject(DOCUMENT);
 
   protected readonly auth = inject(AuthService);
-  protected readonly menus = NAV_MENUS;
-  protected readonly languages = LANGUAGES;
+  protected readonly search = inject(SearchDialogService);
+  protected readonly company = NAV_MENUS.find((menu) => menu.id === 'company')!.links;
   protected readonly openMenu = signal<MenuId | null>(null);
   protected readonly drawerOpen = signal(false);
 
