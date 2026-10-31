@@ -1,0 +1,12 @@
+<button type="button" class="card" (click)="opened.emit()">
+  <span class="font-display text-lg font-bold leading-snug">{{ course().title }}</span>
+  <span class="mt-1.5 line-clamp-3 text-sm text-muted">{{ course().description }}</span>
+  @if (course().certificate) {
+    <span class="mt-2 flex items-center gap-1.5 text-xs text-muted">
+      <app-icon name="award" [size]="14" /> Certificate on completion
+    </span>
+  }
+  <span class="mt-auto pt-3 text-xs font-semibold text-muted"
+    >{{ course().lessonCount }} lessons</span
+  >
+</button>

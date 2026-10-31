@@ -1,0 +1,7 @@
+:host {
+  @apply block;
+}
+
+.card {
+  @apply flex h-full w-full flex-col rounded-card border-2 border-border bg-surface p-4 text-left transition-colors duration-hover hover:border-info/60 hover:bg-surface-2;
+}

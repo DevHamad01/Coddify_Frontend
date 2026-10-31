@@ -1,0 +1,42 @@
+<div class="flex items-start justify-between gap-3">
+  <div class="min-w-0">
+    <p class="text-sm font-semibold text-info">Section {{ section().number }}</p>
+    <h2 class="mt-0.5 font-display text-xl font-bold">{{ section().title }}</h2>
+    <p class="mt-1 text-[15px] text-muted">{{ section().description }}</p>
+  </div>
+  <span title="Certificate on completion">
+    <app-icon name="award" [size]="22" class="shrink-0 text-muted" />
+  </span>
+</div>
+
+<div class="mt-4 flex flex-wrap items-center gap-4">
+  @switch (section().state) {
+    @case ('in-progress') {
+      <button appButton size="sm" class="uppercase" [loading]="busy()" (click)="opened.emit()">
+        Continue
+      </button>
+      <div class="flex min-w-[160px] flex-1 items-center gap-3">
+        <span class="h-2 flex-1 overflow-hidden rounded-full bg-surface-2">
+          <span class="block h-full rounded-full bg-info" [style.width.%]="percent()"></span>
+        </span>
+        <span class="text-sm text-muted"
+          >{{ section().completedCount }}/{{ section().lessonCount }} lessons</span
+        >
+      </div>
+    }
+    @case ('available') {
+      <button appButton size="sm" class="uppercase" [loading]="busy()" (click)="opened.emit()">
+        Start section
+      </button>
+      <span class="text-sm text-muted">{{ section().lessonCount }} lessons</span>
+    }
+    @default {
+      <button appButton size="sm" variant="secondary" class="uppercase" (click)="opened.emit()">
+        Jump to section
+      </button>
+      <span class="flex items-center gap-1.5 text-sm text-muted">
+        <app-icon name="lock" [size]="14" /> {{ section().lessonCount }} lessons
+      </span>
+    }
+  }
+</div>

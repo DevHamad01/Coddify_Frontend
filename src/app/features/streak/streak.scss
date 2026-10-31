@@ -1,0 +1,62 @@
+.flame {
+  animation: flicker 2.4s ease-in-out infinite;
+  transform-origin: 50% 90%;
+}
+
+.stat {
+  @apply rounded-card border-2 border-border bg-surface px-4 py-3;
+}
+
+.card {
+  @apply rounded-card border-2 border-border bg-surface p-5;
+}
+
+.nav {
+  @apply flex h-9 w-9 items-center justify-center rounded-btn text-muted transition-colors duration-hover hover:bg-surface-2 hover:text-text disabled:pointer-events-none disabled:opacity-30;
+}
+
+.calendar {
+  @apply mx-auto grid max-w-md grid-cols-7 gap-y-3;
+}
+
+.day {
+  @apply mx-auto flex h-10 w-10 items-center justify-center rounded-full text-sm text-muted;
+
+  &.is-future {
+    @apply opacity-40;
+  }
+
+  &.is-active {
+    @apply bg-streak font-bold text-white;
+  }
+
+  &.is-today {
+    @apply font-bold text-text;
+    box-shadow: 0 0 0 2px rgb(var(--c-streak));
+  }
+}
+
+.next {
+  @apply flex items-center gap-1 rounded-full border border-border px-2.5 py-0.5 text-sm text-muted;
+}
+
+.friends {
+  @apply flex flex-col items-start gap-4 rounded-card p-5 sm:flex-row sm:items-center sm:justify-between;
+  background: linear-gradient(135deg, #0b3a6b, #12264f);
+}
+
+@keyframes flicker {
+  0%,
+  100% {
+    transform: scale(1) rotate(0);
+  }
+  50% {
+    transform: scale(1.05) rotate(-2deg);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .flame {
+    animation: none;
+  }
+}

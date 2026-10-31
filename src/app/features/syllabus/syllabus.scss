@@ -1,0 +1,15 @@
+.search-box {
+  @apply flex h-11 w-full items-center gap-3 rounded-btn border-2 border-border bg-surface px-3 text-[15px] text-muted transition-colors duration-hover hover:border-info/50 focus-within:border-info;
+}
+
+.kbd {
+  @apply rounded-md border border-border px-1.5 py-0.5 font-mono text-[11px] text-muted;
+}
+
+.filter-chip {
+  @apply rounded-full border-2 border-border px-3 py-1 text-sm font-bold text-text transition-colors duration-hover hover:bg-surface-2;
+
+  &[aria-pressed='true'] {
+    @apply border-info bg-info/10 text-info;
+  }
+}

@@ -3,6 +3,7 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 import { Submission } from '../../learning/learning.models';
 import { TechId } from '../../../shared/data/tech';
+import { isoDate } from '../../gamification/streak-calendar';
 
 /**
  * Learner progress used by the mock learning, gamification and practice APIs.
@@ -61,8 +62,9 @@ const FRESH: MockProgressState = {
   longestStreak: 0,
 };
 
+/** Local yyyy-mm-dd, so "today" flips at the learner's midnight, not UTC's. */
 export function today(): string {
-  return new Date().toISOString().slice(0, 10);
+  return isoDate(new Date());
 }
 
 @Injectable({ providedIn: 'root' })

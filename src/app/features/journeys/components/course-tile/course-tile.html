@@ -1,0 +1,18 @@
+<button type="button" class="tile" [disabled]="busy()" (click)="opened.emit()">
+  <app-tech-logo [tech]="tech().id" [size]="30" label="" />
+  <span class="min-w-0 flex-1 text-left">
+    <span class="block truncate font-display font-bold">{{ tech().name }}</span>
+    <span class="block text-xs text-muted">
+      @if (busy()) {
+        Opening…
+      } @else {
+        {{ formatLearners(tech().learners) }} Coders
+      }
+    </span>
+  </span>
+  @if (enrolled()) {
+    <span class="check" title="Started">
+      <app-icon name="check" [size]="12" [strokeWidth]="3.5" />
+    </span>
+  }
+</button>

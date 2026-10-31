@@ -19,6 +19,7 @@ import {
   RunResult,
   Submission,
 } from './learning.models';
+import { isoDate } from '../gamification/streak-calendar';
 import { runSnippet } from './mock/mini-runner';
 import {
   chaptersFor,
@@ -181,7 +182,7 @@ export class MockLearningApi extends LearningApi {
         };
       }
 
-      const yesterday = new Date(Date.now() - 86_400_000).toISOString().slice(0, 10);
+      const yesterday = isoDate(new Date(Date.now() - 86_400_000));
       const streakIncreased = state.lastActiveDay !== today();
       const streak = !streakIncreased
         ? state.streak

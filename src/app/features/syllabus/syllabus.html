@@ -1,0 +1,104 @@
+<app-page-shell>
+  @if (syllabus(); as syllabus) {
+    <header class="flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <app-tech-logo [tech]="syllabus.courseId" [size]="44" label="" />
+        <div>
+          <p class="text-sm text-muted">Syllabus</p>
+          <h1 class="font-display text-3xl font-bold">{{ syllabus.courseName }}</h1>
+        </div>
+      </div>
+      <a appButton variant="secondary" size="sm" routerLink="/app/journeys" class="uppercase">
+        Browse journeys
+      </a>
+    </header>
+
+    <button type="button" class="search-box mt-5" (click)="search.open()">
+      <app-icon name="search" [size]="18" />
+      <span class="flex-1 text-left">Search courses, pages and settings</span>
+      <kbd class="kbd">Ctrl K</kbd>
+    </button>
+
+    <div class="mt-5 flex flex-col gap-4">
+      @for (section of syllabus.sections; track section.number) {
+        <app-section-card
+          [section]="section"
+          [busy]="switcher.opening() === syllabus.courseId"
+          (opened)="openSection(section, syllabus.courseId)"
+        />
+      }
+    </div>
+
+    @if (syllabus.moreCourses.length) {
+      <h2 class="mt-12 font-display text-2xl font-bold">
+        More courses in {{ syllabus.courseName }} ({{ syllabus.moreCourses.length }})
+      </h2>
+
+      <div class="mt-4 flex flex-wrap gap-2" role="group" aria-label="Sort by">
+        @for (option of sorts; track option.id) {
+          <button
+            type="button"
+            class="filter-chip"
+            [attr.aria-pressed]="sort() === option.id"
+            (click)="sort.set(option.id)"
+          >
+            {{ option.label }}
+          </button>
+        }
+      </div>
+      <div class="mt-2 flex flex-wrap gap-2" role="group" aria-label="Filter by topic">
+        @for (topic of tags(); track topic) {
+          <button
+            type="button"
+            class="filter-chip"
+            [attr.aria-pressed]="tag() === topic"
+            (click)="toggleTag(topic)"
+          >
+            {{ topic }}
+          </button>
+        }
+      </div>
+
+      <label class="search-box mt-4">
+        <app-icon name="search" [size]="18" />
+        <input
+          type="search"
+          class="flex-1 bg-transparent outline-none placeholder:text-muted"
+          placeholder="Search courses..."
+          [value]="query()"
+          (input)="query.set($any($event.target).value)"
+        />
+      </label>
+
+      @if (visible().length) {
+        <div class="mt-4 grid gap-3 sm:grid-cols-2">
+          @for (course of visible(); track course.id) {
+            <app-mini-course-card [course]="course" (opened)="openMiniCourse(course)" />
+          }
+        </div>
+        @if (filtered().length > visible().length) {
+          <button
+            appButton
+            variant="secondary"
+            [block]="true"
+            class="mt-4 uppercase"
+            (click)="showMore()"
+          >
+            Show more ({{ visible().length }} of {{ filtered().length }})
+          </button>
+        }
+      } @else {
+        <p class="mt-6 text-center text-muted">No courses match that search.</p>
+      }
+    }
+  } @else {
+    <div class="h-14 w-60 animate-pulse rounded-card bg-surface"></div>
+    @for (row of [1, 2, 3]; track row) {
+      <div class="mt-4 h-36 animate-pulse rounded-card bg-surface"></div>
+    }
+  }
+
+  <app-level-card rail />
+  <app-leaderboard-widget rail />
+  <app-missions-widget rail />
+</app-page-shell>

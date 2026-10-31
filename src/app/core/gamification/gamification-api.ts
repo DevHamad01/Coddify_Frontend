@@ -113,7 +113,11 @@ export class MockGamificationApi extends GamificationApi {
         streak: state.streak,
         longestStreak: Math.max(state.longestStreak, state.streak),
         activeToday: state.activitiesToday > 0,
-        activeDays: state.activeDays,
+        // Progress saved before day history existed still knows its last active day.
+        activeDays:
+          state.lastActiveDay && !state.activeDays.includes(state.lastActiveDay)
+            ? [...state.activeDays, state.lastActiveDay]
+            : state.activeDays,
         clubTarget: STREAK_CLUB_TARGET,
       };
     });

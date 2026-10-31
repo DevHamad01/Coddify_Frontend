@@ -1,0 +1,12 @@
+:host {
+  @apply block;
+}
+
+.tile {
+  @apply flex w-full items-center gap-3 rounded-card border-2 border-border bg-surface px-3 py-2.5 transition-colors duration-hover hover:border-info/60 hover:bg-surface-2 disabled:cursor-wait;
+  box-shadow: 0 3px 0 0 rgb(var(--c-border));
+}
+
+.check {
+  @apply flex h-5 w-5 shrink-0 items-center justify-center rounded bg-success text-white;
+}

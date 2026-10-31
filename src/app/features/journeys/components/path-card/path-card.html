@@ -1,0 +1,13 @@
+<button type="button" class="card" (click)="opened.emit()">
+  <span class="logos" aria-hidden="true">
+    @for (course of path().courses.slice(0, 3); track course; let i = $index) {
+      <span class="logo" [style.z-index]="3 - i">
+        <app-tech-logo [tech]="course" [size]="22" label="" />
+      </span>
+    }
+  </span>
+  <span class="min-w-0">
+    <span class="block font-display font-bold">{{ path().title }}</span>
+    <span class="mt-0.5 line-clamp-2 block text-sm text-muted">{{ path().summary }}</span>
+  </span>
+</button>

@@ -1,0 +1,8 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface p-5 transition-colors duration-hover;
+
+  &.is-current {
+    @apply border-info;
+    box-shadow: 0 0 0 3px rgb(var(--c-info) / 0.12);
+  }
+}

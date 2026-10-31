@@ -117,6 +117,21 @@ export const routes: Routes = [
         loadComponent: () => import('./features/journey/journey').then((m) => m.Journey),
       },
       {
+        path: 'journey/syllabus',
+        title: 'Syllabus | Coddify',
+        loadComponent: () => import('./features/syllabus/syllabus').then((m) => m.Syllabus),
+      },
+      {
+        path: 'journeys',
+        title: 'Journeys | Coddify',
+        loadComponent: () => import('./features/journeys/journeys').then((m) => m.Journeys),
+      },
+      {
+        path: 'streak',
+        title: 'Streak | Coddify',
+        loadComponent: () => import('./features/streak/streak').then((m) => m.Streak),
+      },
+      {
         path: 'practice',
         title: 'Practice | Coddify',
         loadComponent: () => import('./features/practice/practice').then((m) => m.Practice),
