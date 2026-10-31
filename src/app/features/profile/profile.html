@@ -1,230 +1,185 @@
 <app-page-shell>
   @if (profile(); as profile) {
-    <section class="banner" [style.background]="profile.avatar.background">
-      <button
-        type="button"
-        class="title-chip"
-        [title]="'Title: ' + profile.title"
-        aria-label="Change your title"
-        (click)="dialog.set('title')"
-      >
-        @if (titleItem(); as title) {
-          <app-cosmetic-art [item]="title" [size]="38" />
-        } @else {
-          <app-mascot pose="happy" [size]="30" [animated]="false" label="" />
-        }
-      </button>
-
-      <button
-        type="button"
-        class="avatar-button"
-        aria-label="Edit your avatar"
-        (click)="dialog.set('avatar')"
-      >
-        <app-avatar-frame [frame]="store.frameStyle()" [size]="176">
-          <app-person-avatar
-            [look]="profile.avatar"
-            [size]="176"
-            [label]="profile.fullName + ' avatar'"
-          />
-        </app-avatar-frame>
-        <span class="avatar-hint"><app-icon name="pencil" [size]="13" /> Avatar</span>
-      </button>
-
-      <a routerLink="/app/profile/edit" class="edit" aria-label="Edit profile">
-        <app-icon name="pencil" [size]="18" />
-      </a>
-    </section>
-
-    <h1 class="mt-5 font-display text-2xl font-bold">
-      <app-styled-name [name]="profile.fullName" [effect]="store.nameEffect()" />
-    </h1>
-    <p class="mt-0.5 flex flex-wrap items-center gap-x-2 text-sm">
-      @if (profile.username) {
-        <span class="text-muted">&#64;{{ profile.username }}</span>
+  <section class="banner" [style.background]="profile.avatar.background">
+    <button type="button" class="title-chip" [title]="'Title: ' + profile.title" aria-label="Change your title"
+      (click)="dialog.set('title')">
+      @if (titleItem(); as title) {
+      <app-cosmetic-art [item]="title" [size]="38" />
       } @else {
-        <a routerLink="/app/profile/edit" class="text-muted underline decoration-dotted"
-          >Add username</a
-        >
+      <app-mascot pose="happy" [size]="30" [animated]="false" label="" />
       }
-      <span class="font-semibold text-primary">{{ profile.title }}</span>
-    </p>
-    @if (profile.bio) {
-      <p class="mt-3 max-w-xl text-[15px] leading-6">{{ profile.bio }}</p>
-    }
-    @if (socials().length) {
-      <ul class="mt-3 flex gap-2">
-        @for (social of socials(); track social[0]) {
-          <li>
-            <a
-              class="social"
-              [href]="social[1]"
-              target="_blank"
-              rel="noopener noreferrer"
-              [attr.aria-label]="social[0]"
-            >
-              <app-icon [name]="socialIcons[social[0]] ?? 'globe'" [size]="16" />
-            </a>
-          </li>
-        }
-      </ul>
-    }
+    </button>
 
-    <div class="mt-4 flex flex-wrap gap-2">
-      <span class="pill"
-        ><strong>{{ profile.following }}</strong> Following</span
-      >
-      <span class="pill"
-        ><strong>{{ profile.followers }}</strong> Followers</span
-      >
-      <button type="button" class="pill font-bold text-info" (click)="share()">
-        <app-icon name="share" [size]="15" /> Share
-      </button>
-    </div>
+    <button type="button" class="avatar-button" aria-label="Edit your avatar" (click)="dialog.set('avatar')">
+      <app-avatar-frame [frame]="store.frameStyle()" [size]="176">
+        <app-person-avatar [look]="profile.avatar" [size]="176" [label]="profile.fullName + ' avatar'" />
+      </app-avatar-frame>
+      <span class="avatar-hint"><app-icon name="pencil" [size]="13" /> Avatar</span>
+    </button>
 
-    <hr class="my-6 border-border" />
+    <a routerLink="/app/profile/edit" class="edit" aria-label="Edit profile">
+      <app-icon name="pencil" [size]="18" />
+    </a>
+  </section>
 
-    <div class="flex items-center justify-between">
-      <h2 class="font-display text-xl font-bold">Showcase</h2>
-      @if (profile.showcase.length) {
-        <button type="button" class="small-button" (click)="dialog.set('showcase')">Edit</button>
-      }
-    </div>
-    @if (profile.showcase.length) {
-      <ul class="mt-3 flex flex-wrap gap-3">
-        @for (item of profile.showcase; track item.id) {
-          <li class="showcase-tile">
-            <app-cosmetic-art [item]="item" [size]="48" />
-            <span class="mt-2 text-center text-xs font-bold leading-tight">{{ item.name }}</span>
-          </li>
-        }
-      </ul>
+  <h1 class="mt-5 font-display text-2xl font-bold">
+    <app-styled-name [name]="profile.fullName" [effect]="store.nameEffect()" />
+  </h1>
+  <p class="mt-0.5 flex flex-wrap items-center gap-x-2 text-sm">
+    @if (profile.username) {
+    <span class="text-muted">&#64;{{ profile.username }}</span>
     } @else {
-      <p class="mt-1 text-[15px] text-muted">
-        Pin up to 5 of your cosmetics so visitors can see them on your profile.
-      </p>
-      <button type="button" class="pick" (click)="dialog.set('showcase')">Pick items</button>
+    <a routerLink="/app/profile/edit" class="text-muted underline decoration-dotted">Add username</a>
     }
+    <span class="font-semibold text-primary">{{ profile.title }}</span>
+  </p>
+  @if (profile.bio) {
+  <p class="mt-3 max-w-xl text-[15px] leading-6">{{ profile.bio }}</p>
+  }
+  @if (socials().length) {
+  <ul class="mt-3 flex gap-2">
+    @for (social of socials(); track social[0]) {
+    <li>
+      <a class="social" [href]="social[1]" target="_blank" rel="noopener noreferrer" [attr.aria-label]="social[0]">
+        <app-icon [name]="socialIcons[social[0]] ?? 'globe'" [size]="16" />
+      </a>
+    </li>
+    }
+  </ul>
+  }
 
-    <div class="mt-6 grid grid-cols-3 gap-3">
-      <div class="tile">
-        <app-streak-flame [color]="store.flameColor()" [size]="30" [muted]="!profile.streak" />
-        <div>
-          <p class="font-display text-lg font-bold">{{ profile.streak }}</p>
-          <p class="text-sm text-muted">Streak</p>
-        </div>
-      </div>
-      <div class="tile">
-        <span class="font-brand text-xl text-info">XP</span>
-        <div>
-          <p class="font-display text-lg font-bold">{{ profile.totalXp }}</p>
-          <p class="text-sm text-muted">Total XP</p>
-        </div>
-      </div>
-      <div class="tile">
-        <app-icon name="shield" [size]="28" class="text-muted" />
-        <div class="min-w-0">
-          <p class="truncate font-display text-lg font-bold">{{ profile.league ?? '-' }}</p>
-          <p class="text-sm text-muted">Current league</p>
-        </div>
+  <div class="mt-4 flex flex-wrap gap-2">
+    <span class="pill"><strong>{{ profile.following }}</strong> Following</span>
+    <span class="pill"><strong>{{ profile.followers }}</strong> Followers</span>
+    <button type="button" class="pill font-bold text-info" (click)="share()">
+      <app-icon name="share" [size]="15" /> Share
+    </button>
+  </div>
+
+  <hr class="my-6 border-border" />
+
+  <div class="flex items-center justify-between">
+    <h2 class="font-display text-xl font-bold">Showcase</h2>
+    @if (profile.showcase.length) {
+    <button type="button" class="small-button" (click)="dialog.set('showcase')">Edit</button>
+    }
+  </div>
+  @if (profile.showcase.length) {
+  <ul class="mt-3 flex flex-wrap gap-3">
+    @for (item of profile.showcase; track item.id) {
+    <li class="showcase-tile">
+      <app-cosmetic-art [item]="item" [size]="48" />
+      <span class="mt-2 text-center text-xs font-bold leading-tight">{{ item.name }}</span>
+    </li>
+    }
+  </ul>
+  } @else {
+  <p class="mt-1 text-[15px] text-muted">
+    Pin up to 5 of your cosmetics so visitors can see them on your profile.
+  </p>
+  <button type="button" class="pick" (click)="dialog.set('showcase')">Pick items</button>
+  }
+
+  <div class="mt-6 grid grid-cols-3 gap-3">
+    <div class="tile">
+      <app-streak-flame [color]="store.flameColor()" [size]="30" [muted]="!profile.streak" />
+      <div>
+        <p class="font-display text-lg font-bold">{{ profile.streak }}</p>
+        <p class="text-sm text-muted">Streak</p>
       </div>
     </div>
-
-    <ul class="mt-4 flex flex-col gap-3">
-      <li>
-        <a routerLink="/app/profile/levels" class="row">
-          <span class="row-icon font-display font-bold">{{ profile.level }}</span>
-          <span class="flex-1">
-            <span class="block font-display text-lg font-bold">Levels</span>
-            <span class="text-sm text-muted"
-              >Level {{ profile.level }} · {{ profile.levelName }}</span
-            >
-          </span>
-          <app-icon name="chevron-right" />
-        </a>
-      </li>
-      <li>
-        <a routerLink="/app/profile/collection" class="row">
-          <span class="row-icon"><app-icon name="sparkles" /></span>
-          <span class="flex-1">
-            <span class="block font-display text-lg font-bold">Collection</span>
-            <span class="text-sm text-muted"
-              >{{ profile.collectionUnlocked }} of {{ profile.collectionTotal }} unlocked</span
-            >
-          </span>
-          <app-icon name="chevron-right" />
-        </a>
-      </li>
-      <li>
-        <a routerLink="/app/history" class="row">
-          <span class="row-icon"><app-nav-art name="history" [size]="24" /></span>
-          <span class="flex-1">
-            <span class="block font-display text-lg font-bold">History collection</span>
-            <span class="text-sm text-muted">Coming soon</span>
-          </span>
-          <app-icon name="chevron-right" />
-        </a>
-      </li>
-    </ul>
-
-    <section id="badges" class="badges">
-      <div class="flex items-center justify-between border-b border-border px-5 py-4">
-        <h2 class="font-display text-xl font-bold">Badges up next</h2>
-        <span class="count">{{ earnedBadges() }} / {{ profile.badges.length }} earned</span>
+    <div class="tile">
+      <span class="font-brand text-xl text-info">XP</span>
+      <div>
+        <p class="font-display text-lg font-bold">{{ profile.totalXp }}</p>
+        <p class="text-sm text-muted">Total XP</p>
       </div>
-      <ul>
-        @for (badge of upcomingBadges(); track badge.id) {
-          <li class="flex items-center gap-4 px-5 py-4">
-            <span class="badge-hex">?</span>
-            <div class="min-w-0 flex-1">
-              <p class="font-display font-bold">{{ badge.title }}</p>
-              <p class="text-sm text-muted">{{ badge.description }}</p>
-              <div class="mt-2 flex items-center gap-2">
-                <span class="h-1.5 w-48 max-w-full overflow-hidden rounded-full bg-surface-2">
-                  <span
-                    class="block h-full rounded-full bg-info"
-                    [style.width.%]="percent(badge.progress, badge.target)"
-                  ></span>
-                </span>
-                <span class="text-xs text-muted">{{ badge.progress }}/{{ badge.target }}</span>
-              </div>
-            </div>
-          </li>
-        } @empty {
-          <li class="px-5 py-6 text-center text-muted">Every badge earned. Legend!</li>
-        }
-      </ul>
-    </section>
+    </div>
+    <div class="tile">
+      <app-icon name="shield" [size]="28" class="text-muted" />
+      <div class="min-w-0">
+        <p class="truncate font-display text-lg font-bold">{{ profile.league ?? '-' }}</p>
+        <p class="text-sm text-muted">Current league</p>
+      </div>
+    </div>
+  </div>
 
-    @switch (dialog()) {
-      @case ('title') {
-        <app-title-picker
-          [titles]="titles()"
-          [busyId]="busy()"
-          (chosen)="chooseTitle($event)"
-          (closed)="dialog.set(null)"
-        />
+  <ul class="mt-4 flex flex-col gap-3">
+    <li>
+      <a routerLink="/app/profile/levels" class="row">
+        <span class="row-icon font-display font-bold">{{ profile.level }}</span>
+        <span class="flex-1">
+          <span class="block font-display text-lg font-bold">Levels</span>
+          <span class="text-sm text-muted">Level {{ profile.level }} · {{ profile.levelName }}</span>
+        </span>
+        <app-icon name="chevron-right" />
+      </a>
+    </li>
+    <li>
+      <a routerLink="/app/profile/collection" class="row">
+        <span class="row-icon"><app-icon name="sparkles" /></span>
+        <span class="flex-1">
+          <span class="block font-display text-lg font-bold">Collection</span>
+          <span class="text-sm text-muted">{{ profile.collectionUnlocked }} of {{ profile.collectionTotal }}
+            unlocked</span>
+        </span>
+        <app-icon name="chevron-right" />
+      </a>
+    </li>
+    <li>
+      <a routerLink="/app/history" class="row">
+        <span class="row-icon"><app-nav-art name="history" [size]="24" /></span>
+        <span class="flex-1">
+          <span class="block font-display text-lg font-bold">History collection</span>
+          <span class="text-sm text-muted">Coming soon</span>
+        </span>
+        <app-icon name="chevron-right" />
+      </a>
+    </li>
+  </ul>
+
+  <section id="badges" class="badges">
+    <div class="flex items-center justify-between border-b border-border px-5 py-4">
+      <h2 class="font-display text-xl font-bold">Badges up next</h2>
+      <span class="count">{{ earnedBadges() }} / {{ profile.badges.length }} earned</span>
+    </div>
+    <ul>
+      @for (badge of upcomingBadges(); track badge.id) {
+      <li class="flex items-center gap-4 px-5 py-4">
+        <span class="badge-hex">?</span>
+        <div class="min-w-0 flex-1">
+          <p class="font-display font-bold">{{ badge.title }}</p>
+          <p class="text-sm text-muted">{{ badge.description }}</p>
+          <div class="mt-2 flex items-center gap-2">
+            <span class="h-1.5 w-48 max-w-full overflow-hidden rounded-full bg-surface-2">
+              <span class="block h-full rounded-full bg-info"
+                [style.width.%]="percent(badge.progress, badge.target)"></span>
+            </span>
+            <span class="text-xs text-muted">{{ badge.progress }}/{{ badge.target }}</span>
+          </div>
+        </div>
+      </li>
+      } @empty {
+      <li class="px-5 py-6 text-center text-muted">Every badge earned. Legend!</li>
       }
-      @case ('showcase') {
-        <app-showcase-picker
-          [items]="unlocked()"
-          [initial]="showcaseIds()"
-          [saving]="busy() === 'showcase'"
-          (saved)="saveShowcase($event)"
-          (closed)="dialog.set(null)"
-        />
-      }
-      @case ('avatar') {
-        <app-avatar-builder
-          [initial]="profile.avatar"
-          [saving]="busy() === 'avatar'"
-          (saved)="saveAvatar($event)"
-          (closed)="dialog.set(null)"
-        />
-      }
-    }
+    </ul>
+  </section>
+
+  @switch (dialog()) {
+  @case ('title') {
+  <app-title-picker [titles]="titles()" [busyId]="busy()" (chosen)="chooseTitle($event)" (closed)="dialog.set(null)" />
+  }
+  @case ('showcase') {
+  <app-showcase-picker [items]="unlocked()" [initial]="showcaseIds()" [saving]="busy() === 'showcase'"
+    (saved)="saveShowcase($event)" (closed)="dialog.set(null)" />
+  }
+  @case ('avatar') {
+  <app-avatar-builder [initial]="profile.avatar" [saving]="busy() === 'avatar'" (saved)="saveAvatar($event)"
+    (closed)="dialog.set(null)" />
+  }
+  }
   } @else {
-    <div class="h-60 animate-pulse rounded-card bg-surface"></div>
+  <div class="h-60 animate-pulse rounded-card bg-surface"></div>
   }
 
   <app-level-card rail />
