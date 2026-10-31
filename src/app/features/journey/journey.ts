@@ -24,8 +24,8 @@ import { PathNode } from './components/path-node/path-node';
 import { SyllabusHeader } from './components/syllabus-header/syllabus-header';
 
 /** Horizontal offsets (px from the centre line) that make the path zig-zag. */
-const OFFSETS = [0, 62, 0, -62];
-const ROW_HEIGHT = 136;
+const OFFSETS = [0, 56, 0, -56];
+const ROW_HEIGHT = 112;
 const PATH_WIDTH = 320;
 /** A chapter counts as "in view" once its top passes this far below the viewport top. */
 const HEADER_LINE = 240;
