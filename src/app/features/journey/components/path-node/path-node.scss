@@ -1,24 +1,24 @@
-// Three stacked SVG layers: a dark side wall, the coloured top face with its rim, and the inset
-// "head" plate holding the icon. Drawn at the artwork's native 72x68 so edges stay crisp; pressing
-// sinks the face onto the wall like the app's chunky buttons.
+// Two tiers drawn in SVG at their native size so edges stay crisp. The bottom tier (wall + face)
+// is a static plinth; the smaller top tier is the button: hover eases its face
+// down onto its own wall and pressing sinks it fully.
 
 :host {
   @apply relative inline-flex flex-col items-center;
 }
 
 .node {
-  @apply relative block h-[68px] w-[72px] outline-none;
+  @apply relative block h-[80px] w-[72px] outline-none;
   --side: #1f1f1f;
   --face: #3a3a3a;
   --rim: #2e2e2e;
-  --head: #303030;
+  --cap: #404040;
   --ink: #7c7c7c;
 
   &[data-state='completed'] {
     --side: #094c1a;
     --face: hsl(149, 40%, 40%);
     --rim: hsl(149, 40%, 30%);
-    --head: hsl(149, 42%, 33%);
+    --cap: hsl(149, 40%, 43%);
     --ink: #ffffff;
   }
 
@@ -26,19 +26,19 @@
     --side: #075e55;
     --face: rgb(var(--c-primary));
     --rim: rgb(var(--c-primary-press));
-    --head: #0f9d8e;
+    --cap: #2cc9b7;
     --ink: #ffffff;
     filter: drop-shadow(0 0 14px rgb(var(--c-primary) / 0.45));
   }
 
-  &:hover .face,
+  &:hover .cap,
   &:hover .glyph {
-    transform: translateY(-1.5px);
+    transform: translateY(3px);
   }
 
-  &:active .face,
+  &:active .cap,
   &:active .glyph {
-    transform: translateY(8px);
+    transform: translateY(10px);
   }
 
   &:focus-visible {
@@ -53,39 +53,44 @@
   shape-rendering: geometricPrecision;
 }
 
-.side {
+.base-side,
+.cap-side {
   fill: var(--side);
 }
 
-.top {
-  fill: var(--face);
+.base-top,
+.cap-top {
   stroke: var(--rim);
   stroke-width: 2;
 }
 
-.head {
-  fill: var(--head);
+.base-top {
+  fill: var(--face);
+}
+
+.cap-top {
+  fill: var(--cap);
 }
 
 .shine {
   fill: none;
-  stroke: rgb(255 255 255 / 0.22);
+  stroke: rgb(255 255 255 / 0.25);
   stroke-width: 2;
   stroke-linecap: round;
 
   [data-state='locked'] & {
-    stroke: rgb(255 255 255 / 0.06);
+    stroke: rgb(255 255 255 / 0.07);
   }
 }
 
-.face,
+.cap,
 .glyph {
   transition: transform 110ms ease;
 }
 
-// Centred on the head plate (y 8..50 → centre 29).
+// Centred on the top tier's face (viewBox y -8..34, i.e. 4..46px in the 80px box).
 .glyph {
-  @apply absolute left-0 top-[8px] flex h-[42px] w-[72px] items-center justify-center;
+  @apply absolute left-0 top-[4px] flex h-[42px] w-[72px] items-center justify-center;
   color: var(--ink);
 
   [data-state='completed'] & {

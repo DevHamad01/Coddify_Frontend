@@ -10,14 +10,15 @@
   [attr.aria-expanded]="selected()"
   (click)="pressed.emit()"
 >
-  <svg class="shape" viewBox="0 0 72 68" width="72" height="68" aria-hidden="true">
-    <!-- Side wall: the darker base the face sits on. -->
-    <path class="side" [attr.d]="sidePath" />
-    <g class="face">
-      <path class="top" [attr.d]="topPath" />
-      <!-- Head: the inset plate that holds the icon. -->
-      <path class="head" [attr.d]="headPath" transform="translate(7 8)" />
-      <path class="shine" d="M24 12.5 Q36 8 48 12.5" />
+  <svg class="shape" viewBox="0 -12 72 80" width="72" height="80" aria-hidden="true">
+    <!-- Bottom tier: a static plinth. -->
+    <path class="base-side" [attr.d]="sidePath" />
+    <path class="base-top" [attr.d]="topPath" />
+    <!-- Top tier: same shape, smaller; its face is the button that sinks onto its own wall. -->
+    <path class="cap-side" [attr.d]="headPath" transform="translate(7 4)" />
+    <g class="cap">
+      <path class="cap-top" [attr.d]="headPath" transform="translate(7 -8)" />
+      <path class="shine" d="M24 -2.5 Q36 -7 48 -2.5" />
     </g>
   </svg>
   <span class="glyph">
