@@ -1,4 +1,5 @@
 /** DTOs shared by the HTTP and mock gamification APIs. Field names match the backend's camelCase JSON. */
+import { AvatarLook } from '../../shared/data/avatar-parts';
 import { TechId } from '../../shared/data/tech';
 
 export interface UserStats {
@@ -133,6 +134,7 @@ export interface ProfileSummary {
   readonly username: string | null;
   readonly bio: string;
   readonly socials: SocialLinks;
+  readonly avatar: AvatarLook;
   readonly title: string;
   readonly equipped: EquippedItems;
   /** Up to five pinned cosmetics, in the order picked. */

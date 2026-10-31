@@ -1,0 +1,54 @@
+.ring-track,
+.ring-fill {
+  fill: none;
+  stroke-width: 8;
+}
+
+.ring-track {
+  stroke: rgb(var(--c-surface-2));
+}
+
+.ring-fill {
+  stroke: rgb(var(--c-info));
+  stroke-linecap: round;
+  transform: rotate(-90deg);
+  transform-origin: 60px 60px;
+  transition: stroke-dashoffset 600ms ease;
+}
+
+.ring-text {
+  @apply font-display;
+  fill: rgb(var(--c-text));
+  font-size: 36px;
+  font-weight: 700;
+}
+
+.tier {
+  @apply flex w-full items-center gap-3 px-5 py-4 text-left transition-colors hover:bg-surface-2;
+}
+
+.level {
+  @apply relative flex items-center gap-4 py-3;
+
+  // Line linking the dots of a tier.
+  &:not(:last-child)::after {
+    content: '';
+    @apply absolute bottom-0 left-[13px] top-[42px] w-0.5 bg-border;
+  }
+
+  &.is-next .dot {
+    @apply border-info text-info;
+  }
+}
+
+.dot {
+  @apply relative z-10 flex h-7 w-7 shrink-0 items-center justify-center rounded-full border-2 border-border bg-surface text-xs font-bold text-muted;
+
+  .is-reached & {
+    @apply border-success bg-success text-white;
+  }
+}
+
+.reward {
+  @apply inline-flex items-center gap-1 rounded-full bg-surface-2 px-2 py-0.5 text-[11px] font-semibold text-muted;
+}

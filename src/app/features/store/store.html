@@ -46,7 +46,7 @@
     <ul [class]="tab() === 'profile' ? 'mt-2' : 'mt-4 grid gap-3 sm:grid-cols-2'">
       @for (item of visibleItems(); track item.id) {
         <li [class]="tab() === 'profile' ? 'row' : 'tile'" [attr.data-rarity]="item.rarity">
-          <app-store-item-art [item]="item" [size]="tab() === 'profile' ? 52 : 72" />
+          <app-cosmetic-art [item]="item" [size]="tab() === 'profile' ? 52 : 72" />
           <div class="min-w-0 flex-1">
             <p class="flex flex-wrap items-center gap-2">
               <span class="font-display text-lg font-bold">{{ item.name }}</span>

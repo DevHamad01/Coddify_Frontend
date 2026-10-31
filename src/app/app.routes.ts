@@ -163,7 +163,24 @@ export const routes: Routes = [
         loadComponent: () => import('./features/profile/profile').then((m) => m.Profile),
       },
       {
-        // Edit profile, notifications, preferences... linked from the profile menu.
+        path: 'profile/edit',
+        title: 'Edit profile | Coddify',
+        loadComponent: () =>
+          import('./features/profile/edit-profile/edit-profile').then((m) => m.EditProfile),
+      },
+      {
+        path: 'profile/collection',
+        title: 'Collection | Coddify',
+        loadComponent: () =>
+          import('./features/profile/collection/collection').then((m) => m.Collection),
+      },
+      {
+        path: 'profile/levels',
+        title: 'Levels | Coddify',
+        loadComponent: () => import('./features/profile/levels/levels').then((m) => m.Levels),
+      },
+      {
+        // Notifications, preferences... linked from the profile menu.
         path: 'profile/:slug',
         title: 'Profile | Coddify',
         loadComponent: comingSoon,

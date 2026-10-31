@@ -39,6 +39,7 @@ export const API_ENDPOINTS = {
     showcase: '/api/me/profile/showcase',
     collection: '/api/me/collection',
     levels: '/api/me/levels',
+    avatar: '/api/me/profile/avatar',
   },
   tutor: {
     chat: '/api/tutor/chat',

@@ -1,0 +1,82 @@
+<app-page-shell>
+  <h1 class="font-display text-3xl font-bold">Edit profile</h1>
+  <p class="mt-1 text-[15px] text-muted">How you appear to everyone else on Coddify.</p>
+
+  @if (loaded()) {
+    <form [formGroup]="form" (ngSubmit)="save()" novalidate>
+      <h2 class="section-title">Account</h2>
+      <div class="card">
+        <label class="field">
+          <span class="label">Email</span>
+          <input class="input" type="email" [value]="email()" disabled />
+        </label>
+
+        <label class="field">
+          <span class="label">Display name</span>
+          <input class="input" formControlName="fullName" autocomplete="name" />
+          @if (form.controls.fullName.touched && form.controls.fullName.invalid) {
+            <span class="error">Your name is required (up to 60 characters).</span>
+          }
+        </label>
+
+        <label class="field">
+          <span class="label">Username</span>
+          <span class="input-wrap">
+            <span class="text-muted">&#64;</span>
+            <input class="flex-1 bg-transparent outline-none" formControlName="username" placeholder="Username" autocomplete="username" />
+          </span>
+          @if (form.controls.username.touched && form.controls.username.invalid) {
+            <span class="error">3 to 20 letters and numbers, with no spaces.</span>
+          } @else {
+            <span class="hint">Unique identifier (3 to 20 characters, letters and numbers only).</span>
+          }
+        </label>
+
+        <label class="field">
+          <span class="flex items-center justify-between">
+            <span class="label">Short description about yourself</span>
+            <span class="text-xs text-muted">{{ form.controls.bio.value.length }}/{{ bioLimit }}</span>
+          </span>
+          <textarea class="input min-h-28 py-2" formControlName="bio" [maxLength]="bioLimit"></textarea>
+        </label>
+      </div>
+
+      <h2 class="section-title">Social network links</h2>
+      <p class="-mt-1 mb-3 text-sm text-muted">
+        These show as icons on your public profile. Leave any of them empty.
+      </p>
+      <div class="card">
+        @for (network of networks; track network.id) {
+          <label class="field">
+            <span class="label">{{ network.label }}</span>
+            <span class="input-wrap">
+              <app-icon [name]="network.icon" [size]="16" class="text-muted" />
+              <input
+                class="flex-1 bg-transparent outline-none"
+                type="url"
+                placeholder="https://"
+                [formControlName]="network.id"
+              />
+            </span>
+          </label>
+        }
+      </div>
+
+      <h2 class="section-title">Profile privacy</h2>
+      <a routerLink="/app/profile/preferences" class="card flex items-center gap-3 text-info hover:underline">
+        <app-icon name="lock" [size]="18" class="text-muted" />
+        Learn about privacy and manage your privacy settings
+      </a>
+
+      <div class="mt-6 flex justify-end gap-3">
+        <a appButton variant="secondary" routerLink="/app/profile" class="uppercase">Cancel</a>
+        <button appButton type="submit" class="uppercase" [loading]="saving()">Save changes</button>
+      </div>
+    </form>
+  } @else {
+    <div class="mt-6 h-96 animate-pulse rounded-card bg-surface"></div>
+  }
+
+  <app-level-card rail />
+  <app-profile-menu rail />
+</app-page-shell>

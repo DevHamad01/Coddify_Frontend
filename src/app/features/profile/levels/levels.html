@@ -1,0 +1,86 @@
+<app-page-shell>
+  @if (summary(); as summary) {
+    <header class="flex flex-col items-center text-center">
+      <svg viewBox="0 0 120 120" class="h-32 w-32" aria-hidden="true">
+        <circle cx="60" cy="60" r="52" class="ring-track" />
+        <circle
+          cx="60"
+          cy="60"
+          r="52"
+          class="ring-fill"
+          [attr.stroke-dasharray]="ring"
+          [attr.stroke-dashoffset]="ringOffset()"
+        />
+        <text x="60" y="72" text-anchor="middle" class="ring-text">{{ summary.level }}</text>
+      </svg>
+      <h1 class="mt-2 font-display text-2xl font-bold">{{ summary.tierName }}</h1>
+      <p class="text-[15px] text-muted">
+        {{ summary.xpForLevel - summary.xpIntoLevel }} XP to {{ summary.nextLevelName }}
+      </p>
+    </header>
+
+    <div class="mt-8 flex items-center justify-between">
+      <h2 class="font-display text-xl font-bold">Levels</h2>
+      <span class="text-sm text-muted">{{ reachedCount() }} of {{ totalLevels() }} levels</span>
+    </div>
+
+    <div class="mt-3 overflow-hidden rounded-card border-2 border-border bg-surface">
+      @for (tier of summary.tiers; track tier.name) {
+        <section class="border-b border-border last:border-b-0">
+          <button
+            type="button"
+            class="tier"
+            [attr.aria-expanded]="isOpen(tier.name)"
+            (click)="toggle(tier.name)"
+          >
+            <span class="font-display font-bold">{{ tier.name }}</span>
+            <span class="text-sm text-muted">Levels {{ tier.from }} to {{ tier.to }}</span>
+            <span class="ml-auto text-sm text-muted"
+              >{{ reachedIn(tier.levels) }}/{{ tier.levels.length }}</span
+            >
+            <app-icon [name]="isOpen(tier.name) ? 'chevron-up' : 'chevron-down'" [size]="16" />
+          </button>
+
+          @if (isOpen(tier.name)) {
+            <ol class="px-5 pb-3">
+              @for (level of tier.levels; track level.level) {
+                <li
+                  class="level"
+                  [class.is-reached]="level.reached"
+                  [class.is-next]="level.level === summary.level + 1"
+                >
+                  <span class="dot">
+                    @if (level.reached) {
+                      <app-icon name="check" [size]="13" [strokeWidth]="3.5" />
+                    } @else {
+                      {{ level.level }}
+                    }
+                  </span>
+                  <span class="min-w-0 flex-1">
+                    <span class="block font-semibold">{{ level.name }}</span>
+                    @if (level.rewards.length) {
+                      <span class="mt-0.5 flex flex-wrap gap-1">
+                        @for (reward of level.rewards; track reward) {
+                          <span class="reward"
+                            ><app-icon name="gift" [size]="11" /> {{ reward }}</span
+                          >
+                        }
+                      </span>
+                    }
+                  </span>
+                  <span class="text-sm text-muted">{{ level.totalXp.toLocaleString() }} XP</span>
+                </li>
+              }
+            </ol>
+          }
+        </section>
+      }
+    </div>
+  } @else {
+    <div class="mx-auto h-32 w-32 animate-pulse rounded-full bg-surface"></div>
+    <div class="mt-8 h-80 animate-pulse rounded-card bg-surface"></div>
+  }
+
+  <app-level-card rail />
+  <app-profile-menu rail />
+</app-page-shell>

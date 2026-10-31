@@ -1,0 +1,36 @@
+.section-title {
+  @apply mb-2 mt-7 font-display text-sm font-bold uppercase tracking-wide text-muted;
+}
+
+.card {
+  @apply flex flex-col gap-4 rounded-card border-2 border-border bg-surface p-5;
+}
+
+.field {
+  @apply flex flex-col gap-1.5;
+}
+
+.label {
+  @apply text-sm font-bold;
+}
+
+.input,
+.input-wrap {
+  @apply h-11 w-full rounded-btn border-2 border-border bg-bg px-3 text-[15px] text-text outline-none transition-colors focus-within:border-info disabled:text-muted;
+}
+
+.input-wrap {
+  @apply flex items-center gap-2;
+}
+
+textarea.input {
+  @apply h-auto resize-y;
+}
+
+.hint {
+  @apply text-xs text-muted;
+}
+
+.error {
+  @apply text-xs font-semibold text-danger;
+}

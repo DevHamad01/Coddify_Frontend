@@ -3,6 +3,7 @@ import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 import { Submission } from '../../learning/learning.models';
 import { ProblemSubmission } from '../../practice/practice.models';
+import { AvatarLook } from '../../../shared/data/avatar-parts';
 import { TechId } from '../../../shared/data/tech';
 import { isoDate } from '../../gamification/streak-calendar';
 
@@ -41,6 +42,7 @@ export interface MockProgressState {
   bio: string;
   socials: Record<string, string>;
   showcase: string[];
+  avatar: AvatarLook | null;
 }
 
 const STORAGE_KEY = 'coddify.mock-progress';
@@ -71,6 +73,7 @@ const FRESH: MockProgressState = {
   bio: '',
   socials: {},
   showcase: [],
+  avatar: null,
 };
 
 /** Local yyyy-mm-dd, so "today" flips at the learner's midnight, not UTC's. */

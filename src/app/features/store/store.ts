@@ -17,10 +17,10 @@ import { LeaderboardWidget } from '../../layouts/app-layout/rail/leaderboard-wid
 import { LevelCard } from '../../layouts/app-layout/rail/level-card/level-card';
 import { MissionsWidget } from '../../layouts/app-layout/rail/missions-widget/missions-widget';
 import { PageShell } from '../../layouts/app-layout/page-shell/page-shell';
+import { CosmeticArt } from '../../shared/ui/cosmetic-art/cosmetic-art';
 import { Icon } from '../../shared/ui/icon/icon';
 import { IconName } from '../../shared/ui/icon/icons';
 import { ToastService } from '../../shared/ui/toast/toast.service';
-import { StoreItemArt } from './components/store-item-art/store-item-art';
 
 const TABS: readonly { id: StoreTab; label: string; icon: IconName; intro: string }[] = [
   {
@@ -61,7 +61,7 @@ const PROFILE_KINDS: readonly { id: ProfileItemKind; label: string; intro: strin
 @Component({
   selector: 'app-store',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, PageShell, LevelCard, LeaderboardWidget, MissionsWidget, StoreItemArt],
+  imports: [CosmeticArt, Icon, PageShell, LevelCard, LeaderboardWidget, MissionsWidget],
   templateUrl: './store.html',
   styleUrl: './store.scss',
 })

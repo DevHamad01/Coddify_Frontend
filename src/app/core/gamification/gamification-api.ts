@@ -8,6 +8,7 @@ import { MockDb } from '../api/mock/mock-db';
 import { MockProgress } from '../api/mock/mock-progress';
 import { AuthService } from '../auth/auth.service';
 import { APP_ENV } from '../config/environment';
+import { AvatarLook, DEFAULT_AVATAR } from '../../shared/data/avatar-parts';
 import { COSMETICS, DEFAULT_EQUIPPED } from './mock/cosmetics.mock';
 import {
   Leaderboard,
@@ -51,6 +52,7 @@ export abstract class GamificationApi {
   /** Every cosmetic with its unlock state (the profile collection). */
   abstract getCollection(): Observable<readonly StoreItem[]>;
   abstract getLevels(): Observable<LevelsSummary>;
+  abstract setAvatar(look: AvatarLook): Observable<ProfileSummary>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -105,6 +107,10 @@ export class HttpGamificationApi extends GamificationApi {
 
   getLevels(): Observable<LevelsSummary> {
     return this.http.get<LevelsSummary>(this.baseUrl + this.urls.levels);
+  }
+
+  setAvatar(look: AvatarLook): Observable<ProfileSummary> {
+    return this.http.put<ProfileSummary>(this.baseUrl + this.urls.avatar, look);
   }
 }
 
@@ -304,6 +310,13 @@ export class MockGamificationApi extends GamificationApi {
     });
   }
 
+  setAvatar(look: AvatarLook): Observable<ProfileSummary> {
+    return this.db.respond(() => {
+      this.progress.update({ avatar: look });
+      return this.profile();
+    });
+  }
+
   private profile(): ProfileSummary {
     const user = this.auth.user();
     const state = this.progress.get();
@@ -317,6 +330,7 @@ export class MockGamificationApi extends GamificationApi {
       username: state.username,
       bio: state.bio,
       socials: state.socials,
+      avatar: state.avatar ?? DEFAULT_AVATAR,
       title: COSMETICS.find((item) => item.id === equipped.title)?.name ?? '',
       equipped,
       showcase: state.showcase

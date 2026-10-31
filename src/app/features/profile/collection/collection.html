@@ -1,0 +1,74 @@
+<app-page-shell>
+  <h1 class="font-display text-3xl font-bold">Collection</h1>
+  <p class="mt-1 text-[15px] text-muted">
+    Tap any item to see how to unlock it. Common, rare and legendary collectibles await.
+  </p>
+
+  <div class="mt-4 flex flex-wrap gap-2" role="tablist" aria-label="Collectible types">
+    @for (item of kinds; track item.id) {
+      <button
+        type="button"
+        role="tab"
+        class="kind"
+        [attr.aria-selected]="kind() === item.id"
+        (click)="selectKind(item.id)"
+      >
+        {{ item.label }} <span class="text-xs opacity-70">{{ count(item.id) }}</span>
+      </button>
+    }
+  </div>
+
+  @if (selected(); as item) {
+    <div class="detail" role="status">
+      <app-cosmetic-art [item]="item" [size]="56" />
+      <div class="min-w-0 flex-1">
+        <p class="font-display text-lg font-bold">{{ item.name }}</p>
+        <p class="text-sm text-muted">{{ item.description }}</p>
+        @if (item.state === 'locked' && item.unlock) {
+          <p class="mt-1 text-sm font-bold text-streak">
+            {{ goal(item.unlock) }} · {{ progressLabel(item.unlock, item.progress) }}
+          </p>
+        } @else {
+          <p class="mt-1 text-sm font-bold text-success">
+            {{ item.state === 'equipped' ? 'Equipped' : 'Unlocked' }}
+          </p>
+        }
+      </div>
+      <a
+        routerLink="/app/store"
+        [queryParams]="{ tab: item.tab }"
+        class="text-sm font-bold text-info hover:underline"
+        >Open store</a
+      >
+    </div>
+  }
+
+  @if (items()) {
+    <ul class="mt-4 grid grid-cols-3 gap-3 sm:grid-cols-5">
+      @for (item of visible(); track item.id) {
+        <li>
+          <button
+            type="button"
+            class="cell"
+            [attr.data-state]="item.state"
+            [attr.aria-label]="item.name + (item.state === 'locked' ? ', locked' : '')"
+            [class.is-selected]="selected()?.id === item.id"
+            (click)="selected.set(item)"
+          >
+            <app-cosmetic-art [item]="item" [size]="44" />
+            @if (item.state === 'locked') {
+              <app-icon name="lock" [size]="12" class="corner text-muted" />
+            } @else if (item.state === 'equipped') {
+              <span class="corner check"><app-icon name="check" [size]="11" [strokeWidth]="3.5" /></span>
+            }
+          </button>
+        </li>
+      }
+    </ul>
+  } @else {
+    <div class="mt-4 h-72 animate-pulse rounded-card bg-surface"></div>
+  }
+
+  <app-level-card rail />
+  <app-profile-menu rail />
+</app-page-shell>
