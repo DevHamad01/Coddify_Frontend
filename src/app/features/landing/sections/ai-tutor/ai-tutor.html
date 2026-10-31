@@ -1,7 +1,7 @@
 <app-feature-split
   eyebrow="AI tutor"
   heading="A tutor that hints but never gives the answer"
-  lead="Owlbit reads your code and your last error, then asks the right question to get you unstuck. You still do the thinking, which is how it actually sticks."
+  lead="Bit reads your code and your last error, then asks the right question to get you unstuck. You still do the thinking, which is how it actually sticks."
 >
   <ul copy class="flex flex-col gap-3 text-[15px] text-muted">
     @for (point of points; track point) {
@@ -16,7 +16,7 @@
       <span class="flex items-center gap-2.5">
         <app-mascot pose="thinking" [size]="34" label="" />
         <span>
-          <span class="block text-sm font-bold">Owlbit</span>
+          <span class="block text-sm font-bold">Bit</span>
           <span class="block text-xs" style="color: var(--mock-muted)">Your AI tutor</span>
         </span>
       </span>
@@ -35,7 +35,7 @@
               : 'self-start rounded-bl-md border border-ai/30 bg-ai/15'
           "
         >
-          <span class="sr-only">{{ message.from === 'student' ? 'Student:' : 'Owlbit:' }}</span>
+          <span class="sr-only">{{ message.from === 'student' ? 'Student:' : 'Bit:' }}</span>
           {{ message.text }}
         </li>
       }

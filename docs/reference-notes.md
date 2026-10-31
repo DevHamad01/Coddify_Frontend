@@ -2,7 +2,7 @@
 
 Observed on 2026-10-11 at 1280px and 360px. These notes describe **structure, proportions and
 interaction patterns only**, written in our own words. No text, images, icons, fonts, CSS or markup
-from the reference are reused. Coddify uses its own palette (teal), mascot (circuit-owl), icons and copy.
+from the reference are reused. Coddify uses its own palette (teal), mascot (robot), icons and copy.
 
 ## Global
 
@@ -90,7 +90,7 @@ smaller; zig-zag sections stack (copy first, mock second).
 
 ## What Coddify will deliberately do differently
 
-- Own palette (dark-first, teal primary), own circuit-owl mascot, own inline-SVG icons, own copy.
+- Own palette (dark-first, teal primary), own robot mascot (Bit), own inline-SVG icons, own copy.
 - Hero uses an **editor mock with test-case pills** instead of a globe illustration.
 - No app-store section (we are web-first); replaced by the **AI tutor** section from our spec.
 - Auth uses email + password forms (spec) inside the reference's card/tab structure.

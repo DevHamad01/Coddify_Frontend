@@ -6,7 +6,7 @@ import { Icon } from '../../../../shared/ui/icon/icon';
 import { IconName } from '../../../../shared/ui/icon/icons';
 import { Mascot } from '../../../../shared/ui/mascot/mascot';
 
-/** Reward items floating around the celebrating owl. Positions are % of the band. */
+/** Reward items floating around the celebrating robot. Positions are % of the band. */
 const REWARDS: readonly { icon: IconName; color: string; pos: string; delay: string }[] = [
   { icon: 'flame', color: 'text-streak', pos: 'left-[10%] top-[30%]', delay: '0s' },
   { icon: 'bolt', color: 'text-xp', pos: 'left-[24%] top-[60%]', delay: '0.6s' },

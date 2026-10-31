@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 import { RouterLink } from '@angular/router';
 
-/** Owl-face mark + "Coddify" wordmark. Links home unless `link` is false. */
+/** Robot-head mark + "Coddify" wordmark. Links home unless `link` is false. */
 @Component({
   selector: 'app-logo',
   changeDetection: ChangeDetectionStrategy.OnPush,

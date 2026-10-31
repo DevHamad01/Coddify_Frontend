@@ -25,7 +25,7 @@ const GOAL_STEP: OnboardingStep<'goal'> = {
   key: 'goal',
   question: 'What brings you to Coddify?',
   mascotPose: 'happy',
-  mascotLine: "Hoot! I'm Owlbit. Let's set things up for you.",
+  mascotLine: "Beep boop! I'm Bit. Let's set things up for you.",
   options: [
     {
       value: 'job',
