@@ -51,11 +51,31 @@ export const FRIENDS: readonly { userId: string; name: string; xp: number }[] = 
   { userId: 'f2', name: 'Bilal', xp: 45 },
 ];
 
-export const WEEKLY_QUOTE = {
-  text: 'Coding is the language of builders. Keep writing your story.',
-  author: "Bit, Coddify's AI tutor",
-  likes: 932,
-};
+/**
+ * Stand-in for the AI tutor's daily quote: once the AI is wired in, the backend generates a fresh
+ * one each day. Until then the mock rotates through this list by date.
+ */
+const QUOTES: readonly string[] = [
+  'Coding is the language of builders. Keep writing your story.',
+  'Every expert was once a beginner who refused to quit.',
+  'Bugs are just lessons wearing a disguise.',
+  'Small daily wins compound into big skills.',
+  'Read the error message. It is trying to help you.',
+  'The best way to learn to code is to write code that breaks, then fix it.',
+  'You do not need to be fast. You need to keep going.',
+  'Today’s confusing concept is next month’s obvious one.',
+  'A program that works beats a perfect one you never finish.',
+  'Learning to code is learning to think differently.',
+];
+
+export function quoteOfTheDay(date = new Date()): { text: string; author: string; likes: number } {
+  const day = Math.floor(date.getTime() / 86_400_000);
+  return {
+    text: QUOTES[day % QUOTES.length],
+    author: "Bit, Coddify's AI tutor",
+    likes: 600 + ((day * 37) % 400),
+  };
+}
 
 export const STORE_ITEMS: readonly StoreItem[] = [
   // Profile → titles

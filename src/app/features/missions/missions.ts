@@ -42,13 +42,10 @@ export class Missions {
     this.store.refresh();
   }
 
-  /** ISO week number shown under the quote ("Week 44, 2026"). */
-  protected readonly weekLabel = (() => {
-    const now = new Date();
-    const firstThursday = new Date(now.getFullYear(), 0, 4);
-    const week = Math.ceil(
-      ((now.getTime() - firstThursday.getTime()) / 86_400_000 + firstThursday.getDay() + 1) / 7,
-    );
-    return `Week ${week}, ${now.getFullYear()}`;
-  })();
+  /** Date under the quote; a new one is generated every day. */
+  protected readonly dayLabel = new Date().toLocaleDateString('en', {
+    weekday: 'long',
+    month: 'short',
+    day: 'numeric',
+  });
 }

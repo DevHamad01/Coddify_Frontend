@@ -11,17 +11,17 @@
   @if (store.missions(); as missions) {
     <div class="mt-5 flex items-center justify-between text-[15px]">
       <span class="text-muted">{{ missions.marks }} Mission Marks</span>
-      <span class="font-semibold text-primary">+2 tokens for all 3</span>
+      <span class="font-semibold text-primary">+2 gems for all 3</span>
     </div>
 
     <div class="marks-box">
       <div class="min-w-0 flex-1">
         <p class="font-bold">Mission Marks</p>
         <p class="text-sm text-muted">
-          Earn 1 per mission. Spend them on Style items in the store.
+          Earn 1 per mission. Marks unlock profile frames and other style items in the store.
         </p>
         <a routerLink="/app/store" class="text-sm font-semibold text-primary hover:underline"
-          >Browse Style shop</a
+          >See what they unlock</a
         >
       </div>
       <span class="flex items-center gap-1 font-display text-lg font-bold text-primary">
@@ -36,17 +36,17 @@
         type="button"
         class="flex w-full items-center justify-between text-left"
         [attr.aria-expanded]="quoteOpen()"
-        aria-controls="weekly-quote"
+        aria-controls="daily-quote"
         (click)="quoteOpen.set(!quoteOpen())"
       >
         <span>
-          <span class="block font-display text-xl font-semibold">Motivational Quote</span>
-          <span class="block text-xs text-muted">{{ weekLabel }}</span>
+          <span class="block font-display text-xl font-semibold">Quote of the day</span>
+          <span class="block text-xs text-muted">{{ dayLabel }}</span>
         </span>
         <app-icon [name]="quoteOpen() ? 'chevron-up' : 'chevron-down'" />
       </button>
       @if (quoteOpen()) {
-        <div id="weekly-quote" class="mt-4 animate-fade-up">
+        <div id="daily-quote" class="mt-4 animate-fade-up">
           <p class="text-[17px] italic leading-7">"{{ missions.quote.text }}"</p>
           <div class="mt-4 flex items-center justify-between">
             <span class="flex items-center gap-2 text-sm font-semibold text-ai">

@@ -23,7 +23,7 @@ import {
   FRIENDS,
   LEAGUE_RIVALS,
   STORE_ITEMS,
-  WEEKLY_QUOTE,
+  quoteOfTheDay,
   levelFor,
 } from './mock/gamification.mock';
 
@@ -152,7 +152,7 @@ export class MockGamificationApi extends GamificationApi {
         missions,
         marks: missions.filter((mission) => mission.progress >= mission.target).length,
         resetsAt: midnight.toISOString(),
-        quote: WEEKLY_QUOTE,
+        quote: quoteOfTheDay(),
       };
     });
   }
