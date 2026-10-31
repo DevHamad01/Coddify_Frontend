@@ -107,11 +107,36 @@ export interface Badge {
   readonly maxTier: number;
 }
 
-export interface ProfileSummary {
-  readonly userId: string;
+export type SocialNetwork =
+  | 'linkedin'
+  | 'github'
+  | 'twitter'
+  | 'facebook'
+  | 'instagram'
+  | 'youtube'
+  | 'website';
+
+export type SocialLinks = Readonly<Partial<Record<SocialNetwork, string>>>;
+
+/** Fields the learner edits on the Edit profile screen. */
+export interface ProfileUpdate {
   readonly fullName: string;
   readonly username: string | null;
+  readonly bio: string;
+  readonly socials: SocialLinks;
+}
+
+export interface ProfileSummary {
+  readonly userId: string;
+  readonly email: string;
+  readonly fullName: string;
+  readonly username: string | null;
+  readonly bio: string;
+  readonly socials: SocialLinks;
   readonly title: string;
+  readonly equipped: EquippedItems;
+  /** Up to five pinned cosmetics, in the order picked. */
+  readonly showcase: readonly StoreItem[];
   readonly following: number;
   readonly followers: number;
   readonly streak: number;
@@ -124,4 +149,32 @@ export interface ProfileSummary {
   readonly historyUnlockXp: number;
   readonly badges: readonly Badge[];
   readonly joinedAt: string;
+}
+
+export interface LevelStep {
+  readonly level: number;
+  readonly name: string;
+  /** Total XP needed to reach this level. */
+  readonly totalXp: number;
+  /** Store items this level unlocks. */
+  readonly rewards: readonly string[];
+  readonly reached: boolean;
+}
+
+/** Levels are grouped into tiers named after data sizes (Kilo, Mega, Giga…). */
+export interface LevelTier {
+  readonly name: string;
+  readonly from: number;
+  readonly to: number;
+  readonly levels: readonly LevelStep[];
+}
+
+export interface LevelsSummary {
+  readonly level: number;
+  readonly tierName: string;
+  readonly totalXp: number;
+  readonly xpIntoLevel: number;
+  readonly xpForLevel: number;
+  readonly nextLevelName: string;
+  readonly tiers: readonly LevelTier[];
 }

@@ -15,6 +15,8 @@ import {
   MissionsSummary,
   ProfileSummary,
   EquippedItems,
+  LevelsSummary,
+  ProfileUpdate,
   StoreItem,
   StoreTab,
   UnlockMetric,
@@ -25,8 +27,11 @@ import {
   badgesFor,
   FRIENDS,
   LEAGUE_RIVALS,
-  quoteOfTheDay,
+  LEVEL_NAMES,
+  LEVEL_TIERS,
   levelFor,
+  quoteOfTheDay,
+  xpToReach,
 } from './mock/gamification.mock';
 
 /** Streak, XP, missions, leaderboards, store and profile; bound in `provideApis()`. */
@@ -40,6 +45,12 @@ export abstract class GamificationApi {
   abstract getStore(tab: StoreTab): Observable<readonly StoreItem[]>;
   abstract equip(itemId: string): Observable<readonly StoreItem[]>;
   abstract getProfile(): Observable<ProfileSummary>;
+  abstract updateProfile(update: ProfileUpdate): Observable<ProfileSummary>;
+  /** Pins up to five unlocked cosmetics to the profile, in this order. */
+  abstract setShowcase(itemIds: readonly string[]): Observable<ProfileSummary>;
+  /** Every cosmetic with its unlock state (the profile collection). */
+  abstract getCollection(): Observable<readonly StoreItem[]>;
+  abstract getLevels(): Observable<LevelsSummary>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -79,10 +90,28 @@ export class HttpGamificationApi extends GamificationApi {
   getProfile(): Observable<ProfileSummary> {
     return this.http.get<ProfileSummary>(this.baseUrl + this.urls.profile);
   }
+
+  updateProfile(update: ProfileUpdate): Observable<ProfileSummary> {
+    return this.http.put<ProfileSummary>(this.baseUrl + this.urls.profile, update);
+  }
+
+  setShowcase(itemIds: readonly string[]): Observable<ProfileSummary> {
+    return this.http.put<ProfileSummary>(this.baseUrl + this.urls.showcase, { itemIds });
+  }
+
+  getCollection(): Observable<readonly StoreItem[]> {
+    return this.http.get<StoreItem[]>(this.baseUrl + this.urls.collection);
+  }
+
+  getLevels(): Observable<LevelsSummary> {
+    return this.http.get<LevelsSummary>(this.baseUrl + this.urls.levels);
+  }
 }
 
 const XP_MISSION_TARGET = 50;
 const STREAK_CLUB_TARGET = 3;
+const BIO_LIMIT = 300;
+const SHOWCASE_LIMIT = 5;
 const LEADERBOARD_UNLOCK_XP = 100;
 
 @Injectable({ providedIn: 'root' })
@@ -195,31 +224,117 @@ export class MockGamificationApi extends GamificationApi {
   }
 
   getProfile(): Observable<ProfileSummary> {
+    return this.db.respond(() => this.profile());
+  }
+
+  updateProfile(update: ProfileUpdate): Observable<ProfileSummary> {
     return this.db.respond(() => {
-      const user = this.auth.user();
+      const username = update.username?.trim() || null;
+      if (username && !/^[a-zA-Z0-9]{3,20}$/.test(username)) {
+        throw new ApiError(
+          'validation',
+          'Usernames are 3 to 20 letters and numbers, with no spaces.',
+          400,
+        );
+      }
+      this.auth.updateFullName(update.fullName.trim());
+      this.progress.update({
+        username,
+        bio: update.bio.slice(0, BIO_LIMIT),
+        socials: Object.fromEntries(
+          Object.entries(update.socials).filter(([, url]) => !!url?.trim()),
+        ) as Record<string, string>,
+      });
+      return this.profile();
+    });
+  }
+
+  setShowcase(itemIds: readonly string[]): Observable<ProfileSummary> {
+    return this.db.respond(() => {
+      const unlocked = new Set(
+        this.allItems()
+          .filter((item) => item.state !== 'locked')
+          .map((item) => item.id),
+      );
+      this.progress.update({
+        showcase: itemIds.filter((id) => unlocked.has(id)).slice(0, SHOWCASE_LIMIT),
+      });
+      return this.profile();
+    });
+  }
+
+  getCollection(): Observable<readonly StoreItem[]> {
+    return this.db.respond(() => this.allItems());
+  }
+
+  getLevels(): Observable<LevelsSummary> {
+    return this.db.respond(() => {
       const state = this.progress.get();
-      const level = levelFor(state.totalXp);
-      const equipped = this.equipped();
-      const title = COSMETICS.find((item) => item.id === equipped.title)?.name ?? '';
+      const current = levelFor(state.totalXp);
+      const rewardsAt = new Map<number, string[]>();
+      for (const item of COSMETICS) {
+        if (item.unlock?.metric === 'level') {
+          rewardsAt.set(item.unlock.target, [
+            ...(rewardsAt.get(item.unlock.target) ?? []),
+            item.name,
+          ]);
+        }
+      }
       return {
-        userId: user?.id ?? 'me',
-        fullName: user?.fullName ?? 'Coddify learner',
-        username: null,
-        title,
-        following: 0,
-        followers: 0,
-        streak: state.streak,
+        level: current.level,
+        tierName: current.name,
         totalXp: state.totalXp,
-        league: state.totalXp >= LEADERBOARD_UNLOCK_XP ? 'Starter League' : null,
-        level: level.level,
-        levelName: level.name,
-        collectionUnlocked: this.allItems().filter((item) => item.state !== 'locked').length,
-        collectionTotal: COSMETICS.length,
-        historyUnlockXp: 100,
-        badges: badgesFor(state),
-        joinedAt: '2026-10-01',
+        xpIntoLevel: current.xpIntoLevel,
+        xpForLevel: current.xpForLevel,
+        nextLevelName: LEVEL_NAMES[current.level] ?? 'Max level',
+        tiers: LEVEL_TIERS.map((tier) => ({
+          ...tier,
+          levels: Array.from({ length: tier.to - tier.from + 1 }, (_, i) => {
+            const level = tier.from + i;
+            return {
+              level,
+              name: LEVEL_NAMES[level - 1],
+              totalXp: xpToReach(level),
+              rewards: rewardsAt.get(level) ?? [],
+              reached: level <= current.level,
+            };
+          }),
+        })),
       };
     });
+  }
+
+  private profile(): ProfileSummary {
+    const user = this.auth.user();
+    const state = this.progress.get();
+    const level = levelFor(state.totalXp);
+    const equipped = this.equipped();
+    const items = this.allItems();
+    return {
+      userId: user?.id ?? 'me',
+      email: user?.email ?? '',
+      fullName: user?.fullName ?? 'Coddify learner',
+      username: state.username,
+      bio: state.bio,
+      socials: state.socials,
+      title: COSMETICS.find((item) => item.id === equipped.title)?.name ?? '',
+      equipped,
+      showcase: state.showcase
+        .map((id) => items.find((item) => item.id === id))
+        .filter((item): item is StoreItem => !!item),
+      following: 0,
+      followers: 0,
+      streak: state.streak,
+      totalXp: state.totalXp,
+      league: state.totalXp >= LEADERBOARD_UNLOCK_XP ? 'Starter League' : null,
+      level: level.level,
+      levelName: level.name,
+      collectionUnlocked: items.filter((item) => item.state !== 'locked').length,
+      collectionTotal: COSMETICS.length,
+      historyUnlockXp: 100,
+      badges: badgesFor(state),
+      joinedAt: '2026-10-01',
+    };
   }
 
   private stats(): UserStats {

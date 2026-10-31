@@ -119,6 +119,14 @@ export class AuthService {
     }
   }
 
+  /** Keeps the signed-in user's name in step after an Edit profile save. */
+  updateFullName(fullName: string): void {
+    const current = this.session();
+    if (current && fullName) {
+      this.startSession({ ...current, user: { ...current.user, fullName } }, this.remember);
+    }
+  }
+
   /** Where a signed-in user belongs: onboarding first, then the app. */
   homeRoute(): string {
     return this.user()?.onboardingCompleted ? '/app' : '/onboarding';

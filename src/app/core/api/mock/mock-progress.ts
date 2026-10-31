@@ -36,6 +36,11 @@ export interface MockProgressState {
   activeDays: string[];
   longestStreak: number;
   problemSubmissions: Record<string, ProblemSubmission[]>;
+  /** Edit profile fields (full name lives on the auth user). */
+  username: string | null;
+  bio: string;
+  socials: Record<string, string>;
+  showcase: string[];
 }
 
 const STORAGE_KEY = 'coddify.mock-progress';
@@ -62,6 +67,10 @@ const FRESH: MockProgressState = {
   activeDays: [],
   longestStreak: 0,
   problemSubmissions: {},
+  username: null,
+  bio: '',
+  socials: {},
+  showcase: [],
 };
 
 /** Local yyyy-mm-dd, so "today" flips at the learner's midnight, not UTC's. */

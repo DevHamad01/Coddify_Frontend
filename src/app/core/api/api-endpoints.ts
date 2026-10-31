@@ -36,6 +36,9 @@ export const API_ENDPOINTS = {
     store: (tab: string) => `/api/store/${tab}`,
     equip: (itemId: string) => `/api/store/items/${itemId}/equip`,
     profile: '/api/me/profile',
+    showcase: '/api/me/profile/showcase',
+    collection: '/api/me/collection',
+    levels: '/api/me/levels',
   },
   tutor: {
     chat: '/api/tutor/chat',

@@ -1,9 +1,38 @@
 import { MockProgressState } from '../../api/mock/mock-progress';
 import { Badge } from '../gamification.models';
 
-/** Levels are named after data sizes: every level needs 150 XP more than the one before. */
-const LEVEL_NAMES = ['Kilo', 'Mega', 'Giga', 'Tera', 'Peta', 'Exa', 'Zetta', 'Yotta'];
+/** Every level needs 150 XP more than the one before. */
 const XP_STEP = 150;
+
+/** Tiers are named after data sizes. */
+export const LEVEL_TIERS: readonly { name: string; from: number; to: number }[] = [
+  { name: 'Kilo', from: 1, to: 6 },
+  { name: 'Mega', from: 7, to: 16 },
+  { name: 'Giga', from: 17, to: 28 },
+  { name: 'Tera', from: 29, to: 40 },
+  { name: 'Peta', from: 41, to: 50 },
+];
+
+/** A computing word for every level, so each one feels like a milestone. */
+export const LEVEL_NAMES: readonly string[] = [
+  'Hello World', 'Memory Blocks', 'Underscore', 'Clock Cycles', 'Breakpoints', 'Loading Stripes',
+  'Stack Frames', 'Heap Hero', 'Bit Shifter', 'Bytecode', 'Pointer Path', 'Cache Hit',
+  'Thread Weaver', 'Kernel', 'Compiler', 'Mega Mind', 'Lambda', 'Recursion', 'Hash Map',
+  'Binary Tree', 'Graph Walker', 'Dynamic Duo', 'Greedy Choice', 'Big O', 'Refactor',
+  'Unit Tested', 'Code Review', 'Giga Brain', 'Microservice', 'Pipeline', 'Container',
+  'Orchestrator', 'Load Balancer', 'Sharding', 'Consensus', 'Event Loop', 'Async Await',
+  'Garbage Collector', 'Type System', 'Tera Titan', 'Quantum Bit', 'Neural Net', 'Transformer',
+  'Compiler Wizard', 'Open Source', 'Architect', 'Mentor', 'Legend', 'Hall of Fame', 'Peta Master',
+];
+
+export function tierFor(level: number): string {
+  return (LEVEL_TIERS.find((tier) => level >= tier.from && level <= tier.to) ?? LEVEL_TIERS[4]).name;
+}
+
+/** Total XP needed to reach `level` (level 1 needs 0). */
+export function xpToReach(level: number): number {
+  return (XP_STEP * (level - 1) * level) / 2;
+}
 
 export function levelFor(totalXp: number): {
   level: number;
@@ -19,7 +48,7 @@ export function levelFor(totalXp: number): {
   }
   return {
     level,
-    name: LEVEL_NAMES[Math.min(level - 1, LEVEL_NAMES.length - 1)],
+    name: tierFor(level),
     xpIntoLevel: remaining,
     xpForLevel: XP_STEP * level,
   };
