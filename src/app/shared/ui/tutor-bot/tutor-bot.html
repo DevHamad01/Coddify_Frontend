@@ -1,0 +1,79 @@
+@let s = style();
+<svg viewBox="0 0 100 112" aria-hidden="true">
+  <g class="bob">
+    <!-- Body -->
+    <rect x="30" y="74" width="40" height="30" rx="12" [attr.fill]="s.shade" />
+    <rect x="40" y="82" width="20" height="10" rx="4" [attr.fill]="s.visor" />
+    <circle cx="46" cy="87" r="2" [attr.fill]="s.accent" />
+    <rect x="50.5" y="85.5" width="6" height="3" rx="1.5" [attr.fill]="s.eyes" />
+
+    <g class="head">
+      <!-- Antenna (hidden under hats that sit on top) -->
+      @if (s.hat === 'none' || s.hat === 'bow' || s.hat === 'moon') {
+        <rect x="48" y="6" width="4" height="10" rx="2" [attr.fill]="s.shade" />
+        @if (s.hat === 'moon') {
+          <path d="M53 1 a6 6 0 1 0 0 11 a4.6 4.6 0 1 1 0 -11z" fill="#FDE68A" />
+        } @else {
+          <circle cx="50" cy="6" r="4" [attr.fill]="s.accent" />
+        }
+      }
+
+      <!-- Head -->
+      <rect x="18" y="14" width="64" height="58" rx="26" [attr.fill]="s.shell" />
+      <rect x="24" y="28" width="52" height="32" rx="14" [attr.fill]="s.visor" />
+
+      <!-- Eyes -->
+      <g class="eyes">
+        <rect x="36" y="36" width="8" height="16" rx="4" [attr.fill]="s.eyes" />
+        <rect x="56" y="36" width="8" height="16" rx="4" [attr.fill]="s.eyes" />
+      </g>
+      @if (s.lashes) {
+        <path
+          d="M34 36 l-3 -3 M37 34.5 l-1.5 -3.5 M66 36 l3 -3 M63 34.5 l1.5 -3.5"
+          [attr.stroke]="s.eyes"
+          stroke-width="1.6"
+          stroke-linecap="round"
+        />
+      }
+      @if (s.glasses) {
+        <g fill="none" [attr.stroke]="s.accent" stroke-width="2.4">
+          <circle cx="40" cy="44" r="9" />
+          <circle cx="60" cy="44" r="9" />
+          <path d="M49 44 h2" />
+        </g>
+      }
+
+      <!-- Ear pods / headphones -->
+      @if (s.headphones) {
+        <path d="M14 44 Q14 8 50 8 Q86 8 86 44" fill="none" [attr.stroke]="s.accent" stroke-width="5" />
+        <rect x="6" y="36" width="14" height="22" rx="7" [attr.fill]="s.accent" />
+        <rect x="80" y="36" width="14" height="22" rx="7" [attr.fill]="s.accent" />
+      } @else {
+        <circle cx="17" cy="44" r="7" [attr.fill]="s.accent" [attr.stroke]="s.shell" stroke-width="3" />
+        <circle cx="83" cy="44" r="7" [attr.fill]="s.accent" [attr.stroke]="s.shell" stroke-width="3" />
+      }
+
+      <!-- Hats -->
+      @switch (s.hat) {
+        @case ('bow') {
+          <g [attr.fill]="s.accent">
+            <path d="M64 14 l-12 -8 v16z" />
+            <path d="M64 14 l12 -8 v16z" />
+            <circle cx="64" cy="14" r="4" />
+          </g>
+        }
+        @case ('beanie') {
+          <path d="M20 30 Q20 4 50 4 Q80 4 80 30z" [attr.fill]="s.accent" />
+          <rect x="18" y="24" width="64" height="9" rx="4.5" [attr.fill]="s.shade" />
+          <circle cx="50" cy="3" r="5" [attr.fill]="s.shell" />
+        }
+        @case ('grad-cap') {
+          <path d="M50 0 L90 13 L50 26 L10 13z" fill="#1F1B3A" />
+          <rect x="34" y="14" width="32" height="10" rx="3" fill="#1F1B3A" />
+          <path d="M84 12 v14" stroke="#FBBF24" stroke-width="2" />
+          <circle cx="84" cy="27" r="3" fill="#FBBF24" />
+        }
+      }
+    </g>
+  </g>
+</svg>

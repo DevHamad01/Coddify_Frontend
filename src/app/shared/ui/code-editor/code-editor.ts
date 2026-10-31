@@ -18,6 +18,7 @@ import type * as Monaco from 'monaco-editor';
 
 import { ThemeService } from '../../../core/theme/theme.service';
 import { Spinner } from '../spinner/spinner';
+import { EditorThemeService } from './editor-theme.service';
 import { MonacoLoader } from './monaco-loader.service';
 
 /**
@@ -43,6 +44,7 @@ export class CodeEditor {
   private readonly container = viewChild.required<ElementRef<HTMLElement>>('container');
   private readonly loader = inject(MonacoLoader);
   private readonly theme = inject(ThemeService);
+  private readonly editorTheme = inject(EditorThemeService);
   private editor?: Monaco.editor.IStandaloneCodeEditor;
   private monaco?: typeof Monaco;
 
@@ -63,9 +65,9 @@ export class CodeEditor {
       }
     });
     effect(() => {
-      const dark = this.theme.resolved() === 'dark';
+      const theme = this.themeName();
       if (this.ready()) {
-        this.monaco?.editor.setTheme(dark ? 'coddify-dark' : 'coddify-light');
+        this.monaco?.editor.setTheme(theme);
       }
     });
     // Each effect reads its signals before checking `ready()` so it re-runs once Monaco has loaded.
@@ -89,6 +91,11 @@ export class CodeEditor {
     this.editor?.focus();
   }
 
+  /** The equipped palette in dark mode; light mode always uses the light theme. */
+  private themeName(): string {
+    return this.theme.resolved() === 'dark' ? this.editorTheme.active() : 'coddify-light';
+  }
+
   private async init(destroyRef: DestroyRef): Promise<void> {
     try {
       const monaco = await this.loader.load();
@@ -96,7 +103,7 @@ export class CodeEditor {
       const editor = monaco.editor.create(this.container().nativeElement, {
         value: this.value(),
         language: this.language(),
-        theme: this.theme.resolved() === 'dark' ? 'coddify-dark' : 'coddify-light',
+        theme: this.themeName(),
         readOnly: this.readOnly(),
         fontSize: this.fontSize(),
         fontFamily: '"JetBrains Mono", Consolas, monospace',

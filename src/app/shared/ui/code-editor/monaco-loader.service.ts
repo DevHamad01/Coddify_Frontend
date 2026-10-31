@@ -2,6 +2,8 @@ import { DOCUMENT } from '@angular/common';
 import { Injectable, inject } from '@angular/core';
 import type * as Monaco from 'monaco-editor';
 
+import { EDITOR_THEMES } from '../../data/editor-themes';
+
 /** Where angular.json copies `node_modules/monaco-editor/min/vs`. */
 const MONACO_BASE = 'assets/monaco/vs';
 
@@ -52,27 +54,39 @@ export class MonacoLoader {
   }
 }
 
-/** Editor themes matching the app tokens (near-black dark, white light). */
+/** Unlockable dark palettes plus the light theme that matches the app tokens. */
 function defineThemes(monaco: typeof Monaco): void {
-  monaco.editor.defineTheme('coddify-dark', {
-    base: 'vs-dark',
-    inherit: true,
-    rules: [
-      { token: 'comment', foreground: '6A9955' },
-      { token: 'string', foreground: 'CE9178' },
-      { token: 'keyword', foreground: 'C586C0' },
-      { token: 'number', foreground: 'B5CEA8' },
-    ],
-    colors: {
-      'editor.background': '#1E1E1E',
-      'editor.lineHighlightBackground': '#2A2A2A',
-      'editorLineNumber.foreground': '#6E6E6E',
-      'editorLineNumber.activeForeground': '#D4D4D4',
-      'editorGutter.background': '#1E1E1E',
-      'editor.selectionBackground': '#14B8A640',
-      'editorCursor.foreground': '#14B8A6',
-    },
-  });
+  // One dark theme per unlockable palette; 'coddify-dark' stays as the default alias.
+  for (const [name, palette] of Object.entries(EDITOR_THEMES)) {
+    const hex = (color: string) => color.replace('#', '');
+    const theme: Monaco.editor.IStandaloneThemeData = {
+      base: 'vs-dark',
+      inherit: true,
+      rules: [
+        { token: '', foreground: hex(palette.foreground) },
+        { token: 'comment', foreground: hex(palette.comment), fontStyle: 'italic' },
+        { token: 'string', foreground: hex(palette.string) },
+        { token: 'keyword', foreground: hex(palette.keyword) },
+        { token: 'number', foreground: hex(palette.number) },
+        { token: 'identifier.function', foreground: hex(palette.function) },
+        { token: 'type', foreground: hex(palette.function) },
+      ],
+      colors: {
+        'editor.background': palette.background,
+        'editor.foreground': palette.foreground,
+        'editor.lineHighlightBackground': palette.lineHighlight,
+        'editorLineNumber.foreground': '#6E6E6E',
+        'editorLineNumber.activeForeground': palette.foreground,
+        'editorGutter.background': palette.background,
+        'editor.selectionBackground': palette.cursor + '40',
+        'editorCursor.foreground': palette.cursor,
+      },
+    };
+    monaco.editor.defineTheme(name, theme);
+    if (name === 'theme-coddify') {
+      monaco.editor.defineTheme('coddify-dark', theme);
+    }
+  }
   monaco.editor.defineTheme('coddify-light', {
     base: 'vs',
     inherit: true,

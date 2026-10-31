@@ -1,0 +1,79 @@
+:host {
+  @apply inline-block;
+}
+
+// Gradient effects paint the text with a moving background.
+@mixin gradient-text($gradient) {
+  background: $gradient;
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+:host([data-effect='teal-glow']) {
+  color: #5eead4;
+  text-shadow: 0 0 10px rgb(20 184 166 / 0.7);
+}
+
+:host([data-effect='ocean']) {
+  @include gradient-text(linear-gradient(90deg, #38bdf8, #2dd4bf));
+}
+
+:host([data-effect='sunset']) {
+  @include gradient-text(linear-gradient(90deg, #fb923c, #f472b6));
+}
+
+:host([data-effect='neon']) {
+  color: #ff5cb8;
+  text-shadow:
+    0 0 4px #ff2e97,
+    0 0 12px #ff2e97;
+  animation: buzz 3s infinite;
+}
+
+:host([data-effect='gold']) {
+  @include gradient-text(linear-gradient(110deg, #ca8a04 20%, #fef08a 40%, #ca8a04 60%));
+  animation: sheen 2.5s linear infinite;
+}
+
+:host([data-effect='rainbow']) {
+  @include gradient-text(
+    linear-gradient(90deg, #f43f5e, #f59e0b, #84cc16, #06b6d4, #8b5cf6, #f43f5e)
+  );
+  animation: sheen 3s linear infinite;
+}
+
+:host([data-effect='fire']) {
+  @include gradient-text(linear-gradient(0deg, #dc2626, #f97316 45%, #fde047));
+  filter: drop-shadow(0 0 6px rgb(249 115 22 / 0.6));
+}
+
+@keyframes sheen {
+  to {
+    background-position: -200% center;
+  }
+}
+
+@keyframes buzz {
+  0%,
+  92%,
+  100% {
+    opacity: 1;
+  }
+  94% {
+    opacity: 0.6;
+  }
+  96% {
+    opacity: 1;
+  }
+  98% {
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :host {
+    animation: none !important;
+  }
+}
