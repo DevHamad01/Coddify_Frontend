@@ -132,6 +132,33 @@ export const routes: Routes = [
         loadComponent: comingSoon,
       },
       {
+        path: 'missions',
+        title: 'Missions | Coddify',
+        loadComponent: () => import('./features/missions/missions').then((m) => m.Missions),
+      },
+      {
+        path: 'leaderboard',
+        title: 'Leaderboard | Coddify',
+        loadComponent: () =>
+          import('./features/leaderboard/leaderboard').then((m) => m.Leaderboard),
+      },
+      {
+        path: 'store',
+        title: 'Store | Coddify',
+        loadComponent: () => import('./features/store/store').then((m) => m.Store),
+      },
+      {
+        path: 'profile',
+        title: 'My Profile | Coddify',
+        loadComponent: () => import('./features/profile/profile').then((m) => m.Profile),
+      },
+      {
+        // Edit profile, notifications, preferences... linked from the profile menu.
+        path: 'profile/:slug',
+        title: 'Profile | Coddify',
+        loadComponent: comingSoon,
+      },
+      {
         path: 'projects',
         title: 'Projects | Coddify',
         data: { title: 'Projects' },

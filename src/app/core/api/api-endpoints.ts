@@ -31,6 +31,7 @@ export const API_ENDPOINTS = {
     leaderboard: (scope: string) => `/api/leaderboard/${scope}`,
     store: (tab: string) => `/api/store/${tab}`,
     equip: (itemId: string) => `/api/store/items/${itemId}/equip`,
+    buy: (itemId: string) => `/api/store/items/${itemId}/buy`,
     profile: '/api/me/profile',
   },
   tutor: {

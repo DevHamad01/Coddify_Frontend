@@ -1,0 +1,82 @@
+<app-page-shell>
+  <div class="flex items-center justify-between gap-4">
+    <h1 class="font-display text-2xl font-bold">Daily Missions</h1>
+    @if (hoursLeft()) {
+      <span class="time-pill"
+        >Time left: <strong>{{ hoursLeft() }} hours</strong></span
+      >
+    }
+  </div>
+
+  @if (store.missions(); as missions) {
+    <div class="mt-5 flex items-center justify-between text-[15px]">
+      <span class="text-muted">{{ missions.marks }} Mission Marks</span>
+      <span class="font-semibold text-primary">+2 tokens for all 3</span>
+    </div>
+
+    <div class="marks-box">
+      <div class="min-w-0 flex-1">
+        <p class="font-bold">Mission Marks</p>
+        <p class="text-sm text-muted">
+          Earn 1 per mission. Spend them on Style items in the store.
+        </p>
+        <a routerLink="/app/store" class="text-sm font-semibold text-primary hover:underline"
+          >Browse Style shop</a
+        >
+      </div>
+      <span class="flex items-center gap-1 font-display text-lg font-bold text-primary">
+        {{ missions.marks }} <app-nav-art name="mission-mark" [size]="22" />
+      </span>
+    </div>
+
+    <app-missions-widget class="mt-5" [showHeader]="false" />
+
+    <section class="quote" [class.is-open]="quoteOpen()">
+      <button
+        type="button"
+        class="flex w-full items-center justify-between text-left"
+        [attr.aria-expanded]="quoteOpen()"
+        aria-controls="weekly-quote"
+        (click)="quoteOpen.set(!quoteOpen())"
+      >
+        <span>
+          <span class="block font-display text-xl font-semibold">Motivational Quote</span>
+          <span class="block text-xs text-muted">{{ weekLabel }}</span>
+        </span>
+        <app-icon [name]="quoteOpen() ? 'chevron-up' : 'chevron-down'" />
+      </button>
+      @if (quoteOpen()) {
+        <div id="weekly-quote" class="mt-4 animate-fade-up">
+          <p class="text-[17px] italic leading-7">"{{ missions.quote.text }}"</p>
+          <div class="mt-4 flex items-center justify-between">
+            <span class="flex items-center gap-2 text-sm font-semibold text-ai">
+              <app-mascot pose="happy" [size]="22" [animated]="false" label="" />
+              {{ missions.quote.author }}
+            </span>
+            <button
+              type="button"
+              class="flex items-center gap-1.5 text-sm"
+              [class.text-danger]="liked()"
+              [attr.aria-pressed]="liked()"
+              (click)="liked.set(!liked())"
+            >
+              {{ missions.quote.likes + (liked() ? 1 : 0) }}
+              <app-icon name="heart" [size]="18" [filled]="liked()" />
+            </button>
+          </div>
+        </div>
+      }
+    </section>
+  } @else {
+    <div class="mt-6 h-72 animate-pulse rounded-card bg-surface"></div>
+  }
+
+  <app-level-card rail />
+  <app-promo-card rail />
+  <app-info-card
+    rail
+    title="Conquer them all"
+    text="Complete goals to earn rewards! Goals refresh every day."
+    art="missions"
+  />
+</app-page-shell>

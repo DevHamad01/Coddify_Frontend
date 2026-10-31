@@ -1,0 +1,26 @@
+<nav aria-label="Profile">
+  @for (group of groups; track group.label; let first = $first) {
+    <p class="group-label" [class.mt-0]="first">{{ group.label }}</p>
+    <ul>
+      @for (link of group.links; track link.label) {
+        <li>
+          <a
+            [routerLink]="link.path"
+            [fragment]="link.fragment"
+            class="link"
+            [class.is-active]="link.label === 'Overview'"
+          >
+            <app-icon [name]="link.icon" [size]="18" />
+            <span class="flex-1">{{ link.label }}</span>
+            @if (link.external) {
+              <app-icon name="external-link" [size]="14" class="text-muted" />
+            }
+          </a>
+        </li>
+      }
+    </ul>
+  }
+  <button type="button" class="link mt-3 border-t border-border pt-4" (click)="auth.logout()">
+    <app-icon name="logout" [size]="18" /> Logout
+  </button>
+</nav>

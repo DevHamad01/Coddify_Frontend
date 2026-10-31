@@ -1,0 +1,53 @@
+.top-tab {
+  @apply flex h-10 min-w-10 items-center justify-center gap-2 rounded-full px-3 font-display font-bold text-muted transition-colors hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply bg-info px-4 text-white;
+  }
+}
+
+.sub-tabs {
+  @apply mt-5 flex gap-5 overflow-x-auto border-b border-border;
+  scrollbar-width: none;
+}
+
+.sub-tab {
+  @apply -mb-px whitespace-nowrap border-b-2 border-transparent pb-2 font-display text-[15px] font-bold text-muted hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply border-info text-text;
+  }
+}
+
+.intro {
+  @apply mt-5 rounded-card border-2 border-border bg-surface px-5 py-4 text-[15px] leading-6;
+}
+
+.item {
+  @apply flex items-start gap-4 border-b border-border py-6;
+}
+
+.art {
+  @apply flex h-12 w-12 shrink-0 items-center justify-center text-text;
+}
+
+.requirement {
+  @apply mt-2 inline-block rounded-full bg-streak px-2.5 py-0.5 text-xs font-bold text-white;
+}
+
+.action {
+  @apply flex h-11 min-w-[110px] shrink-0 items-center justify-center gap-1.5 rounded-btn border-2 border-border bg-surface px-4 font-display font-bold uppercase text-info transition-colors hover:bg-surface-2 disabled:opacity-50;
+  box-shadow: 0 3px 0 0 rgb(var(--c-border));
+
+  &.is-equipped {
+    @apply cursor-default text-info/70 shadow-none;
+  }
+
+  &.is-locked {
+    @apply cursor-default text-muted shadow-none;
+  }
+
+  &.is-buy {
+    @apply text-xp;
+  }
+}

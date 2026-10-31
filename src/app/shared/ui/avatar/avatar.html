@@ -1,0 +1,9 @@
+@if (url(); as url) {
+  <img [src]="url" [alt]="name()" class="h-full w-full rounded-full object-cover" />
+} @else {
+  <span aria-hidden="true">{{ initials() }}</span>
+  <span class="sr-only">{{ name() }}</span>
+}
+@if (online()) {
+  <span class="dot" aria-hidden="true"></span>
+}

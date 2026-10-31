@@ -34,6 +34,8 @@ export abstract class GamificationApi {
   abstract getLeaderboard(scope: LeaderboardScope): Observable<Leaderboard>;
   abstract getStore(tab: StoreTab): Observable<readonly StoreItem[]>;
   abstract equip(itemId: string): Observable<readonly StoreItem[]>;
+  /** Spends gems on an item and returns the refreshed tab. */
+  abstract buy(itemId: string): Observable<readonly StoreItem[]>;
   abstract getProfile(): Observable<ProfileSummary>;
 }
 
@@ -65,6 +67,10 @@ export class HttpGamificationApi extends GamificationApi {
 
   equip(itemId: string): Observable<readonly StoreItem[]> {
     return this.http.post<StoreItem[]>(this.baseUrl + this.urls.equip(itemId), {});
+  }
+
+  buy(itemId: string): Observable<readonly StoreItem[]> {
+    return this.http.post<StoreItem[]>(this.baseUrl + this.urls.buy(itemId), {});
   }
 
   getProfile(): Observable<ProfileSummary> {
@@ -162,6 +168,24 @@ export class MockGamificationApi extends GamificationApi {
         throw new ApiError('validation', 'You do not own that item yet.', 400);
       }
       this.progress.update({ equippedTitle: itemId });
+      return this.storeItems(item.tab);
+    });
+  }
+
+  buy(itemId: string): Observable<readonly StoreItem[]> {
+    return this.db.respond(() => {
+      const item = STORE_ITEMS.find((candidate) => candidate.id === itemId);
+      const state = this.progress.get();
+      if (!item || item.state !== 'buyable' || item.price === undefined) {
+        throw new ApiError('validation', 'That item is not for sale.', 400);
+      }
+      if (state.gems < item.price) {
+        throw new ApiError('validation', `You need ${item.price - state.gems} more gems.`, 400);
+      }
+      this.progress.update({
+        gems: state.gems - item.price,
+        ownedItems: [...state.ownedItems, itemId],
+      });
       return this.storeItems(item.tab);
     });
   }

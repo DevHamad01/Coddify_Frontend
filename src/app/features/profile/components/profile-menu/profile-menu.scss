@@ -1,0 +1,15 @@
+:host {
+  @apply block rounded-card border-2 border-border bg-surface p-5;
+}
+
+.group-label {
+  @apply mb-1 mt-5 text-sm font-semibold uppercase tracking-wide text-muted;
+}
+
+.link {
+  @apply flex w-full items-center gap-3 rounded-lg px-2 py-2 text-left text-[15px] text-text transition-colors hover:bg-surface-2;
+
+  &.is-active {
+    @apply bg-surface-2 font-semibold shadow-[inset_3px_0_0_rgb(var(--c-primary))];
+  }
+}

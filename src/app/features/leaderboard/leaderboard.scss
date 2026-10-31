@@ -1,0 +1,49 @@
+.tab {
+  @apply rounded-btn border-2 border-border py-2 font-display text-sm font-bold text-info transition-colors hover:bg-surface;
+
+  &[aria-selected='true'] {
+    @apply border-info bg-info/10;
+  }
+}
+
+.row {
+  @apply flex items-center gap-4 rounded-card px-4 py-3;
+
+  &.is-me {
+    @apply bg-surface-2;
+  }
+}
+
+// Gold, silver and bronze shields for the top three; plain numbers below.
+.rank {
+  @apply flex h-9 w-9 shrink-0 items-center justify-center font-brand text-lg text-text;
+
+  &[data-rank] {
+    @apply rounded-lg text-[#1A1A1A];
+    clip-path: polygon(0 0, 100% 0, 100% 75%, 50% 100%, 0 75%);
+  }
+
+  &[data-rank='1'] {
+    background: #fbbf24;
+  }
+
+  &[data-rank='2'] {
+    background: #cbd5e1;
+  }
+
+  &[data-rank='3'] {
+    background: #d97706;
+  }
+}
+
+.zone {
+  @apply my-4 flex items-center justify-center gap-3 font-display text-lg font-bold;
+}
+
+.squad-card {
+  @apply flex flex-col items-start rounded-card border-2 border-border bg-surface p-5;
+}
+
+.field {
+  @apply mt-3 h-11 w-full rounded-btn border border-border bg-bg px-4 text-text outline-none placeholder:text-muted focus:border-primary/60;
+}
