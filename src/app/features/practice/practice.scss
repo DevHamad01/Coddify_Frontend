@@ -1,3 +1,16 @@
+.tabs {
+  @apply flex gap-1 rounded-full border-2 border-border bg-surface p-1;
+  width: fit-content;
+}
+
+.tab {
+  @apply rounded-full px-5 py-2 font-display font-bold text-muted transition-colors duration-hover hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply bg-info text-white;
+  }
+}
+
 .hero-card {
   @apply relative overflow-hidden rounded-card bg-primary p-6 text-primary-contrast;
 }
@@ -7,13 +20,5 @@
 }
 
 .card {
-  @apply rounded-card border-2 border-border bg-surface p-6;
-}
-
-.card-title {
-  @apply font-display text-2xl font-semibold;
-}
-
-.card-text {
-  @apply mt-2 max-w-md text-[15px] leading-6 text-muted;
+  @apply rounded-card border-2 border-border bg-surface p-5;
 }

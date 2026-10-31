@@ -1,0 +1,19 @@
+:host {
+  @apply block;
+}
+
+.row {
+  @apply flex items-center gap-3 border-b border-border px-3 py-3.5 transition-colors duration-hover hover:bg-surface;
+}
+
+.language {
+  @apply flex shrink-0 items-center gap-1.5 rounded-full bg-surface-2 px-2.5 py-1 text-xs font-semibold sm:w-28 sm:justify-center;
+}
+
+.page {
+  @apply flex h-9 min-w-9 items-center justify-center rounded-lg border border-border px-2 text-sm font-semibold text-muted transition-colors duration-hover hover:text-text disabled:opacity-30;
+
+  &[aria-current='page'] {
+    @apply border-info text-info;
+  }
+}

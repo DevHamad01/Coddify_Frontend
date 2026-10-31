@@ -1,5 +1,4 @@
-import { TechId } from '../../../shared/data/tech';
-import { Challenge, Difficulty } from '../practice.models';
+import { CHALLENGE_LANGUAGES, Challenge, Difficulty } from '../practice.models';
 
 /**
  * The free challenge bank: short story-style problems, each written for one language.
@@ -58,10 +57,8 @@ const TITLES: readonly (readonly [string, Difficulty])[] = [
   ['Smart Thermostat Log', 'Easy'],
 ];
 
-const LANGUAGES: readonly TechId[] = ['python', 'javascript', 'java', 'cpp', 'csharp', 'go'];
-
 /** Every title in each language, so each language has a full bank. */
-export const CHALLENGES: readonly Omit<Challenge, 'status'>[] = LANGUAGES.flatMap(
+export const CHALLENGES: readonly Omit<Challenge, 'status'>[] = CHALLENGE_LANGUAGES.flatMap(
   (language, l) =>
     TITLES.map(([title, difficulty], t) => ({
       id: `c-${language}-${t + 1}`,
@@ -71,5 +68,3 @@ export const CHALLENGES: readonly Omit<Challenge, 'status'>[] = LANGUAGES.flatMa
       difficulty,
     })),
 );
-
-export const CHALLENGE_LANGUAGES = LANGUAGES;

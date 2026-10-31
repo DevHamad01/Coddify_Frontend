@@ -1,45 +1,58 @@
-<app-page-shell>
-  <h1 class="sr-only">Practice</h1>
-  <div class="flex flex-col gap-5">
-    <section class="hero-card">
-      <div class="relative z-10 max-w-[70%]">
-        <h2 class="font-display text-2xl font-bold">Personalized Practice</h2>
-        <p class="mt-2 text-[15px] leading-6 opacity-90">
-          Practice tailored to your weak spots, past mistakes and learning goals.
-        </p>
-        <a appButton variant="secondary" routerLink="/app/journey" class="mt-5 uppercase">
-          Practice
-        </a>
-      </div>
-      <app-nav-art name="practice" [size]="150" class="hero-art" />
-    </section>
+<app-page-shell width="wide">
+  <h1 class="font-display text-3xl font-bold">Practice</h1>
 
-    <section class="card">
-      <h2 class="card-title">Daily Challenge</h2>
-      @if (dailyUnlocked()) {
-        <p class="card-text">A fresh problem every day. Solve it to keep your streak glowing.</p>
-        <a appButton routerLink="/app/interview" class="mt-5 uppercase">Solve today's</a>
-      } @else {
-        <p class="card-text">Reach {{ dailyChallengeXp }} XP to unlock daily challenges!</p>
-        <button appButton [disabled]="true" class="mt-5 uppercase">Locked</button>
-      }
-    </section>
+  <div class="tabs mt-4" role="tablist" aria-label="Practice">
+    @for (item of tabs; track item.id) {
+      <button
+        type="button"
+        role="tab"
+        class="tab"
+        [id]="'practice-tab-' + item.id"
+        [attr.aria-selected]="tab() === item.id"
+        aria-controls="practice-panel"
+        (click)="select(item.id)"
+      >
+        {{ item.label }}
+      </button>
+    }
+  </div>
 
-    <section class="card">
-      <h2 class="card-title">Interview prep</h2>
-      <p class="card-text">
-        Interview problems every day, picked for you, in the language you will use.
-      </p>
-      <a appButton routerLink="/app/interview" class="mt-5 uppercase">Start preparing</a>
-    </section>
+  <div id="practice-panel" role="tabpanel" [attr.aria-labelledby]="'practice-tab-' + tab()" class="mt-5">
+    @if (tab() === 'interview') {
+      <section class="hero-card">
+        <div class="relative z-10 max-w-[68%]">
+          <h2 class="font-display text-2xl font-bold">Interview prep</h2>
+          <p class="mt-2 text-[15px] leading-6 opacity-90">
+            Interview problems every day, picked for you, in the language you will use.
+          </p>
+          <a appButton variant="secondary" routerLink="/app/interview" class="mt-5 uppercase">
+            Start preparing
+          </a>
+        </div>
+        <app-nav-art name="interview" [size]="150" class="hero-art" />
+      </section>
 
-    <section class="card">
-      <h2 class="card-title">Challenges</h2>
-      <p class="card-text">
-        Test yourself with coding challenges across languages and difficulty levels.
-      </p>
-      <a appButton routerLink="/app/interview" class="mt-5 uppercase">Browse all</a>
-    </section>
+      <ul class="mt-5 grid gap-3 sm:grid-cols-3">
+        @for (step of steps; track step.text) {
+          <li class="card">
+            <app-icon [name]="step.icon" [size]="24" class="text-info" />
+            <p class="mt-3 text-[15px] leading-6">{{ step.text }}</p>
+          </li>
+        }
+      </ul>
+
+      <section class="card mt-5 flex flex-wrap items-center justify-between gap-4">
+        <div>
+          <h2 class="font-display text-xl font-bold">Want something quick?</h2>
+          <p class="mt-1 text-[15px] text-muted">Pick a free challenge in any language.</p>
+        </div>
+        <button appButton variant="secondary" class="uppercase" (click)="select('challenges')">
+          Browse challenges
+        </button>
+      </section>
+    } @else {
+      <app-challenge-list />
+    }
   </div>
 
   <app-level-card rail />

@@ -1,0 +1,34 @@
+<button
+  type="button"
+  class="trigger"
+  [class.is-active]="selected().length"
+  [attr.aria-expanded]="open()"
+  (click)="open.set(!open())"
+>
+  {{ buttonLabel() }}
+  <app-icon name="chevron-down" [size]="16" />
+</button>
+
+@if (open()) {
+  <div class="menu" role="group" [attr.aria-label]="label()">
+    @for (option of options(); track option.value) {
+      <label class="option">
+        <input
+          type="checkbox"
+          class="sr-only"
+          [checked]="selected().includes(option.value)"
+          (change)="toggle(option.value)"
+        />
+        <span class="box" [class.is-checked]="selected().includes(option.value)">
+          @if (selected().includes(option.value)) {
+            <app-icon name="check" [size]="12" [strokeWidth]="3.5" />
+          }
+        </span>
+        {{ option.label }}
+      </label>
+    }
+    @if (selected().length) {
+      <button type="button" class="clear" (click)="selected.set([])">Clear</button>
+    }
+  </div>
+}

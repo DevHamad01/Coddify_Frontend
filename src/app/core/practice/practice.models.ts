@@ -48,6 +48,16 @@ export interface InterviewProgress {
   readonly interviewDate: string | null;
 }
 
+/** Languages the challenge bank is written in. */
+export const CHALLENGE_LANGUAGES: readonly TechId[] = [
+  'python',
+  'javascript',
+  'java',
+  'cpp',
+  'csharp',
+  'go',
+];
+
 /** A free coding challenge from the challenge bank, written for one language. */
 export interface Challenge {
   readonly id: string;

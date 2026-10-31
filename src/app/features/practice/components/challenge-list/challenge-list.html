@@ -1,0 +1,81 @@
+<div class="flex flex-wrap items-center justify-between gap-3">
+  <h2 class="font-display text-2xl font-bold">Challenges</h2>
+  <button appButton size="sm" class="uppercase" (click)="openDaily()">Daily challenge</button>
+</div>
+<p class="mt-1 text-[15px] text-muted">Every challenge is free. Solve them to earn XP.</p>
+
+<div class="mt-4 flex flex-wrap gap-3">
+  <app-filter-dropdown
+    label="Language"
+    [options]="languageOptions"
+    [selected]="languages()"
+    (selectedChange)="setLanguages($event)"
+  />
+  <app-filter-dropdown
+    label="Difficulty"
+    [options]="difficultyOptions"
+    [selected]="difficulties()"
+    (selectedChange)="setDifficulties($event)"
+  />
+</div>
+
+<ul class="mt-4" [class.opacity-60]="loading()">
+  @for (challenge of result()?.items ?? []; track challenge.id) {
+    <li>
+      <a class="row" [routerLink]="['/practice/problem', challenge.id]">
+        @if (challenge.status === 'solved') {
+          <app-icon name="check-circle" [size]="18" class="shrink-0 text-success" />
+        } @else {
+          <app-icon name="code" [size]="18" class="shrink-0 text-muted" />
+        }
+        <span class="min-w-0 flex-1 truncate text-[15px] font-semibold">{{ challenge.title }}</span>
+        <span class="language">
+          <app-tech-logo [tech]="challenge.language" [size]="16" label="" />
+          <span class="hidden sm:inline">{{ techName(challenge.language) }}</span>
+        </span>
+        <span class="w-24 shrink-0"><app-difficulty-badge [difficulty]="challenge.difficulty" /></span>
+      </a>
+    </li>
+  } @empty {
+    @if (!loading()) {
+      <li class="py-10 text-center text-muted">No challenges match those filters.</li>
+    } @else {
+      @for (row of [1, 2, 3, 4, 5]; track row) {
+        <li class="my-2 h-12 animate-pulse rounded-btn bg-surface"></li>
+      }
+    }
+  }
+</ul>
+
+@if (pages() > 1) {
+  <nav class="mt-5 flex items-center justify-center gap-2" aria-label="Pages">
+    <button
+      type="button"
+      class="page"
+      aria-label="Previous page"
+      [disabled]="page() === 1"
+      (click)="page.set(page() - 1)"
+    >
+      <app-icon name="chevron-left" [size]="16" />
+    </button>
+    @for (number of pageNumbers(); track number) {
+      <button
+        type="button"
+        class="page"
+        [attr.aria-current]="page() === number ? 'page' : null"
+        (click)="page.set(number)"
+      >
+        {{ number }}
+      </button>
+    }
+    <button
+      type="button"
+      class="page"
+      aria-label="Next page"
+      [disabled]="page() === pages()"
+      (click)="page.set(page() + 1)"
+    >
+      <app-icon name="chevron-right" [size]="16" />
+    </button>
+  </nav>
+}
