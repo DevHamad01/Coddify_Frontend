@@ -1,0 +1,7 @@
+:host {
+  white-space: pre-line;
+}
+
+.inline-code {
+  @apply rounded-md border border-border bg-surface-2 px-1.5 py-0.5 font-mono text-[0.88em] font-semibold text-text;
+}

@@ -1,0 +1,15 @@
+:host {
+  @apply relative block h-full min-h-[200px] w-full;
+}
+
+.editor {
+  @apply absolute inset-0;
+}
+
+.overlay {
+  @apply absolute inset-0 flex items-center justify-center bg-[#1e1e1e] p-6 text-center;
+}
+
+:host-context([data-theme='light']) .overlay {
+  @apply bg-white;
+}

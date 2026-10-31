@@ -1,0 +1,155 @@
+<header class="topbar">
+  <a
+    routerLink="/app/journey"
+    class="icon-btn"
+    aria-label="Close lesson and go back to the journey"
+  >
+    <app-icon name="x" [size]="22" />
+  </a>
+  <p class="ml-2 min-w-0 flex-1 truncate font-display text-xl font-semibold">
+    {{ lesson()?.chapterTitle ?? 'Loading…' }}
+  </p>
+  @if (store.stats(); as stats) {
+    <ul class="hidden items-center gap-5 sm:flex" aria-label="Your stats">
+      <li
+        class="stat"
+        [class.text-streak]="stats.activitiesToday"
+        [title]="stats.streak + ' day streak'"
+      >
+        {{ stats.streak }}
+        <app-nav-art name="flame" [size]="20" [muted]="!stats.activitiesToday" />
+      </li>
+      <li class="stat text-xp" [title]="stats.gems + ' gems'">
+        {{ stats.gems }} <app-nav-art name="gem" [size]="20" />
+      </li>
+      <li class="stat text-ai" [title]="stats.energy + ' energy'">
+        {{ stats.energy }} <app-nav-art name="energy" [size]="20" />
+      </li>
+    </ul>
+  }
+  <a routerLink="/app/profile" class="ml-3" aria-label="Your profile">
+    <app-nav-art name="profile" [size]="34" />
+  </a>
+</header>
+
+@if (lesson(); as lesson) {
+  <div class="workspace" [class.has-tutor]="tutorOpen()" [class.panel-collapsed]="panelCollapsed()">
+    @if (!panelCollapsed()) {
+      <app-lesson-panel
+        class="left"
+        [lesson]="lesson"
+        [submissions]="submissions()"
+        (explain)="openTutor('Explain this challenge to me')"
+        (loadCode)="code.set($event)"
+      />
+    }
+
+    <section class="center" aria-label="Code editor">
+      <div class="editor-bar">
+        <button
+          type="button"
+          class="icon-btn"
+          [attr.aria-label]="panelCollapsed() ? 'Show lesson' : 'Hide lesson'"
+          (click)="panelCollapsed.set(!panelCollapsed())"
+        >
+          <app-icon [name]="panelCollapsed() ? 'chevron-right' : 'chevron-left'" [size]="18" />
+        </button>
+        <span class="file-tab">
+          {{ lesson.fileName }}
+          @if (isDirty()) {
+            <span class="h-2 w-2 rounded-full bg-text" aria-label="Unsaved changes"></span>
+          } @else {
+            <app-icon name="lock" [size]="13" class="text-muted" />
+          }
+        </span>
+        <div class="ml-auto flex items-center gap-1">
+          <button
+            type="button"
+            class="icon-btn"
+            [attr.aria-label]="soundOn() ? 'Mute sounds' : 'Unmute sounds'"
+            (click)="soundOn.set(!soundOn())"
+          >
+            <app-icon [name]="soundOn() ? 'volume' : 'volume-off'" [size]="19" />
+          </button>
+          <button type="button" class="icon-btn" aria-label="Save code" (click)="save()">
+            <app-icon name="save" [size]="19" />
+          </button>
+          <button type="button" class="icon-btn" aria-label="Reset code" (click)="resetCode()">
+            <app-icon name="refresh" [size]="19" />
+          </button>
+          <button type="button" class="icon-btn" aria-label="Report a problem" (click)="report()">
+            <app-icon name="flag" [size]="19" />
+          </button>
+        </div>
+      </div>
+
+      <div class="editor-wrap">
+        <app-code-editor
+          [(value)]="code"
+          [language]="lesson.editorLanguage"
+          [ariaLabel]="lesson.fileName + ' editor'"
+          (run)="run()"
+        />
+        <div class="actions">
+          @if (!tutorOpen()) {
+            <button type="button" class="ask-ai" (click)="openTutor()">
+              <app-nav-art name="profile" [size]="22" /> Ask AI
+            </button>
+          }
+          <button type="button" class="run" [disabled]="running()" (click)="run()">
+            <app-icon name="play" [size]="16" [filled]="true" />
+            {{ running() ? 'Running…' : 'Run Code' }}
+          </button>
+        </div>
+      </div>
+
+      <app-test-panel
+        class="tests"
+        [tests]="lesson.challenge.tests"
+        [result]="result()"
+        [running]="running()"
+        [solution]="lesson.challenge.solution"
+        [attempts]="attempts()"
+        (useSolution)="code.set($event)"
+      />
+    </section>
+
+    @if (tutorOpen()) {
+      <app-tutor-panel
+        class="right"
+        [lessonId]="lesson.id"
+        [code]="code()"
+        [lastRun]="result()"
+        (closed)="tutorOpen.set(false)"
+      />
+    }
+  </div>
+
+  @if (reward(); as reward) {
+    <app-lesson-complete-modal
+      [reward]="reward"
+      [lessonTitle]="lesson.title"
+      [chapterTitle]="lesson.chapterTitle"
+      (continued)="afterReward()"
+    />
+  }
+  @if (showGoal()) {
+    <app-daily-goal-modal
+      [activitiesToday]="store.stats()?.activitiesToday ?? 0"
+      [saving]="savingGoal()"
+      (chosen)="setGoal($event)"
+      (later)="skipGoal()"
+    />
+  }
+} @else if (notFound()) {
+  <div class="flex flex-1 flex-col items-center justify-center gap-3 text-center">
+    <p class="font-display text-xl font-bold">We couldn't find that lesson.</p>
+    <a routerLink="/app/journey" class="font-semibold text-primary hover:underline"
+      >Back to your journey</a
+    >
+  </div>
+} @else {
+  <div class="flex flex-1 items-center justify-center">
+    <div class="h-10 w-10 animate-spin rounded-full border-4 border-border border-t-primary"></div>
+  </div>
+}

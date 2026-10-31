@@ -33,6 +33,9 @@ export const API_ENDPOINTS = {
     equip: (itemId: string) => `/api/store/items/${itemId}/equip`,
     profile: '/api/me/profile',
   },
+  tutor: {
+    chat: '/api/tutor/chat',
+  },
   practice: {
     problems: '/api/interview/problems',
     today: '/api/interview/today',

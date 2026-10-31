@@ -1,0 +1,43 @@
+:host {
+  @apply flex min-h-0 flex-col border-t border-border bg-bg;
+}
+
+.tabs {
+  @apply flex shrink-0 gap-2 border-b border-border px-2;
+}
+
+.tab {
+  @apply -mb-px flex items-center gap-1.5 border-b-2 border-transparent px-2 py-2.5 text-sm font-semibold uppercase tracking-wide text-muted hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply border-primary text-primary;
+  }
+}
+
+.pane {
+  @apply min-h-0 overflow-y-auto p-4;
+}
+
+.pane-label {
+  @apply text-sm text-muted;
+}
+
+.console {
+  @apply mt-2 whitespace-pre-wrap break-words font-mono text-[15px] leading-6 text-text;
+}
+
+.switch {
+  @apply relative h-5 w-9 rounded-full bg-surface-2 transition-colors duration-hover;
+
+  span {
+    @apply absolute left-0.5 top-0.5 h-4 w-4 rounded-full bg-white transition-transform duration-hover;
+  }
+
+  &[aria-checked='true'] {
+    @apply bg-primary;
+
+    span {
+      @apply translate-x-4;
+    }
+  }
+}

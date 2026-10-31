@@ -1,0 +1,28 @@
+:host {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+}
+
+.backdrop {
+  @apply absolute inset-0 bg-black/40;
+}
+
+.card {
+  @apply relative w-full max-w-[360px] animate-fade-up rounded-modal border-2 border-border bg-surface p-5 shadow-modal;
+}
+
+.chip {
+  @apply inline-flex items-center gap-1.5 rounded-full border px-3 py-1 text-sm font-semibold;
+  border-color: currentColor;
+}
+
+.stat {
+  @apply overflow-hidden rounded-btn border-2 border-info/70 text-center;
+}
+
+.stat-label {
+  @apply bg-info/80 py-1 font-display text-sm font-bold text-white;
+}
+
+.stat-value {
+  @apply flex items-center justify-center gap-1 py-2 font-display text-xl font-bold;
+}

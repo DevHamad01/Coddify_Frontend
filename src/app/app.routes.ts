@@ -135,5 +135,12 @@ export const routes: Routes = [
       },
     ],
   },
+  {
+    // Full-screen lesson, outside the sidebar shell.
+    path: 'learn/:lessonId',
+    title: 'Lesson | Coddify',
+    canActivate: [authGuard, onboardingGuard],
+    loadComponent: () => import('./features/lesson/lesson').then((m) => m.Lesson),
+  },
   { path: '**', redirectTo: '' },
 ];

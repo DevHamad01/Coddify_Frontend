@@ -1,0 +1,43 @@
+:host {
+  @apply flex h-full min-h-0 flex-col border-l border-border bg-bg;
+}
+
+.icon-btn {
+  @apply flex h-8 w-8 items-center justify-center rounded-lg text-muted hover:bg-surface hover:text-text;
+}
+
+.thread {
+  @apply flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto p-4;
+}
+
+.bubble {
+  @apply max-w-[88%] self-start rounded-2xl rounded-tl-md border border-border bg-surface px-4 py-2.5 text-[15px] leading-6;
+
+  &.is-me {
+    @apply self-end rounded-2xl rounded-tr-md border-ai/40 bg-ai/15;
+  }
+}
+
+.typing {
+  @apply flex gap-1;
+
+  span {
+    @apply h-2 w-2 animate-bounce rounded-full bg-muted;
+
+    &:nth-child(2) {
+      animation-delay: 0.15s;
+    }
+
+    &:nth-child(3) {
+      animation-delay: 0.3s;
+    }
+  }
+}
+
+.composer {
+  @apply m-3 flex items-end gap-2 rounded-card border border-border bg-surface px-4 py-3 focus-within:border-ai/60;
+}
+
+.send {
+  @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-btn bg-ai text-white transition-opacity disabled:opacity-40;
+}

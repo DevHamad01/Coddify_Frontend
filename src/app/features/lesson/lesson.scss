@@ -1,0 +1,82 @@
+:host {
+  @apply flex h-dvh flex-col overflow-hidden bg-bg;
+}
+
+.topbar {
+  @apply flex h-14 shrink-0 items-center border-b border-border px-3;
+}
+
+.stat {
+  @apply flex items-center gap-1 font-display text-lg font-bold text-muted;
+}
+
+.icon-btn {
+  @apply flex h-9 w-9 items-center justify-center rounded-lg text-muted transition-colors duration-hover hover:bg-surface hover:text-text;
+}
+
+// Lesson | editor | tutor. Phones stack lesson above the editor and scroll.
+.workspace {
+  @apply grid min-h-0 flex-1 grid-cols-1 overflow-y-auto lg:overflow-hidden;
+  grid-template-rows: auto minmax(560px, 1fr);
+
+  @screen lg {
+    grid-template-columns: minmax(340px, 36%) 1fr;
+    grid-template-rows: none;
+
+    &.has-tutor {
+      grid-template-columns: minmax(320px, 32%) 1fr 340px;
+    }
+
+    &.panel-collapsed {
+      grid-template-columns: 1fr;
+
+      &.has-tutor {
+        grid-template-columns: 1fr 360px;
+      }
+    }
+  }
+}
+
+.left {
+  @apply border-b border-border lg:border-b-0 lg:border-r;
+}
+
+.center {
+  @apply flex min-h-0 min-w-0 flex-col;
+}
+
+.editor-bar {
+  @apply flex h-12 shrink-0 items-center gap-1 border-b border-border bg-bg px-2;
+}
+
+.file-tab {
+  @apply ml-1 flex h-full items-center gap-2 border-x border-border bg-[#1e1e1e] px-4 font-display text-[15px] font-semibold text-[#e5e5e5];
+}
+
+.editor-wrap {
+  @apply relative min-h-[280px] flex-[3];
+}
+
+.tests {
+  @apply min-h-[200px] flex-[2];
+}
+
+.actions {
+  @apply absolute bottom-4 right-4 z-10 flex gap-2;
+}
+
+.ask-ai {
+  @apply flex items-center gap-2 rounded-btn border border-border bg-surface px-4 py-2.5 font-display font-semibold text-text shadow-modal transition-colors duration-hover hover:bg-surface-2;
+}
+
+.run {
+  @apply flex items-center gap-2 rounded-btn bg-info px-5 py-2.5 font-display font-bold text-white shadow-modal transition-[filter] duration-hover hover:brightness-110 disabled:opacity-60;
+}
+
+.right {
+  @apply fixed inset-0 z-40 flex lg:static lg:z-auto;
+}
+
+:host-context([data-theme='light']) .file-tab {
+  @apply bg-white text-text;
+}

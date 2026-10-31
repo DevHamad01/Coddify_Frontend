@@ -1,0 +1,109 @@
+<div class="tabs" role="tablist" aria-label="Results">
+  <button
+    type="button"
+    role="tab"
+    class="tab"
+    [attr.aria-selected]="tab() === 'tests'"
+    (click)="tab.set('tests')"
+  >
+    Test cases
+    @if (allPassed()) {
+      <app-icon name="check-circle" [size]="16" [filled]="false" class="text-success" />
+    }
+  </button>
+  <button
+    type="button"
+    role="tab"
+    class="tab"
+    [attr.aria-selected]="tab() === 'solution'"
+    (click)="tab.set('solution')"
+  >
+    Solution
+  </button>
+</div>
+
+@if (tab() === 'tests') {
+  <div class="grid min-h-0 flex-1 grid-cols-1 md:grid-cols-2" role="tabpanel">
+    <section class="pane" aria-label="Output" aria-live="polite">
+      <p class="pane-label">Output</p>
+      @if (running()) {
+        <app-spinner [size]="20" label="Running your code" class="mt-3" />
+      } @else if (result(); as result) {
+        @if (result.output) {
+          <pre class="console">{{ result.output }}</pre>
+        }
+        @if (result.error) {
+          <pre class="console text-danger">{{ result.error }}</pre>
+        }
+        @if (!result.output && !result.error) {
+          <p class="mt-3 text-sm text-muted">Your program ran but printed nothing.</p>
+        }
+      } @else {
+        <p class="mt-3 text-sm text-muted">Press Run Code (Ctrl + Enter) to see the output here.</p>
+      }
+    </section>
+
+    <section
+      class="pane border-t border-border md:border-l md:border-t-0"
+      aria-label="Expected output"
+    >
+      <div class="flex items-center gap-2">
+        <p class="pane-label">Expected Output</p>
+        <button
+          type="button"
+          role="switch"
+          class="switch"
+          [attr.aria-checked]="showExpected()"
+          aria-label="Show expected output"
+          (click)="showExpected.set(!showExpected())"
+        >
+          <span></span>
+        </button>
+      </div>
+      @if (showExpected()) {
+        <ul class="mt-3 flex flex-col gap-3">
+          @for (test of tests(); track test.id) {
+            <li class="flex items-start gap-2">
+              @if (result()) {
+                <app-icon
+                  [name]="passedIds().has(test.id) ? 'check-circle' : 'x-circle'"
+                  [size]="18"
+                  [class]="passedIds().has(test.id) ? 'mt-0.5 text-success' : 'mt-0.5 text-danger'"
+                />
+              }
+              <div class="min-w-0">
+                @if (test.expectedOutput === null) {
+                  <p class="font-semibold">Any output passes</p>
+                  <p class="mt-1 text-sm text-muted">
+                    There is no exact text to match. Print anything, and make sure the code runs
+                    without errors.
+                  </p>
+                } @else {
+                  <p class="font-semibold">{{ test.label }}</p>
+                  <pre class="console">{{ test.expectedOutput }}</pre>
+                }
+              </div>
+            </li>
+          }
+        </ul>
+      }
+    </section>
+  </div>
+} @else {
+  <div class="pane min-h-0 flex-1" role="tabpanel">
+    @if (attempts() > 0) {
+      <pre class="console">{{ solution() }}</pre>
+      <button
+        type="button"
+        class="mt-3 text-sm font-semibold text-primary hover:underline"
+        (click)="useSolution.emit(solution())"
+      >
+        Copy into the editor
+      </button>
+    } @else {
+      <p class="text-sm text-muted">
+        Give it one try first. The solution unlocks after your first run.
+      </p>
+    }
+  </div>
+}

@@ -1,0 +1,130 @@
+<div class="tabs" role="tablist" aria-label="Lesson panels">
+  @for (item of tabs; track item.id) {
+    <button
+      type="button"
+      role="tab"
+      class="tab"
+      [attr.aria-selected]="tab() === item.id"
+      (click)="tab.set(item.id)"
+    >
+      <app-icon [name]="item.icon" [size]="16" />{{ item.label }}
+    </button>
+  }
+</div>
+
+<div class="body" role="tabpanel">
+  @switch (tab()) {
+    @case ('lesson') {
+      <div class="flex items-start justify-between gap-3">
+        <h1 class="font-display text-2xl font-bold">{{ lesson().title }}</h1>
+        <div class="flex shrink-0 gap-2">
+          <button
+            type="button"
+            class="mini-toggle"
+            [attr.aria-pressed]="tldr()"
+            (click)="tldr.set(!tldr())"
+          >
+            TL;DR
+          </button>
+          <button
+            type="button"
+            class="mini-toggle"
+            [attr.aria-pressed]="hidden()"
+            (click)="hidden.set(!hidden())"
+          >
+            {{ hidden() ? 'Show' : 'Hide' }}
+          </button>
+        </div>
+      </div>
+
+      @if (!hidden()) {
+        <div class="prose-lesson mt-4">
+          @if (tldr()) {
+            <p><app-rich-text [text]="lesson().summary" /></p>
+          } @else {
+            @for (block of lesson().content; track $index) {
+              @switch (block.type) {
+                @case ('paragraph') {
+                  <p><app-rich-text [text]="block.text" /></p>
+                }
+                @case ('code') {
+                  <pre class="code-block"><code>{{ block.code }}</code></pre>
+                }
+                @case ('tip') {
+                  <p class="tip">
+                    <app-icon name="lightbulb" [size]="18" class="mt-0.5 shrink-0 text-xp" />
+                    <span><app-rich-text [text]="block.text" /></span>
+                  </p>
+                }
+              }
+            }
+          }
+        </div>
+      }
+
+      <section class="mt-8" aria-labelledby="challenge-title">
+        <h2 id="challenge-title" class="flex items-center gap-3 font-display text-2xl font-bold">
+          <app-icon name="lightbulb" [size]="24" />
+          Challenge
+          <span class="level-chip">{{ lesson().challenge.level }}</span>
+        </h2>
+        <p class="mt-4 text-[17px] leading-7">
+          <app-rich-text [text]="lesson().challenge.intro" />
+        </p>
+        <p class="mt-4 font-bold">What to do:</p>
+        <ol class="mt-2 list-decimal space-y-1.5 pl-6 text-[17px] leading-7">
+          @for (step of lesson().challenge.steps; track $index) {
+            <li><app-rich-text [text]="step" /></li>
+          }
+        </ol>
+        <button type="button" class="explain" (click)="explain.emit()">
+          <app-icon name="sparkles" [size]="18" /> Explain challenge
+        </button>
+      </section>
+    }
+
+    @case ('reference') {
+      <h1 class="font-display text-2xl font-bold">Reference</h1>
+      <ul class="mt-4 flex flex-col gap-3">
+        @for (entry of lesson().reference; track entry.title) {
+          <li class="rounded-card border border-border bg-surface-2/50 p-4">
+            <p class="font-mono font-bold text-primary">{{ entry.title }}</p>
+            <p class="mt-1 text-[15px] text-muted">{{ entry.body }}</p>
+            @if (entry.code) {
+              <pre class="code-block mt-3"><code>{{ entry.code }}</code></pre>
+            }
+          </li>
+        }
+      </ul>
+    }
+
+    @case ('submissions') {
+      <h1 class="font-display text-2xl font-bold">Submissions</h1>
+      <ul class="mt-4 flex flex-col gap-3">
+        @for (submission of submissions(); track submission.id) {
+          <li class="flex items-center gap-3 rounded-card border border-border p-4">
+            <app-icon
+              [name]="submission.passed ? 'check-circle' : 'x-circle'"
+              [class]="submission.passed ? 'text-success' : 'text-danger'"
+            />
+            <div class="min-w-0 flex-1">
+              <p class="font-semibold">{{ submission.passed ? 'Accepted' : 'Failed' }}</p>
+              <p class="text-sm text-muted">{{ submission.submittedAt | date: 'medium' }}</p>
+            </div>
+            <button
+              type="button"
+              class="text-sm font-semibold text-primary hover:underline"
+              (click)="loadCode.emit(submission.code)"
+            >
+              Load code
+            </button>
+          </li>
+        } @empty {
+          <li class="rounded-card border border-dashed border-border p-6 text-center text-muted">
+            No submissions yet. Pass the tests and your code shows up here.
+          </li>
+        }
+      </ul>
+    }
+  }
+</div>

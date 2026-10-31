@@ -1,0 +1,48 @@
+<header class="flex items-center gap-3 border-b border-border px-4 py-3">
+  <app-mascot pose="happy" [size]="34" [animated]="false" label="" />
+  <div class="min-w-0 flex-1">
+    <p class="font-display font-bold leading-tight">Bit</p>
+    <p class="text-xs text-muted">Your AI tutor</p>
+  </div>
+  <button type="button" class="icon-btn" aria-label="Close tutor" (click)="closed.emit()">
+    <app-icon name="x" [size]="18" />
+  </button>
+</header>
+
+<div #thread class="thread" aria-live="polite">
+  @if (!messages().length) {
+    <div class="m-auto flex max-w-[280px] flex-col items-center text-center">
+      <app-mascot pose="waving" [size]="110" />
+      <p class="mt-4 font-display text-lg font-bold">Hi, I'm Bit!</p>
+      <p class="mt-1 text-sm leading-6 text-muted">
+        I'm Coddify's AI tutor. I can see your code and the challenge. Ask me to explain concepts,
+        debug errors, or give you a hint.
+      </p>
+    </div>
+  }
+  @for (message of messages(); track message.id) {
+    <div class="bubble" [class.is-me]="message.from === 'me'">
+      <app-rich-text [text]="message.text" />
+    </div>
+  }
+  @if (thinking()) {
+    <div class="bubble typing" aria-label="Bit is typing">
+      <span></span><span></span><span></span>
+    </div>
+  }
+</div>
+
+<form class="composer" (submit)="$event.preventDefault(); ask(draft())">
+  <textarea
+    rows="1"
+    class="max-h-32 flex-1 resize-none overflow-y-auto bg-transparent text-[15px] text-text outline-none [scrollbar-width:none] placeholder:text-muted"
+    placeholder="Ask Bit anything about this lesson"
+    aria-label="Message Bit"
+    [value]="draft()"
+    (input)="draft.set($any($event.target).value)"
+    (keydown)="onKey($event)"
+  ></textarea>
+  <button type="submit" class="send" aria-label="Send" [disabled]="!draft().trim() || thinking()">
+    <app-icon name="arrow-up" [size]="18" [strokeWidth]="2.6" />
+  </button>
+</form>

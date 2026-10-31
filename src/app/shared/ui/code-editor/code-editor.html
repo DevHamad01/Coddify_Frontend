@@ -1,0 +1,13 @@
+<div #container class="editor" [class.invisible]="!ready()"></div>
+
+@if (!ready()) {
+  <div class="overlay">
+    @if (failed()) {
+      <p class="text-sm text-muted">
+        The code editor could not load. Check your connection and refresh.
+      </p>
+    } @else {
+      <app-spinner [size]="24" label="Loading the code editor" />
+    }
+  </div>
+}

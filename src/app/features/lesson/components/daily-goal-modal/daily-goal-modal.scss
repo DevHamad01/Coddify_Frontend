@@ -1,0 +1,31 @@
+:host {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+}
+
+.backdrop {
+  @apply absolute inset-0 bg-black/40;
+}
+
+.card {
+  @apply relative w-full max-w-[360px] animate-fade-up rounded-modal border-2 border-border bg-surface p-5 shadow-modal;
+}
+
+.option {
+  @apply flex items-center gap-3 rounded-card border-2 border-border bg-bg px-4 py-3 transition-colors duration-hover hover:bg-surface-2;
+
+  &[aria-checked='true'] {
+    @apply border-primary bg-primary/10;
+
+    .radio {
+      @apply border-primary bg-primary text-primary-contrast;
+    }
+  }
+}
+
+.radio {
+  @apply flex h-6 w-6 shrink-0 items-center justify-center rounded-full border-2 border-muted;
+}
+
+.badge {
+  @apply rounded-md bg-primary px-2 py-0.5 text-[11px] font-bold uppercase text-primary-contrast;
+}

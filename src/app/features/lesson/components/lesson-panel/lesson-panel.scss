@@ -1,0 +1,47 @@
+:host {
+  @apply flex h-full min-h-0 flex-col bg-bg;
+}
+
+.tabs {
+  @apply flex shrink-0 gap-1 border-b border-border px-3;
+}
+
+.tab {
+  @apply -mb-px flex items-center gap-2 border-b-2 border-transparent px-3 py-3 font-display text-[15px] font-semibold text-muted transition-colors duration-hover hover:text-text;
+
+  &[aria-selected='true'] {
+    @apply border-primary text-text;
+  }
+}
+
+.body {
+  @apply min-h-0 flex-1 overflow-y-auto px-6 py-6;
+}
+
+.mini-toggle {
+  @apply rounded-lg border border-border px-2.5 py-1 text-sm text-muted transition-colors duration-hover hover:text-text;
+
+  &[aria-pressed='true'] {
+    @apply border-primary/60 text-primary;
+  }
+}
+
+.prose-lesson {
+  @apply flex flex-col gap-4 text-[17px] leading-7 text-text;
+}
+
+.code-block {
+  @apply overflow-x-auto rounded-btn border border-border bg-[#1e1e1e] px-4 py-3 font-mono text-[14px] leading-6 text-[#d4d4d4];
+}
+
+.tip {
+  @apply flex gap-3 rounded-btn border border-xp/30 bg-xp/10 px-4 py-3 text-[15px];
+}
+
+.level-chip {
+  @apply rounded-full bg-primary px-3 py-0.5 font-sans text-sm font-semibold text-primary-contrast;
+}
+
+.explain {
+  @apply mt-6 inline-flex items-center gap-2 rounded-btn border border-border px-4 py-2 font-display font-bold text-primary transition-colors duration-hover hover:bg-surface;
+}

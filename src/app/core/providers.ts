@@ -12,6 +12,7 @@ import {
 import { HttpLearningApi, LearningApi, MockLearningApi } from './learning/learning-api';
 import { HttpOnboardingApi, MockOnboardingApi, OnboardingApi } from './onboarding/onboarding-api';
 import { HttpPracticeApi, MockPracticeApi, PracticeApi } from './practice/practice-api';
+import { HttpTutorApi, MockTutorApi, TutorApi } from './learning/tutor-api';
 
 /**
  * Binds each API contract to its mock or HTTP implementation based on `useMockApi`.
@@ -32,6 +33,10 @@ export function provideApis(): EnvironmentProviders {
     {
       provide: GamificationApi,
       useFactory: () => (useMock() ? inject(MockGamificationApi) : inject(HttpGamificationApi)),
+    },
+    {
+      provide: TutorApi,
+      useFactory: () => (useMock() ? inject(MockTutorApi) : inject(HttpTutorApi)),
     },
     {
       provide: PracticeApi,
