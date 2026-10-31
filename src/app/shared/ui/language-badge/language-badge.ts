@@ -1,29 +1,18 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, input } from '@angular/core';
 
 import { Language } from '../../data/languages';
+import { TechLogo } from '../tech-logo/tech-logo';
 
-/** Coloured letter badge used instead of third-party language logos. */
+/** Official logo of one of the launch languages (language ids match the logo file names). */
 @Component({
   selector: 'app-language-badge',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: {
-    class:
-      'inline-flex shrink-0 items-center justify-center rounded-[28%] font-mono font-bold leading-none',
-    '[style.width.px]': 'size()',
-    '[style.height.px]': 'size()',
-    '[style.font-size.px]': 'fontSize()',
-    '[style.background]': 'language().color',
-    '[style.color]': 'language().badgeText',
-    'aria-hidden': 'true',
-  },
+  imports: [TechLogo],
+  host: { class: 'inline-flex shrink-0', 'aria-hidden': 'true' },
   templateUrl: './language-badge.html',
   styleUrl: './language-badge.scss',
 })
 export class LanguageBadge {
   readonly language = input.required<Language>();
   readonly size = input<number>(32);
-
-  protected readonly fontSize = computed(() =>
-    Math.round(this.size() * (this.language().badge.length > 2 ? 0.3 : 0.38)),
-  );
 }

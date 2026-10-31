@@ -1,0 +1,9 @@
+img {
+  display: block;
+  object-fit: contain;
+  user-select: none;
+}
+
+:host-context([data-theme='dark']) .invert-on-dark {
+  filter: invert(1);
+}

@@ -1,0 +1,4 @@
+.tech-chip {
+  @apply flex h-14 items-center gap-3 rounded-btn border-2 border-border bg-surface px-5 font-display text-lg font-bold text-text transition-colors duration-hover hover:border-primary/60;
+  box-shadow: 0 4px 0 0 rgb(var(--c-border));
+}
