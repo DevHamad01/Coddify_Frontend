@@ -1,7 +1,11 @@
 <header class="flex items-center gap-3 border-b border-border px-4 py-3">
-  <app-mascot pose="happy" [size]="34" [animated]="false" label="" />
+  @if (look() === 'bit') {
+    <app-mascot pose="happy" [size]="34" [animated]="false" label="" />
+  } @else {
+    <app-tutor-bot [look]="look()" [size]="34" label="" />
+  }
   <div class="min-w-0 flex-1">
-    <p class="font-display font-bold leading-tight">Bit</p>
+    <p class="font-display font-bold leading-tight">{{ tutorName() }}</p>
     <p class="text-xs text-muted">Your AI tutor</p>
   </div>
   <button type="button" class="icon-btn" aria-label="Close tutor" (click)="closed.emit()">
@@ -12,8 +16,12 @@
 <div #thread class="thread" aria-live="polite">
   @if (!messages().length) {
     <div class="m-auto flex max-w-[280px] flex-col items-center text-center">
-      <app-mascot pose="waving" [size]="110" />
-      <p class="mt-4 font-display text-lg font-bold">Hi, I'm Bit!</p>
+      @if (look() === 'bit') {
+        <app-mascot pose="waving" [size]="110" />
+      } @else {
+        <app-tutor-bot [look]="look()" [size]="100" [animated]="true" label="" />
+      }
+      <p class="mt-4 font-display text-lg font-bold">Hi, I'm {{ tutorName() }}!</p>
       <p class="mt-1 text-sm leading-6 text-muted">
         I'm Coddify's AI tutor. I can see your code and the challenge. Ask me to explain concepts,
         debug errors, or give you a hint.
@@ -26,7 +34,7 @@
     </div>
   }
   @if (thinking()) {
-    <div class="bubble typing" aria-label="Bit is typing">
+    <div class="bubble typing" [attr.aria-label]="tutorName() + ' is typing'">
       <span></span><span></span><span></span>
     </div>
   }
@@ -36,8 +44,8 @@
   <textarea
     rows="1"
     class="max-h-32 flex-1 resize-none overflow-y-auto bg-transparent text-[15px] text-text outline-none [scrollbar-width:none] placeholder:text-muted"
-    placeholder="Ask Bit anything about this lesson"
-    aria-label="Message Bit"
+    [placeholder]="'Ask ' + tutorName() + ' anything about this lesson'"
+    [attr.aria-label]="'Message ' + tutorName()"
     [value]="draft()"
     (input)="draft.set($any($event.target).value)"
     (keydown)="onKey($event)"

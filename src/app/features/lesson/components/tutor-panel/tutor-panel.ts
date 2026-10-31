@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  computed,
   inject,
   input,
   output,
@@ -10,10 +11,13 @@ import {
 } from '@angular/core';
 import { finalize } from 'rxjs';
 
+import { ProgressStore } from '../../../../core/gamification/progress.store';
 import { RunResult } from '../../../../core/learning/learning.models';
 import { TutorApi } from '../../../../core/learning/tutor-api';
+import { tutorLook } from '../../../../shared/data/tutor-looks';
 import { Icon } from '../../../../shared/ui/icon/icon';
 import { Mascot } from '../../../../shared/ui/mascot/mascot';
+import { TutorBot } from '../../../../shared/ui/tutor-bot/tutor-bot';
 import { RichText } from '../../../../shared/ui/rich-text/rich-text';
 
 interface ChatMessage {
@@ -28,7 +32,7 @@ const SUGGESTION = 'Can you help me with this challenge?';
 @Component({
   selector: 'app-tutor-panel',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [Icon, Mascot, RichText],
+  imports: [Icon, Mascot, RichText, TutorBot],
   templateUrl: './tutor-panel.html',
   styleUrl: './tutor-panel.scss',
 })
@@ -39,6 +43,9 @@ export class TutorPanel {
   readonly closed = output<void>();
 
   private readonly api = inject(TutorApi);
+  /** The tutor character equipped in the store. */
+  protected readonly look = inject(ProgressStore).tutorLook;
+  protected readonly tutorName = computed(() => tutorLook(this.look()).name);
   private readonly thread = viewChild<ElementRef<HTMLElement>>('thread');
   private nextId = 0;
 

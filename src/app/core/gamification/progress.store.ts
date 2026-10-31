@@ -6,6 +6,10 @@ import { LessonReward } from '../learning/learning.models';
 import { GamificationApi } from './gamification-api';
 import { MissionsSummary, UserStats } from './gamification.models';
 
+function artOf(itemId: string | undefined, fallback: string): string {
+  return itemId ? itemId.slice(itemId.indexOf('-') + 1) : fallback;
+}
+
 /**
  * App-wide snapshot of the learner's stats and daily missions. Loaded once by the app shell,
  * refreshed after anything that earns XP so every widget (rail, lesson header) stays in sync.
@@ -25,6 +29,12 @@ export class ProgressStore {
     const stats = this.stats();
     return stats ? stats.levelXpTarget - stats.levelXp : 0;
   });
+
+  /** Art keys of the equipped cosmetics (ids are "<slot>-<art>", e.g. "flame-blue"). */
+  readonly flameColor = computed(() => artOf(this.stats()?.equipped['streak-flame'], 'classic'));
+  readonly frameStyle = computed(() => artOf(this.stats()?.equipped.frame, 'none'));
+  readonly nameEffect = computed(() => artOf(this.stats()?.equipped['name-effect'], 'plain'));
+  readonly tutorLook = computed(() => artOf(this.stats()?.equipped.tutor, 'bit'));
 
   constructor() {
     // The equipped editor theme follows the learner into every code editor.

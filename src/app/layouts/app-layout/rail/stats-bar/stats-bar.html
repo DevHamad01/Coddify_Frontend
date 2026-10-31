@@ -24,7 +24,7 @@
         <span [class]="stats.activitiesToday ? 'text-streak' : 'text-muted'">{{
           stats.streak
         }}</span>
-        <app-nav-art name="flame" [size]="24" [muted]="!stats.activitiesToday" />
+        <app-streak-flame [color]="store.flameColor()" [size]="24" [muted]="!stats.activitiesToday" />
       </button>
     </li>
     <li class="slot" (mouseenter)="hover('gems')" (mouseleave)="leave()">

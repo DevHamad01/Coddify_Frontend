@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 import { ProgressStore } from '../../../../core/gamification/progress.store';
 import { NavArt } from '../../../../shared/ui/nav-art/nav-art';
+import { StreakFlame } from '../../../../shared/ui/streak-flame/streak-flame';
 import { TechLogo } from '../../../../shared/ui/tech-logo/tech-logo';
 import { CoursePopover } from './course-popover/course-popover';
 import { GemsPopover } from './gems-popover/gems-popover';
@@ -22,7 +23,7 @@ const CLOSE_DELAY_MS = 180;
 @Component({
   selector: 'app-stats-bar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [NavArt, TechLogo, CoursePopover, StreakPopover, GemsPopover],
+  imports: [NavArt, StreakFlame, TechLogo, CoursePopover, StreakPopover, GemsPopover],
   host: {
     '(document:click)': 'onDocumentClick($event)',
     '(document:keydown.escape)': 'open.set(null)',

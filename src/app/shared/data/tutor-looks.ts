@@ -1,5 +1,6 @@
 /** How each AI tutor character looks. Keys match the store item `art` of the tutor items. */
 export interface TutorLook {
+  readonly name: string;
   /** Head and body plating. */
   readonly shell: string;
   /** Darker shade of the shell for the body and outlines. */
@@ -17,6 +18,7 @@ export interface TutorLook {
 
 export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
   bit: {
+    name: 'Bit',
     shell: '#F4F2FC',
     shade: '#D9D4F0',
     accent: '#7FD4FF',
@@ -28,6 +30,7 @@ export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
     lashes: false,
   },
   nova: {
+    name: 'Nova',
     shell: '#FBCFE8',
     shade: '#F5A3CF',
     accent: '#EC4899',
@@ -39,6 +42,7 @@ export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
     lashes: true,
   },
   byte: {
+    name: 'Byte',
     shell: '#2E2E2E',
     shade: '#1C1C1C',
     accent: '#22D3EE',
@@ -50,6 +54,7 @@ export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
     lashes: false,
   },
   pixel: {
+    name: 'Pixel',
     shell: '#FDE68A',
     shade: '#F5C451',
     accent: '#FB923C',
@@ -61,6 +66,7 @@ export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
     lashes: false,
   },
   sage: {
+    name: 'Sage',
     shell: '#D1FAE5',
     shade: '#A7E8C9',
     accent: '#10B981',
@@ -72,6 +78,7 @@ export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
     lashes: false,
   },
   ada: {
+    name: 'Professor Ada',
     shell: '#EDE9FE',
     shade: '#D2C9FB',
     accent: '#8B5CF6',
@@ -83,6 +90,7 @@ export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
     lashes: true,
   },
   luna: {
+    name: 'Luna',
     shell: '#3730A3',
     shade: '#28237A',
     accent: '#A5B4FC',
@@ -94,6 +102,7 @@ export const TUTOR_LOOKS: Readonly<Record<string, TutorLook>> = {
     lashes: true,
   },
   max: {
+    name: 'Max',
     shell: '#FBBF24',
     shade: '#E0A00F',
     accent: '#111827',
