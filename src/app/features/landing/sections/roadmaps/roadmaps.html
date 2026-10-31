@@ -35,11 +35,15 @@
             class="relative z-10 flex h-14 w-14 items-center justify-center rounded-2xl border-2"
             [class]="
               node.number
-                ? 'border-primary/70 bg-[#16233a] text-primary'
-                : 'border-dashed border-xp/70 bg-[#16233a] text-xp'
+                ? 'border-primary/70 bg-surface-2 text-primary'
+                : 'border-dashed border-xp/70 bg-surface-2 text-xp'
             "
           >
-            <app-icon [name]="node.icon" [size]="24" />
+            @if (node.tech) {
+              <app-tech-logo [tech]="node.tech" [size]="30" />
+            } @else {
+              <app-icon [name]="node.icon" [size]="24" />
+            }
             @if (node.number) {
               <span
                 class="absolute -right-2 -top-2 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[11px] font-bold text-primary-contrast"

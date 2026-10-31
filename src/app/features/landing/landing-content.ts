@@ -1,4 +1,5 @@
 import { AccordionItem } from '../../shared/ui/accordion/accordion';
+import { TechId } from '../../shared/data/tech';
 import { IconName } from '../../shared/ui/icon/icons';
 
 import { GlobePing } from './components/globe/globe-renderer';
@@ -49,7 +50,8 @@ export interface Roadmap {
   readonly id: string;
   readonly title: string;
   readonly summary: string;
-  readonly steps: readonly { readonly label: string; readonly icon: IconName }[];
+  /** `tech` shows that course's official logo; otherwise `icon` is drawn. */
+  readonly steps: readonly { readonly label: string; readonly icon: IconName; readonly tech?: TechId }[];
 }
 
 export const ROADMAPS: readonly Roadmap[] = [
@@ -58,10 +60,10 @@ export const ROADMAPS: readonly Roadmap[] = [
     title: 'Software Engineer',
     summary: 'The fundamentals interviewers actually test, in the order that makes them stick.',
     steps: [
-      { label: 'First language, done right', icon: 'code' },
-      { label: 'Terminal basics', icon: 'terminal' },
-      { label: 'Git and teamwork', icon: 'route' },
-      { label: 'Data structures', icon: 'layers' },
+      { label: 'First language, done right', icon: 'code', tech: 'python' },
+      { label: 'Terminal basics', icon: 'terminal', tech: 'bash' },
+      { label: 'Git and teamwork', icon: 'route', tech: 'git' },
+      { label: 'Data structures', icon: 'layers', tech: 'cpp' },
       { label: 'Algorithms', icon: 'bolt' },
       { label: 'Clean, readable code', icon: 'book' },
     ],
@@ -71,11 +73,11 @@ export const ROADMAPS: readonly Roadmap[] = [
     title: 'Web Developer',
     summary: 'From your first web page to a deployed app you can show in interviews.',
     steps: [
-      { label: 'HTML and CSS basics', icon: 'monitor' },
-      { label: 'JavaScript essentials', icon: 'code' },
-      { label: 'The DOM and events', icon: 'layers' },
-      { label: 'Talking to APIs', icon: 'globe' },
-      { label: 'A modern framework', icon: 'sparkles' },
+      { label: 'HTML and CSS basics', icon: 'monitor', tech: 'html' },
+      { label: 'JavaScript essentials', icon: 'code', tech: 'javascript' },
+      { label: 'The DOM and events', icon: 'layers', tech: 'css' },
+      { label: 'Talking to APIs', icon: 'globe', tech: 'nodejs' },
+      { label: 'A modern framework', icon: 'sparkles', tech: 'react' },
       { label: 'Ship a portfolio site', icon: 'send' },
     ],
   },
@@ -84,10 +86,10 @@ export const ROADMAPS: readonly Roadmap[] = [
     title: 'Freelancing Starter',
     summary: 'Skills clients pay for, plus the habits that get you repeat work.',
     steps: [
-      { label: 'Python for automation', icon: 'code' },
-      { label: 'Scraping and spreadsheets', icon: 'layers' },
-      { label: 'Small web projects', icon: 'monitor' },
-      { label: 'Git for client work', icon: 'route' },
+      { label: 'Python for automation', icon: 'code', tech: 'python' },
+      { label: 'Scraping and spreadsheets', icon: 'layers', tech: 'sql' },
+      { label: 'Small web projects', icon: 'monitor', tech: 'javascript' },
+      { label: 'Git for client work', icon: 'route', tech: 'git' },
       { label: 'Pricing your first gig', icon: 'briefcase' },
       { label: 'Build a profile that wins', icon: 'star' },
     ],

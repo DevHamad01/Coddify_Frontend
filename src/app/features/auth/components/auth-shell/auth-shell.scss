@@ -6,7 +6,7 @@
   }
 }
 
-/* Teal gradient in light mode, deep teal-navy in dark mode; panel text stays white in both. */
+/* Teal gradient in light mode, teal-to-charcoal in dark mode; panel text stays white in both. */
 .auth-panel {
   background:
     radial-gradient(80% 60% at 100% 0%, rgb(255 255 255 / 0.14), transparent),
@@ -16,6 +16,6 @@
 :host-context([data-theme='dark']) .auth-panel {
   background:
     radial-gradient(80% 60% at 100% 0%, rgb(20 184 166 / 0.25), transparent),
-    linear-gradient(140deg, #0f3d3a, #12263a 60%, #121a2b);
+    linear-gradient(140deg, #0f3d3a, #1f2a29 55%, #262626);
   border: 1px solid rgb(var(--c-border));
 }
