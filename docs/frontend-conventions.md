@@ -20,27 +20,40 @@ src/app/
     api/             endpoint paths, ApiError, mock DB shared by mock APIs
     auth/            AuthApi contract, Http/Mock implementations, AuthService, token storage, Google sign-in
     onboarding/      OnboardingApi contract + implementations, DTOs
+    learning/        LearningApi (journey, lessons, run code), TutorApi, mock course + mini runner
+    gamification/    GamificationApi (stats, missions, leaderboard, store, profile), ProgressStore
+    practice/        PracticeApi (interview problem bank, progress)
     config/          environment (apiBaseUrl, useMockApi, googleClientId)
     guards/          authGuard, guestGuard, onboardingGuard, onboardingPendingGuard
     interceptors/    errorInterceptor (outermost), authInterceptor
     theme/           ThemeService (dark / light / system)
     providers.ts     provideApis(): binds every API contract to mock or HTTP
   shared/
-    ui/              reusable presentational components (one folder each)
-    data/            static data shared across features (languages)
+    ui/              reusable components (one folder each): code-editor (Monaco), tech-logo,
+                     nav-art, mascot, avatar, search-dialog, rich-text, difficulty-badge, ...
+    data/            static data shared across features (languages, tech catalog, search index)
     forms/           form helpers (fieldError)
-  layouts/           PublicLayout (navbar + footer), MinimalLayout (logo only)
+  layouts/
+    public-layout/   navbar (catalog + resources mega menus), mobile drawer, footer
+    minimal-layout/  logo only (auth, onboarding)
+    app-layout/      signed-in shell: sidebar, bottom bar, page-shell (main + rail), rail/ widgets
   features/
-    landing/         landing page: sections/, components/, landing-content.ts (all copy)
+    landing/         sections/, components/ (globe canvas, code window), landing-content.ts
     auth/            components/<page>/ + shared auth pieces, utils/
     onboarding/      page, store, steps config, recommendation rules, components/
+    journey/         /app/journey: syllabus header, hexagon path nodes, popovers
+    lesson/          /learn/:lessonId (full screen): lesson panel, Monaco, tests, tutor, modals
+    practice/ interview/ missions/ leaderboard/ store/ profile/   one page each under /app
     coming-soon/     placeholder for screens planned in later sprints
 ```
+
+Every component lives in its own folder as `<name>.ts`, `<name>.html` and `<name>.scss`
+(the `.scss` may be empty). Do not put templates or styles inline in the `.ts`.
 
 Rules of thumb:
 
 - Standalone components, `ChangeDetectionStrategy.OnPush`, `inject()`, signal `input()`/`output()`/`model()`, `@if`/`@for`.
-- Pages use `templateUrl`; small shared components use inline templates. Keep components under ~200 lines.
+- Always `templateUrl` + `styleUrl`. Keep components under ~200 lines; split into `components/` when bigger.
 - Copy and mock data live in typed constants (`landing-content.ts`, `onboarding-steps.ts`), not in templates.
 - Never touch `window`, `document`, `localStorage` or `sessionStorage` without `isPlatformBrowser` (or code that only runs from user events or `afterNextRender`). `/` and the info pages are prerendered; everything else renders client-side (`app.routes.server.ts`).
 - Strict TypeScript and strict templates are on. No `any`.
@@ -62,6 +75,15 @@ Theme switching: `ThemeService` stores `dark | light | system` (default `dark`) 
 
 Mock app windows on the landing page stay dark in both themes (`.mock-window`, `--mock-*` variables).
 
+## Code editor (Monaco)
+
+`angular.json` copies `node_modules/monaco-editor/min/vs` to `assets/monaco/vs`. `MonacoLoader`
+(`shared/ui/code-editor`) injects the AMD `loader.js` on first use, so Monaco never enters the main
+bundle. Use `<app-code-editor [(value)]="code" language="python" (run)="run()" />`; it follows the app
+theme (`coddify-dark` / `coddify-light`) and resizes with its container. Until the backend sandbox
+exists, `MockLearningApi.run()` executes lesson code with `core/learning/mock/mini-runner.ts`
+(print / console.log, variables, f-strings, arithmetic; no `eval`).
+
 ## Mock API vs real backend
 
 Everything works without a backend. To switch:
@@ -80,7 +102,7 @@ Mock accounts (password `Coddify123`):
 | `new@coddify.dev`        | verified, onboarding pending → `/onboarding` |
 | `unverified@coddify.dev` | login fails with "Email not verified"        |
 
-The mock store persists to `localStorage['coddify.mock-db']`; clear it to reset. In mock mode the register and forgot-password screens show a "Demo mode: open the email link" shortcut, because the mock returns `debugVerificationToken` / `debugResetToken`. The real backend never sends these, so the link does not appear.
+The mock stores persist to `localStorage['coddify.mock-db']` (accounts) and `localStorage['coddify.mock-progress']` (XP, streak, gems, completed lessons, store items); clear them to reset. In mock mode the register and forgot-password screens show a "Demo mode: open the email link" shortcut, because the mock returns `debugVerificationToken` / `debugResetToken`. The real backend never sends these, so the link does not appear.
 
 Google sign-in: set `googleClientId` in the environment. With an empty id the button shows a "Google sign-in not configured" toast.
 
