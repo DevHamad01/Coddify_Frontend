@@ -3,8 +3,10 @@ import {
   Component,
   ElementRef,
   computed,
+  effect,
   inject,
   signal,
+  untracked,
 } from '@angular/core';
 import { finalize } from 'rxjs';
 
@@ -15,6 +17,7 @@ import { LevelCard } from '../../layouts/app-layout/rail/level-card/level-card';
 import { LeaderboardWidget } from '../../layouts/app-layout/rail/leaderboard-widget/leaderboard-widget';
 import { MissionsWidget } from '../../layouts/app-layout/rail/missions-widget/missions-widget';
 import { PageShell } from '../../layouts/app-layout/page-shell/page-shell';
+import { DailyGoalModal } from '../../shared/ui/daily-goal-modal/daily-goal-modal';
 import { ToastService } from '../../shared/ui/toast/toast.service';
 import { NodePopover } from './components/node-popover/node-popover';
 import { PathNode } from './components/path-node/path-node';
@@ -22,8 +25,10 @@ import { SyllabusHeader } from './components/syllabus-header/syllabus-header';
 
 /** Horizontal offsets (px from the centre line) that make the path zig-zag. */
 const OFFSETS = [0, 62, 0, -62];
-const ROW_HEIGHT = 128;
+const ROW_HEIGHT = 136;
 const PATH_WIDTH = 320;
+/** A chapter counts as "in view" once its top passes this far below the viewport top. */
+const HEADER_LINE = 240;
 
 interface PlacedNode {
   readonly node: JourneyNode;
@@ -43,17 +48,19 @@ interface PlacedNode {
     LevelCard,
     LeaderboardWidget,
     MissionsWidget,
+    DailyGoalModal,
   ],
   host: {
     '(document:keydown.escape)': 'selectedId.set(null)',
     '(document:click)': 'onDocumentClick($event)',
+    '(window:scroll)': 'onScroll()',
   },
   templateUrl: './journey.html',
   styleUrl: './journey.scss',
 })
 export class Journey {
   private readonly api = inject(LearningApi);
-  private readonly store = inject(ProgressStore);
+  protected readonly store = inject(ProgressStore);
   private readonly toast = inject(ToastService);
   private readonly host = inject<ElementRef<HTMLElement>>(ElementRef);
 
@@ -62,6 +69,10 @@ export class Journey {
   protected readonly selectedId = signal<string | null>(null);
   protected readonly claiming = signal(false);
   protected readonly error = signal(false);
+  protected readonly goalOpen = signal(false);
+  protected readonly savingGoal = signal(false);
+  /** Chapter scrolled into view; null until the first scroll, then the header follows it. */
+  private readonly visibleChapterId = signal<string | null>(null);
 
   protected readonly currentChapter = computed(() => {
     const chapters = this.journey()?.chapters ?? [];
@@ -69,6 +80,10 @@ export class Journey {
       chapters.find((chapter) => chapter.nodes.some((node) => node.state === 'current')) ??
       chapters[chapters.length - 1]
     );
+  });
+  protected readonly headerChapter = computed(() => {
+    const id = this.visibleChapterId();
+    return this.journey()?.chapters.find((chapter) => chapter.id === id) ?? this.currentChapter();
   });
 
   /** Node coordinates and the SVG path joining them, per chapter. */
@@ -94,12 +109,19 @@ export class Journey {
   );
 
   constructor() {
-    this.load();
+    this.store.ensureLoaded();
+    // The journey follows the active course; switching course elsewhere reloads it.
+    effect(() => {
+      const courseId = this.store.stats()?.courseId;
+      if (courseId && courseId !== untracked(this.journey)?.courseId) {
+        untracked(() => this.load(courseId));
+      }
+    });
   }
 
-  protected load(): void {
+  protected load(courseId = this.store.stats()?.courseId ?? 'python'): void {
     this.error.set(false);
-    this.api.getJourney('python').subscribe({
+    this.api.getJourney(courseId).subscribe({
       next: (journey) => {
         this.journey.set(journey);
         // Bring the next activity into view once it is rendered.
@@ -126,7 +148,31 @@ export class Journey {
         this.toast.success(`Chest opened: +${reward.gems} gems!`);
         this.store.addGems(reward.gems);
         this.selectedId.set(null);
-        this.load();
+        this.load(this.journey()?.courseId);
+      });
+  }
+
+  protected onScroll(): void {
+    const sections = this.host.nativeElement.querySelectorAll<HTMLElement>('[data-chapter]');
+    let visible: string | null = null;
+    for (const section of sections) {
+      if (section.getBoundingClientRect().top <= HEADER_LINE) {
+        visible = section.dataset['chapter'] ?? null;
+      }
+    }
+    this.visibleChapterId.set(visible);
+  }
+
+  protected saveGoal(activities: number | null): void {
+    this.savingGoal.set(true);
+    this.store
+      .setDailyGoal(activities)
+      .pipe(finalize(() => this.savingGoal.set(false)))
+      .subscribe(() => {
+        this.goalOpen.set(false);
+        this.toast.success(
+          activities === null ? 'Daily goal removed.' : `Daily goal set to ${activities} activities.`,
+        );
       });
   }
 

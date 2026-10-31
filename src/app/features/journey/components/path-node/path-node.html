@@ -3,18 +3,38 @@
 }
 <button
   type="button"
-  class="hex"
+  class="node"
   [attr.data-state]="node().state"
+  [attr.data-kind]="node().kind"
   [attr.aria-label]="ariaLabel()"
   [attr.aria-expanded]="selected()"
   (click)="pressed.emit()"
 >
-  <span class="hex-side"></span>
-  <span class="hex-top">
+  @if (node().state === 'current') {
+    <svg class="pulse" viewBox="0 0 96 104" aria-hidden="true">
+      <polygon [attr.points]="hex" />
+    </svg>
+  }
+  <svg class="shape" viewBox="0 0 96 104" aria-hidden="true">
+    <defs>
+      <linearGradient [attr.id]="gradientId" x1="0" y1="0" x2="0" y2="1">
+        <stop offset="0" class="stop-light" />
+        <stop offset="1" class="stop-base" />
+      </linearGradient>
+    </defs>
+    <!-- Side wall: the same hexagon pushed down gives the chunky 3D lip. -->
+    <polygon class="side" [attr.points]="hex" transform="translate(0 9)" />
+    <g class="face">
+      <polygon class="top" [attr.points]="hex" [attr.fill]="'url(#' + gradientId + ')'" />
+      <polygon class="bevel" [attr.points]="innerHex" />
+      <path class="gloss" d="M30 22 Q48 12 66 22" />
+    </g>
+  </svg>
+  <span class="glyph">
     @if (node().kind === 'chest' && node().state !== 'completed') {
       <app-nav-art name="chest" [size]="38" [muted]="node().state === 'locked'" />
     } @else {
-      <app-icon [name]="icon()" [size]="30" [strokeWidth]="2.6" />
+      <app-icon [name]="icon()" [size]="node().state === 'completed' ? 34 : 30" [strokeWidth]="2.8" />
     }
   </span>
 </button>

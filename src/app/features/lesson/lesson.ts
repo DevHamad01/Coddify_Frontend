@@ -23,7 +23,7 @@ import { CodeEditor } from '../../shared/ui/code-editor/code-editor';
 import { Icon } from '../../shared/ui/icon/icon';
 import { NavArt } from '../../shared/ui/nav-art/nav-art';
 import { ToastService } from '../../shared/ui/toast/toast.service';
-import { DailyGoalModal } from './components/daily-goal-modal/daily-goal-modal';
+import { DailyGoalModal } from '../../shared/ui/daily-goal-modal/daily-goal-modal';
 import { LessonCompleteModal } from './components/lesson-complete-modal/lesson-complete-modal';
 import { LessonPanel } from './components/lesson-panel/lesson-panel';
 import { TestPanel } from './components/test-panel/test-panel';

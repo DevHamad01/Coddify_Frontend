@@ -1,11 +1,21 @@
 <app-page-shell>
   @if (journey(); as journey) {
-    @if (currentChapter(); as chapter) {
-      <app-syllabus-header class="sticky top-4 z-20" [journey]="journey" [chapter]="chapter" />
+    @if (headerChapter(); as chapter) {
+      <app-syllabus-header
+        class="sticky top-4 z-20"
+        [journey]="journey"
+        [chapter]="chapter"
+        [dailyGoal]="store.stats()?.dailyGoal ?? null"
+        [activitiesToday]="store.stats()?.activitiesToday ?? 0"
+        (goalClicked)="goalOpen.set(true)"
+      />
     }
 
     @for (block of layout(); track block.chapter.id) {
-      <section class="chapter" [attr.aria-label]="'Chapter ' + block.chapter.number">
+      <section
+        class="chapter"
+        [attr.data-chapter]="block.chapter.id"
+        [attr.aria-label]="'Chapter ' + block.chapter.number">
         <h2 class="divider">
           <span>{{ block.chapter.title }}</span>
         </h2>
@@ -23,7 +33,7 @@
             <div
               class="slot"
               [style.left.px]="item.x"
-              [style.top.px]="item.y - 43"
+              [style.top.px]="item.y - 46"
               [class.is-open]="selectedId() === item.node.id"
               [attr.data-current]="item.node.state === 'current'"
             >
@@ -60,6 +70,17 @@
         <div class="h-20 animate-pulse rounded-2xl bg-surface"></div>
       }
     </div>
+  }
+
+  @if (goalOpen()) {
+    <app-daily-goal-modal
+      [current]="store.stats()?.dailyGoal ?? null"
+      [activitiesToday]="store.stats()?.activitiesToday ?? 0"
+      [saving]="savingGoal()"
+      (chosen)="saveGoal($event)"
+      (removed)="saveGoal(null)"
+      (later)="goalOpen.set(false)"
+    />
   }
 
   <app-level-card rail />

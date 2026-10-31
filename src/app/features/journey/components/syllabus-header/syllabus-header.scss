@@ -1,15 +1,42 @@
 :host {
-  @apply block rounded-card border-2 border-border bg-surface px-5 py-4;
+  @apply block rounded-card border-2 border-border bg-surface px-5 py-4 shadow-modal;
+}
+
+.title {
+  @apply mt-1 font-display text-2xl font-bold;
+  animation: title-in 250ms ease-out;
 }
 
 .chip-button {
   @apply inline-flex items-center gap-1.5 rounded-lg bg-info/10 px-2.5 py-1 text-sm font-semibold text-info transition-colors duration-hover hover:bg-info/20;
 }
 
-.segment {
-  @apply h-2 flex-1 rounded-full bg-surface-2;
+.goal {
+  @apply -mx-2 mt-3 flex w-[calc(100%+16px)] items-center gap-3 rounded-btn px-2 py-1.5 transition-colors duration-hover hover:bg-surface-2;
+}
 
-  &.is-done {
+.segment {
+  @apply h-2 flex-1 rounded-full bg-surface-2 transition-colors duration-300;
+
+  .goal:hover & {
+    @apply bg-border;
+  }
+
+  &.is-done,
+  .goal:hover &.is-done {
     @apply bg-info;
+  }
+}
+
+@keyframes title-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .title {
+    animation: none;
   }
 }

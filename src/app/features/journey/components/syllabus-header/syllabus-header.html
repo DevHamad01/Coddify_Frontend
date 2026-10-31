@@ -1,12 +1,17 @@
 <div class="flex items-start justify-between gap-4">
   <div class="min-w-0">
     <p class="text-sm text-muted">
-      <a routerLink="/app/journey" class="font-semibold text-primary hover:underline">Syllabus</a>
+      <a routerLink="/app/journey/syllabus" class="font-semibold text-info hover:underline"
+        >Syllabus</a
+      >
       <app-icon name="chevron-right" [size]="12" class="mx-1 align-middle" />
-      {{ journey().courseName }} · Section {{ journey().sectionNumber }} · Chapter
-      {{ chapter().number }}
+      Section {{ journey().sectionNumber }} · Chapter
+      <span class="font-semibold text-text">{{ chapter().number }}</span>
     </p>
-    <h1 class="mt-1 font-display text-2xl font-bold">{{ chapter().title }}</h1>
+    <!-- Re-created on every chapter change so the title animates in. -->
+    @for (title of [chapter().title]; track title) {
+      <h1 class="title">{{ title }}</h1>
+    }
   </div>
   <div class="flex shrink-0 flex-col items-end gap-2">
     <button type="button" class="chip-button" (click)="search.open()">
@@ -18,17 +23,25 @@
   </div>
 </div>
 
-<div class="mt-4 flex items-center gap-3">
-  <app-icon name="target" [size]="20" class="text-info" />
-  <div
-    class="flex flex-1 gap-1.5"
-    [attr.aria-label]="done() + ' of ' + segments().length + ' done'"
-  >
-    @for (node of segments(); track node.id) {
-      <span class="segment" [class.is-done]="node.state === 'completed'"></span>
+<button
+  type="button"
+  class="goal"
+  [attr.aria-label]="
+    dailyGoal() === null
+      ? 'Set a daily goal'
+      : done() + ' of ' + dailyGoal() + ' daily activities done. Change goal'
+  "
+  (click)="goalClicked.emit()"
+>
+  <app-icon name="target" [size]="20" class="shrink-0 text-info" />
+  <span class="flex flex-1 gap-1.5">
+    @for (segment of segments(); track segment) {
+      <span class="segment" [class.is-done]="segment < done()"></span>
     }
-  </div>
-  <span class="font-display text-sm font-bold text-info"
-    >{{ done() }} / {{ segments().length }}</span
-  >
-</div>
+  </span>
+  @if (dailyGoal() === null) {
+    <span class="text-sm font-bold text-info">Set goal</span>
+  } @else {
+    <span class="font-display text-sm font-bold text-info">{{ done() }} / {{ dailyGoal() }}</span>
+  }
+</button>

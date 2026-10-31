@@ -11,6 +11,18 @@ const KIND_ICON: Record<Exclude<JourneyNode['kind'], 'chest'>, IconName> = {
   practice: 'code',
 };
 
+/** Pointy-top hexagon centred in the 96x104 viewBox, and a smaller copy for the bevel line. */
+function hexPoints(cx: number, cy: number, r: number): string {
+  return Array.from({ length: 6 }, (_, i) => {
+    const angle = (Math.PI / 3) * i - Math.PI / 2;
+    return `${(cx + r * Math.cos(angle)).toFixed(1)},${(cy + r * Math.sin(angle)).toFixed(1)}`;
+  }).join(' ');
+}
+
+const HEX = hexPoints(48, 46, 38);
+const INNER_HEX = hexPoints(48, 46, 30);
+let nextId = 0;
+
 /** Chunky 3D hexagon on the journey path. Completed = green, current = teal + START, locked = grey. */
 @Component({
   selector: 'app-path-node',
@@ -23,6 +35,11 @@ export class PathNode {
   readonly node = input.required<JourneyNode>();
   readonly selected = input<boolean>(false);
   readonly pressed = output<void>();
+
+  protected readonly hex = HEX;
+  protected readonly innerHex = INNER_HEX;
+  /** Gradient ids must be unique per page. */
+  protected readonly gradientId = `hex-face-${nextId++}`;
 
   protected readonly icon = computed<IconName>(() => {
     const node = this.node();

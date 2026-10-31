@@ -1,65 +1,131 @@
-// Two stacked hexagons: a darker "side" offset downward under the "top" face gives the 3D lip,
-// and pressing pushes the top face down onto it like the app's chunky buttons.
-$hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
+// A rounded 3D hexagon drawn in SVG: a darker copy offset downward is the side wall, the
+// gradient face sits on top and sinks onto the wall when pressed, like the app's chunky buttons.
 
 :host {
   @apply relative inline-flex flex-col items-center;
 }
 
-.hex {
-  @apply relative block h-[86px] w-[78px] outline-none;
-  --top: #3d3d3d;
-  --side: #2a2a2a;
-  --ink: #7a7a7a;
+.node {
+  @apply relative block h-[96px] w-[88px] outline-none;
+  --light: #4a4a4a;
+  --base: #3b3b3b;
+  --side: #262626;
+  --ink: #8a8a8a;
 
   &[data-state='completed'] {
-    --top: #22c55e;
+    --light: #4ade80;
+    --base: #22c55e;
     --side: #15803d;
     --ink: #ffffff;
   }
 
   &[data-state='current'] {
-    --top: rgb(var(--c-primary));
+    --light: rgb(var(--c-primary) / 0.85);
+    --base: rgb(var(--c-primary));
     --side: rgb(var(--c-primary-press));
     --ink: rgb(var(--c-primary-contrast));
-    filter: drop-shadow(0 0 14px rgb(var(--c-primary) / 0.45));
+    filter: drop-shadow(0 0 18px rgb(var(--c-primary) / 0.4));
+
+    .stop-light {
+      stop-color: color-mix(in srgb, rgb(var(--c-primary)) 70%, white);
+    }
+  }
+
+  &:hover .face,
+  &:hover .glyph {
+    transform: translateY(-2px);
+  }
+
+  &:active .face,
+  &:active .glyph {
+    transform: translateY(7px);
   }
 
   &:focus-visible {
-    filter: drop-shadow(0 0 0 2px rgb(var(--c-primary)));
     outline: 2px solid rgb(var(--c-primary));
     outline-offset: 6px;
-    border-radius: 12px;
-  }
-
-  &:active .hex-top {
-    transform: translateY(8px);
+    border-radius: 16px;
   }
 }
 
-.hex-side,
-.hex-top {
-  @apply absolute inset-x-0 h-[78px];
-  clip-path: $hex;
+.shape,
+.pulse {
+  @apply absolute left-0 top-0 h-[96px] w-[88px] overflow-visible;
 }
 
-.hex-side {
-  top: 8px;
-  background: var(--side);
+.stop-light {
+  stop-color: var(--light);
 }
 
-.hex-top {
-  @apply top-0 flex items-center justify-center transition-transform duration-hover;
-  background: var(--top);
+.stop-base {
+  stop-color: var(--base);
+}
+
+.side,
+.top {
+  stroke-width: 10;
+  stroke-linejoin: round;
+}
+
+.side {
+  fill: var(--side);
+  stroke: var(--side);
+}
+
+.top {
+  stroke: var(--base);
+}
+
+.bevel {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.16);
+  stroke-width: 2.5;
+  stroke-linejoin: round;
+}
+
+.gloss {
+  fill: none;
+  stroke: rgb(255 255 255 / 0.35);
+  stroke-width: 4;
+  stroke-linecap: round;
+
+  [data-state='locked'] & {
+    stroke: rgb(255 255 255 / 0.08);
+  }
+}
+
+.face,
+.glyph {
+  transition: transform 120ms ease;
+}
+
+.glyph {
+  @apply absolute inset-x-0 top-0 flex h-[86px] items-center justify-center;
   color: var(--ink);
 
-  // Inner highlight ring.
-  &::after {
-    content: '';
-    @apply absolute inset-[6px];
-    clip-path: $hex;
-    box-shadow: inset 0 3px 0 rgb(255 255 255 / 0.18);
-    border-radius: 2px;
+  [data-state='completed'] & {
+    filter: drop-shadow(0 2px 0 rgb(0 0 0 / 0.18));
+  }
+}
+
+// Expanding hex outline that keeps drawing the eye to the next activity.
+.pulse polygon {
+  fill: none;
+  stroke: rgb(var(--c-primary));
+  stroke-width: 3;
+  stroke-linejoin: round;
+  transform-origin: 48px 48px;
+  animation: hex-pulse 2s ease-out infinite;
+}
+
+@keyframes hex-pulse {
+  from {
+    opacity: 0.7;
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    transform: scale(1.35);
   }
 }
 
@@ -70,5 +136,12 @@ $hex: polygon(50% 0, 100% 25%, 100% 75%, 50% 100%, 0 75%, 0 25%);
   &::after {
     content: '';
     @apply absolute left-1/2 top-full h-2.5 w-2.5 -translate-x-1/2 -translate-y-1/2 rotate-45 border-b-2 border-r-2 border-border bg-surface;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .pulse,
+  .start-bubble {
+    animation: none;
   }
 }
