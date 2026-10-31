@@ -46,6 +46,11 @@ export const API_ENDPOINTS = {
     today: '/api/interview/today',
     progress: '/api/interview/progress',
     interviewDate: '/api/interview/date',
+    challenges: '/api/challenges',
+    problem: (id: string) => `/api/problems/${id}`,
+    run: (id: string) => `/api/problems/${id}/run`,
+    submit: (id: string) => `/api/problems/${id}/submit`,
+    submissions: (id: string) => `/api/problems/${id}/submissions`,
   },
 } as const;
 

@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 import { Submission } from '../../learning/learning.models';
+import { ProblemSubmission } from '../../practice/practice.models';
 import { TechId } from '../../../shared/data/tech';
 import { isoDate } from '../../gamification/streak-calendar';
 
@@ -34,6 +35,7 @@ export interface MockProgressState {
   /** yyyy-mm-dd of every day with at least one completed activity (streak calendar). */
   activeDays: string[];
   longestStreak: number;
+  problemSubmissions: Record<string, ProblemSubmission[]>;
 }
 
 const STORAGE_KEY = 'coddify.mock-progress';
@@ -60,6 +62,7 @@ const FRESH: MockProgressState = {
   enrolledCourses: ['python'],
   activeDays: [],
   longestStreak: 0,
+  problemSubmissions: {},
 };
 
 /** Local yyyy-mm-dd, so "today" flips at the learner's midnight, not UTC's. */
