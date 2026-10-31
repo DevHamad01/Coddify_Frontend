@@ -16,6 +16,29 @@ export const API_ENDPOINTS = {
   onboarding: {
     save: '/api/onboarding',
   },
+  learning: {
+    journey: (courseId: string) => `/api/courses/${courseId}/journey`,
+    lesson: (lessonId: string) => `/api/lessons/${lessonId}`,
+    run: (lessonId: string) => `/api/lessons/${lessonId}/run`,
+    complete: (lessonId: string) => `/api/lessons/${lessonId}/complete`,
+    submissions: (lessonId: string) => `/api/lessons/${lessonId}/submissions`,
+    claimChest: (nodeId: string) => `/api/journey/chests/${nodeId}/claim`,
+  },
+  gamification: {
+    stats: '/api/me/stats',
+    dailyGoal: '/api/me/daily-goal',
+    missions: '/api/me/missions',
+    leaderboard: (scope: string) => `/api/leaderboard/${scope}`,
+    store: (tab: string) => `/api/store/${tab}`,
+    equip: (itemId: string) => `/api/store/items/${itemId}/equip`,
+    profile: '/api/me/profile',
+  },
+  practice: {
+    problems: '/api/interview/problems',
+    today: '/api/interview/today',
+    progress: '/api/interview/progress',
+    interviewDate: '/api/interview/date',
+  },
 } as const;
 
 /** Auth endpoints never get a Bearer token attached and never trigger a refresh retry. */

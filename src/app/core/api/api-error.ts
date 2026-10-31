@@ -8,6 +8,7 @@ export type ApiErrorCode =
   | 'invalid_token'
   | 'token_expired'
   | 'user_not_found'
+  | 'not_found'
   | 'validation'
   | 'unauthorized'
   | 'network'
@@ -22,6 +23,7 @@ const KNOWN_CODES: readonly ApiErrorCode[] = [
   'invalid_token',
   'token_expired',
   'user_not_found',
+  'not_found',
   'validation',
   'unauthorized',
   'network',
