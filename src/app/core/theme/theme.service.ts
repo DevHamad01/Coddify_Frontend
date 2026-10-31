@@ -7,7 +7,7 @@ export type ResolvedTheme = 'dark' | 'light';
 /** Must match the key read by the inline script in index.html. */
 export const THEME_STORAGE_KEY = 'coddify.theme';
 
-const THEME_COLOR: Record<ResolvedTheme, string> = { dark: '#0B1220', light: '#F6F8FB' };
+const THEME_COLOR: Record<ResolvedTheme, string> = { dark: '#252525', light: '#F6F8FB' };
 
 @Injectable({ providedIn: 'root' })
 export class ThemeService {

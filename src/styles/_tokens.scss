@@ -6,12 +6,12 @@
 [data-theme='dark'] {
   color-scheme: dark;
 
-  --c-bg: 11 18 32; // #0B1220
-  --c-surface: 18 26 43; // #121A2B
-  --c-surface-2: 26 36 56; // #1A2438
-  --c-border: 38 50 72; // #263248
-  --c-text: 232 238 248; // #E8EEF8
-  --c-text-muted: 147 161 184; // #93A1B8
+  --c-bg: 37 37 37; // #252525 neutral near-black, no blue tint
+  --c-surface: 44 44 44; // #2C2C2C
+  --c-surface-2: 53 53 53; // #353535
+  --c-border: 64 64 64; // #404040
+  --c-text: 238 238 238; // #EEEEEE
+  --c-text-muted: 164 164 164; // #A4A4A4
   --c-primary: 20 184 166; // #14B8A6
   --c-primary-press: 15 143 130; // #0F8F82
   --c-primary-contrast: 4 32 30; // text on primary
@@ -23,12 +23,12 @@
   --c-info: 56 189 248; // #38BDF8
 
   // Mock "app window" surfaces stay dark in both themes.
-  --mock-bg: #0f1726;
-  --mock-header: #151f33;
-  --mock-border: #24314a;
-  --mock-chip: #1e2a41;
-  --mock-text: #e8eef8;
-  --mock-muted: #8b9ab3;
+  --mock-bg: #1e1e1e;
+  --mock-header: #2a2a2a;
+  --mock-border: #3d3d3d;
+  --mock-chip: #333333;
+  --mock-text: #ececec;
+  --mock-muted: #9a9a9a;
 }
 
 [data-theme='light'] {
@@ -50,8 +50,8 @@
   --c-danger: 220 38 38; // #DC2626
   --c-info: 2 132 199; // #0284C7
 
-  --mock-bg: #111a2b;
-  --mock-header: #172238;
-  --mock-border: #24314a;
-  --mock-chip: #22304a;
+  --mock-bg: #1e1e1e;
+  --mock-header: #2a2a2a;
+  --mock-border: #3d3d3d;
+  --mock-chip: #333333;
 }
