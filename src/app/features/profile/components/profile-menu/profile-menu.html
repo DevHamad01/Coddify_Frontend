@@ -8,7 +8,9 @@
             [routerLink]="link.path"
             [fragment]="link.fragment"
             class="link"
-            [class.is-active]="link.label === 'Overview'"
+            routerLinkActive="is-active"
+            [routerLinkActiveOptions]="{ exact: true }"
+            ariaCurrentWhenActive="page"
           >
             <app-icon [name]="link.icon" [size]="18" />
             <span class="flex-1">{{ link.label }}</span>

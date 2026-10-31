@@ -1,0 +1,41 @@
+<app-modal
+  heading="Pick your showcase"
+  subheading="Choose up to 5 items. They appear in the order you pick them."
+  (closed)="closed.emit()"
+>
+  <p class="font-bold">{{ picked().length }} of {{ limit }} picked</p>
+
+  @for (group of groups(); track group.kind) {
+    <p class="mt-4 text-sm font-semibold text-muted">{{ group.label }}</p>
+    <ul class="mt-2 flex flex-wrap gap-2.5">
+      @for (item of group.items; track item.id) {
+        <li>
+          <button
+            type="button"
+            class="pick"
+            [class.is-picked]="order(item.id) > 0"
+            [disabled]="order(item.id) === 0 && picked().length >= limit"
+            [attr.aria-pressed]="order(item.id) > 0"
+            [attr.aria-label]="item.name"
+            [title]="item.name"
+            (click)="toggle(item.id)"
+          >
+            <app-cosmetic-art [item]="item" [size]="44" />
+            @if (order(item.id) > 0) {
+              <span class="number">{{ order(item.id) }}</span>
+            }
+          </button>
+        </li>
+      }
+    </ul>
+  } @empty {
+    <p class="mt-4 text-muted">Unlock items in the store first, then pin them here.</p>
+  }
+
+  <ng-container footer>
+    <button appButton variant="secondary" class="uppercase" (click)="closed.emit()">Cancel</button>
+    <button appButton class="uppercase" [loading]="saving()" (click)="saved.emit(picked())">
+      Save
+    </button>
+  </ng-container>
+</app-modal>

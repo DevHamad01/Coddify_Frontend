@@ -1,0 +1,105 @@
+<app-modal
+  heading="Your avatar"
+  subheading="Make it yours. More faces, outfits and accessories are on the way."
+  width="lg"
+  (closed)="closed.emit()"
+>
+  <div class="flex flex-col items-center gap-6 sm:flex-row sm:items-start">
+    <div class="preview">
+      <app-person-avatar [look]="look()" [size]="168" label="Avatar preview" />
+    </div>
+
+    <div class="flex w-full min-w-0 flex-col gap-4">
+      <fieldset>
+        <legend class="label">Skin</legend>
+        <div class="row">
+          @for (color of skins; track color) {
+            <button
+              type="button"
+              class="swatch"
+              [style.background]="color"
+              [attr.aria-pressed]="look().skin === color"
+              [attr.aria-label]="'Skin tone ' + ($index + 1)"
+              (click)="set('skin', color)"
+            ></button>
+          }
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="label">Hair</legend>
+        <div class="row">
+          @for (style of hairStyles; track style) {
+            <button
+              type="button"
+              class="chip"
+              [attr.aria-pressed]="look().hair === style"
+              (click)="set('hair', style)"
+            >
+              {{ hairLabels[style] }}
+            </button>
+          }
+        </div>
+        <div class="row mt-2">
+          @for (color of hairColors; track color) {
+            <button
+              type="button"
+              class="swatch"
+              [style.background]="color"
+              [attr.aria-pressed]="look().hairColor === color"
+              [attr.aria-label]="'Hair colour ' + ($index + 1)"
+              (click)="set('hairColor', color)"
+            ></button>
+          }
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="label">Shirt</legend>
+        <div class="row">
+          @for (color of shirts; track color) {
+            <button
+              type="button"
+              class="swatch"
+              [style.background]="color"
+              [attr.aria-pressed]="look().shirt === color"
+              [attr.aria-label]="'Shirt colour ' + ($index + 1)"
+              (click)="set('shirt', color)"
+            ></button>
+          }
+        </div>
+      </fieldset>
+
+      <fieldset>
+        <legend class="label">Extras</legend>
+        <div class="row">
+          <button
+            type="button"
+            class="chip"
+            [attr.aria-pressed]="look().glasses"
+            (click)="set('glasses', !look().glasses)"
+          >
+            Glasses
+          </button>
+          @for (background of backgrounds; track background) {
+            <button
+              type="button"
+              class="swatch"
+              [style.background]="background"
+              [attr.aria-pressed]="look().background === background"
+              [attr.aria-label]="'Background ' + ($index + 1)"
+              (click)="set('background', background)"
+            ></button>
+          }
+        </div>
+      </fieldset>
+    </div>
+  </div>
+
+  <ng-container footer>
+    <button appButton variant="secondary" class="uppercase" (click)="closed.emit()">Cancel</button>
+    <button appButton class="uppercase" [loading]="saving()" (click)="saved.emit(look())">
+      Save avatar
+    </button>
+  </ng-container>
+</app-modal>

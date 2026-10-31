@@ -1,0 +1,11 @@
+.pick {
+  @apply relative flex h-[76px] w-[76px] items-center justify-center rounded-card border-2 border-border bg-bg/40 transition-colors hover:border-info/60 disabled:cursor-not-allowed disabled:opacity-40;
+
+  &.is-picked {
+    @apply border-info bg-info/10;
+  }
+}
+
+.number {
+  @apply absolute -right-2 -top-2 flex h-6 w-6 items-center justify-center rounded-full bg-info text-xs font-bold text-white;
+}

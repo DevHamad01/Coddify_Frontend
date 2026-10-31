@@ -1,0 +1,29 @@
+.preview {
+  @apply shrink-0 rounded-full p-1;
+  box-shadow: 0 0 0 2px rgb(var(--c-border));
+}
+
+.label {
+  @apply mb-2 text-sm font-semibold text-muted;
+}
+
+.row {
+  @apply flex flex-wrap items-center gap-2;
+}
+
+.swatch {
+  @apply h-8 w-8 rounded-full border-2 border-transparent transition-transform hover:scale-110;
+
+  &[aria-pressed='true'] {
+    @apply border-white;
+    box-shadow: 0 0 0 2px rgb(var(--c-info));
+  }
+}
+
+.chip {
+  @apply rounded-full border-2 border-border px-3 py-1 text-sm font-semibold transition-colors hover:bg-surface-2;
+
+  &[aria-pressed='true'] {
+    @apply border-info bg-info/10 text-info;
+  }
+}

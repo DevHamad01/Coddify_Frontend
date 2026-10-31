@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthService } from '../../../../core/auth/auth.service';
 import { Icon } from '../../../../shared/ui/icon/icon';
@@ -25,9 +25,9 @@ const GROUPS: readonly { label: string; links: readonly MenuLink[] }[] = [
   {
     label: 'Achievements',
     links: [
-      { label: 'Levels', icon: 'bar-chart', path: '/app/profile', fragment: 'levels' },
+      { label: 'Levels', icon: 'bar-chart', path: '/app/profile/levels' },
       { label: 'Badges', icon: 'award', path: '/app/profile', fragment: 'badges' },
-      { label: 'Collection', icon: 'sparkles', path: '/app/profile', fragment: 'collection' },
+      { label: 'Collection', icon: 'sparkles', path: '/app/profile/collection' },
       { label: 'History', icon: 'hourglass', path: '/app/history' },
       { label: 'Certifications', icon: 'graduation', path: '/app/profile/certifications' },
     ],
@@ -55,7 +55,7 @@ const GROUPS: readonly { label: string; links: readonly MenuLink[] }[] = [
 @Component({
   selector: 'app-profile-menu',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [RouterLink, Icon],
+  imports: [RouterLink, RouterLinkActive, Icon],
   templateUrl: './profile-menu.html',
   styleUrl: './profile-menu.scss',
 })

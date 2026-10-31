@@ -1,0 +1,41 @@
+<app-modal
+  heading="Your title"
+  [subheading]="unlocked() + ' of ' + titles().length + ' unlocked'"
+  width="lg"
+  (closed)="closed.emit()"
+>
+  <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3">
+    @for (title of titles(); track title.id) {
+      <li>
+        <button
+          type="button"
+          class="title"
+          [attr.data-state]="title.state"
+          [disabled]="title.state === 'locked' || busyId() !== null"
+          (click)="chosen.emit(title)"
+        >
+          <span class="art">
+            @if (title.art === 'robot') {
+              <app-mascot pose="happy" [size]="30" [animated]="false" label="" />
+            } @else {
+              <app-icon [name]="icon(title)" [size]="24" />
+            }
+          </span>
+          <span class="min-w-0 flex-1 text-left">
+            <span class="block font-display text-sm font-bold leading-tight">{{ title.name }}</span>
+            @switch (title.state) {
+              @case ('equipped') {
+                <span class="tag is-equipped">Equipped</span>
+              }
+              @case ('locked') {
+                <span class="tag">
+                  <app-icon name="lock" [size]="11" /> {{ title.unlock ? goal(title.unlock) : '' }}
+                </span>
+              }
+            }
+          </span>
+        </button>
+      </li>
+    }
+  </ul>
+</app-modal>
