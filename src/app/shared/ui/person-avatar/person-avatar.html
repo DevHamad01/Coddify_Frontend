@@ -1,0 +1,58 @@
+@let l = look();
+<span class="disc" [style.background]="withBackground() ? l.background : 'transparent'">
+  <svg viewBox="0 0 120 120" aria-hidden="true">
+    <!-- Long hair sits behind the head -->
+    @if (l.hair === 'long') {
+      <path d="M30 52 Q30 20 60 20 Q90 20 90 52 V96 H30z" [attr.fill]="l.hairColor" />
+    }
+
+    <!-- Shoulders and shirt -->
+    <path d="M22 120 Q24 92 60 90 Q96 92 98 120z" [attr.fill]="l.shirt" />
+    <rect x="52" y="76" width="16" height="16" rx="6" [attr.fill]="l.skin" />
+
+    <!-- Head -->
+    <ellipse cx="60" cy="56" rx="24" ry="27" [attr.fill]="l.skin" />
+    <ellipse cx="36" cy="58" rx="4" ry="6" [attr.fill]="l.skin" />
+    <ellipse cx="84" cy="58" rx="4" ry="6" [attr.fill]="l.skin" />
+
+    <!-- Face -->
+    <circle cx="51" cy="57" r="3" fill="#1F1A17" />
+    <circle cx="69" cy="57" r="3" fill="#1F1A17" />
+    <path d="M50 49 q4 -3 8 0 M62 49 q4 -3 8 0" stroke="#1F1A17" stroke-width="2" fill="none" stroke-linecap="round" />
+    <path d="M51 68 Q60 76 69 68" stroke="#1F1A17" stroke-width="2.5" fill="#FFFFFF" stroke-linejoin="round" />
+    <circle cx="45" cy="65" r="3.5" fill="#F87171" opacity="0.35" />
+    <circle cx="75" cy="65" r="3.5" fill="#F87171" opacity="0.35" />
+
+    @if (l.glasses) {
+      <g fill="none" stroke="#1F1A17" stroke-width="2">
+        <circle cx="51" cy="57" r="7" />
+        <circle cx="69" cy="57" r="7" />
+        <path d="M58 57 h4" />
+      </g>
+    }
+
+    <!-- Hair on top -->
+    @switch (l.hair) {
+      @case ('short') {
+        <path d="M36 50 Q34 26 60 26 Q86 26 84 50 Q76 36 60 37 Q44 36 36 50z" [attr.fill]="l.hairColor" />
+      }
+      @case ('curly') {
+        <g [attr.fill]="l.hairColor">
+          <circle cx="42" cy="38" r="9" />
+          <circle cx="54" cy="31" r="10" />
+          <circle cx="67" cy="31" r="10" />
+          <circle cx="79" cy="39" r="9" />
+          <circle cx="36" cy="48" r="6" />
+          <circle cx="84" cy="48" r="6" />
+        </g>
+      }
+      @case ('long') {
+        <path d="M35 52 Q33 26 60 26 Q87 26 85 52 Q70 34 60 36 Q48 36 35 52z" [attr.fill]="l.hairColor" />
+      }
+      @case ('bun') {
+        <circle cx="60" cy="20" r="10" [attr.fill]="l.hairColor" />
+        <path d="M36 50 Q34 28 60 28 Q86 28 84 50 Q74 36 60 37 Q46 36 36 50z" [attr.fill]="l.hairColor" />
+      }
+    }
+  </svg>
+</span>

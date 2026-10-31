@@ -1,0 +1,39 @@
+:host {
+  @apply fixed inset-0 z-50 flex items-center justify-center p-4;
+}
+
+.backdrop {
+  @apply absolute inset-0 bg-black/50;
+}
+
+.card {
+  @apply relative flex max-h-[calc(100dvh-32px)] w-full animate-fade-up flex-col rounded-modal border-2 border-border bg-surface p-5 shadow-modal;
+
+  &[data-width='sm'] {
+    @apply max-w-[400px];
+  }
+
+  &[data-width='md'] {
+    @apply max-w-[560px];
+  }
+
+  &[data-width='lg'] {
+    @apply max-w-[720px];
+  }
+}
+
+.close {
+  @apply flex h-9 w-9 shrink-0 items-center justify-center rounded-btn border border-border text-muted transition-colors hover:bg-surface-2 hover:text-text;
+}
+
+.body {
+  @apply -mx-1 mt-4 min-h-0 flex-1 overflow-y-auto px-1;
+}
+
+.footer {
+  @apply flex justify-end gap-3;
+
+  &:not(:empty) {
+    @apply mt-5;
+  }
+}

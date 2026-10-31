@@ -1,0 +1,11 @@
+:host {
+  @apply inline-block shrink-0;
+}
+
+.disc {
+  @apply block h-full w-full overflow-hidden rounded-full;
+
+  svg {
+    @apply block h-full w-full;
+  }
+}
