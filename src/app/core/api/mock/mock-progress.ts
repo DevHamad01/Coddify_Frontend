@@ -2,6 +2,7 @@ import { isPlatformBrowser } from '@angular/common';
 import { Injectable, PLATFORM_ID, inject } from '@angular/core';
 
 import { Submission } from '../../learning/learning.models';
+import { TechId } from '../../../shared/data/tech';
 
 /**
  * Learner progress used by the mock learning, gamification and practice APIs.
@@ -26,6 +27,12 @@ export interface MockProgressState {
   solvedProblems: string[];
   interviewDate: string | null;
   likedQuote: boolean;
+  /** Course the journey screen shows; the rest of enrolledCourses are one click away. */
+  activeCourse: TechId;
+  enrolledCourses: TechId[];
+  /** yyyy-mm-dd of every day with at least one completed activity (streak calendar). */
+  activeDays: string[];
+  longestStreak: number;
 }
 
 const STORAGE_KEY = 'coddify.mock-progress';
@@ -48,6 +55,10 @@ const FRESH: MockProgressState = {
   solvedProblems: [],
   interviewDate: null,
   likedQuote: false,
+  activeCourse: 'python',
+  enrolledCourses: ['python'],
+  activeDays: [],
+  longestStreak: 0,
 };
 
 export function today(): string {

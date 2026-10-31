@@ -15,6 +15,7 @@ import {
   ProfileSummary,
   StoreItem,
   StoreTab,
+  StreakSummary,
   UserStats,
 } from './gamification.models';
 import {
@@ -29,7 +30,9 @@ import {
 /** Streak, XP, missions, leaderboards, store and profile; bound in `provideApis()`. */
 export abstract class GamificationApi {
   abstract getStats(): Observable<UserStats>;
-  abstract setDailyGoal(activities: number): Observable<UserStats>;
+  /** null removes the daily goal. */
+  abstract setDailyGoal(activities: number | null): Observable<UserStats>;
+  abstract getStreak(): Observable<StreakSummary>;
   abstract getMissions(): Observable<MissionsSummary>;
   abstract getLeaderboard(scope: LeaderboardScope): Observable<Leaderboard>;
   abstract getStore(tab: StoreTab): Observable<readonly StoreItem[]>;
@@ -49,8 +52,12 @@ export class HttpGamificationApi extends GamificationApi {
     return this.http.get<UserStats>(this.baseUrl + this.urls.stats);
   }
 
-  setDailyGoal(activities: number): Observable<UserStats> {
+  setDailyGoal(activities: number | null): Observable<UserStats> {
     return this.http.put<UserStats>(this.baseUrl + this.urls.dailyGoal, { activities });
+  }
+
+  getStreak(): Observable<StreakSummary> {
+    return this.http.get<StreakSummary>(this.baseUrl + this.urls.streak);
   }
 
   getMissions(): Observable<MissionsSummary> {
@@ -79,6 +86,7 @@ export class HttpGamificationApi extends GamificationApi {
 }
 
 const XP_MISSION_TARGET = 50;
+const STREAK_CLUB_TARGET = 3;
 const LEADERBOARD_UNLOCK_XP = 100;
 
 @Injectable({ providedIn: 'root' })
@@ -91,10 +99,23 @@ export class MockGamificationApi extends GamificationApi {
     return this.db.respond(() => this.stats());
   }
 
-  setDailyGoal(activities: number): Observable<UserStats> {
+  setDailyGoal(activities: number | null): Observable<UserStats> {
     return this.db.respond(() => {
       this.progress.update({ dailyGoal: activities });
       return this.stats();
+    });
+  }
+
+  getStreak(): Observable<StreakSummary> {
+    return this.db.respond(() => {
+      const state = this.progress.get();
+      return {
+        streak: state.streak,
+        longestStreak: Math.max(state.longestStreak, state.streak),
+        activeToday: state.activitiesToday > 0,
+        activeDays: state.activeDays,
+        clubTarget: STREAK_CLUB_TARGET,
+      };
     });
   }
 
@@ -221,7 +242,7 @@ export class MockGamificationApi extends GamificationApi {
     const state = this.progress.get();
     const level = levelFor(state.totalXp);
     return {
-      courseId: 'python',
+      courseId: state.activeCourse,
       streak: state.streak,
       gems: state.gems,
       totalXp: state.totalXp,

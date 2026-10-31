@@ -37,7 +37,7 @@ export class ProgressStore {
     }
   }
 
-  setDailyGoal(activities: number): Observable<UserStats> {
+  setDailyGoal(activities: number | null): Observable<UserStats> {
     return this.api.setDailyGoal(activities).pipe(tap((stats) => this.stats.set(stats)));
   }
 

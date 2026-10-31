@@ -17,6 +17,17 @@ export interface UserStats {
   readonly leaderboardUnlockXp: number;
 }
 
+export interface StreakSummary {
+  readonly streak: number;
+  readonly longestStreak: number;
+  /** True once today's first activity is done (the flame lights up). */
+  readonly activeToday: boolean;
+  /** yyyy-mm-dd of every day with at least one completed activity. */
+  readonly activeDays: readonly string[];
+  /** Streak length that joins the Streak Club. */
+  readonly clubTarget: number;
+}
+
 export interface DailyMission {
   readonly id: string;
   readonly title: string;

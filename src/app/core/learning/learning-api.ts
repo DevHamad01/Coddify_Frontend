@@ -9,6 +9,9 @@ import { MockDb } from '../api/mock/mock-db';
 import { MockProgress, today } from '../api/mock/mock-progress';
 import { APP_ENV } from '../config/environment';
 import {
+  CourseSection,
+  CourseSyllabus,
+  EnrolledCourse,
   Journey,
   JourneyNode,
   Lesson,
@@ -17,7 +20,14 @@ import {
   Submission,
 } from './learning.models';
 import { runSnippet } from './mock/mini-runner';
-import { PYTHON_CHAPTERS, PYTHON_LESSONS, PYTHON_SECTION } from './mock/python-course.mock';
+import {
+  chaptersFor,
+  courseOfNode,
+  lessonFor,
+  moreCoursesFor,
+  playableNodeIds,
+  sectionsFor,
+} from './mock/course-catalog.mock';
 
 /** Learning backend contract (journey map, lessons, code runs); bound in `provideApis()`. */
 export abstract class LearningApi {
@@ -28,6 +38,12 @@ export abstract class LearningApi {
   abstract complete(lessonId: string, code: string, firstTry: boolean): Observable<LessonReward>;
   abstract getSubmissions(lessonId: string): Observable<readonly Submission[]>;
   abstract claimChest(nodeId: string): Observable<{ readonly gems: number }>;
+  /** Sections and side courses of one course, with the learner's progress. */
+  abstract getSyllabus(courseId: TechId): Observable<CourseSyllabus>;
+  /** Courses the learner has started, the active one first. */
+  abstract getMyCourses(): Observable<readonly EnrolledCourse[]>;
+  /** Enrols if needed and makes the course the one the journey screen shows. */
+  abstract startCourse(courseId: TechId): Observable<readonly EnrolledCourse[]>;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -62,6 +78,18 @@ export class HttpLearningApi extends LearningApi {
   claimChest(nodeId: string): Observable<{ readonly gems: number }> {
     return this.http.post<{ gems: number }>(this.baseUrl + this.urls.claimChest(nodeId), {});
   }
+
+  getSyllabus(courseId: TechId): Observable<CourseSyllabus> {
+    return this.http.get<CourseSyllabus>(this.baseUrl + this.urls.syllabus(courseId));
+  }
+
+  getMyCourses(): Observable<readonly EnrolledCourse[]> {
+    return this.http.get<EnrolledCourse[]>(this.baseUrl + this.urls.myCourses);
+  }
+
+  startCourse(courseId: TechId): Observable<readonly EnrolledCourse[]> {
+    return this.http.post<EnrolledCourse[]>(this.baseUrl + this.urls.startCourse(courseId), {});
+  }
 }
 
 const CHEST_GEMS = 5;
@@ -79,7 +107,7 @@ export class MockLearningApi extends LearningApi {
         ...this.progress.get().claimedChests,
       ]);
       let currentAssigned = false;
-      const chapters = PYTHON_CHAPTERS.map((chapter, index) => ({
+      const chapters = chaptersFor(courseId).map((chapter, index) => ({
         id: chapter.id,
         number: index + 1,
         title: chapter.title,
@@ -94,12 +122,11 @@ export class MockLearningApi extends LearningApi {
           return { ...node, state };
         }),
       }));
-      // Only Python has mock content; other courses reuse it under their own name.
       return {
         courseId,
         courseName: findTech(courseId).name,
-        sectionNumber: PYTHON_SECTION.number,
-        sectionTitle: PYTHON_SECTION.title,
+        sectionNumber: 1,
+        sectionTitle: sectionsFor(courseId)[0].title,
         chapters,
       };
     });
@@ -112,7 +139,7 @@ export class MockLearningApi extends LearningApi {
   run(lessonId: string, code: string): Observable<RunResult> {
     return this.db.respond(() => {
       const lesson = this.findLesson(lessonId);
-      const { output, error } = runSnippet(code, lesson.editorLanguage);
+      const { output, error } = this.execute(code, lesson.editorLanguage);
       const normalise = (text: string) =>
         text
           .split('\n')
@@ -163,6 +190,10 @@ export class MockLearningApi extends LearningApi {
           : 1;
       this.progress.update({
         submissions,
+        activeDays: state.activeDays.includes(today())
+          ? state.activeDays
+          : [...state.activeDays, today()],
+        longestStreak: Math.max(state.longestStreak, streak),
         completedNodes: [...state.completedNodes, lessonId],
         totalXp: state.totalXp + lesson.xp,
         gems: state.gems + LESSON_GEMS,
@@ -194,8 +225,84 @@ export class MockLearningApi extends LearningApi {
     });
   }
 
+  getSyllabus(courseId: TechId): Observable<CourseSyllabus> {
+    return this.db.respond(() => {
+      const state = this.progress.get();
+      const enrolled = state.enrolledCourses.includes(courseId);
+      const done = this.completedIn(courseId);
+      const sections = sectionsFor(courseId).map<CourseSection>((section, index) => {
+        const completedCount = index === 0 ? done : 0;
+        let sectionState: CourseSection['state'] = 'locked';
+        if (index === 0) {
+          sectionState = enrolled ? 'in-progress' : 'available';
+        }
+        return { number: index + 1, ...section, completedCount, state: sectionState };
+      });
+      return {
+        courseId,
+        courseName: findTech(courseId).name,
+        enrolled,
+        sections,
+        moreCourses: moreCoursesFor(courseId),
+      };
+    });
+  }
+
+  getMyCourses(): Observable<readonly EnrolledCourse[]> {
+    return this.db.respond(() => this.myCourses());
+  }
+
+  startCourse(courseId: TechId): Observable<readonly EnrolledCourse[]> {
+    return this.db.respond(() => {
+      const state = this.progress.get();
+      this.progress.update({
+        activeCourse: courseId,
+        enrolledCourses: state.enrolledCourses.includes(courseId)
+          ? state.enrolledCourses
+          : [...state.enrolledCourses, courseId],
+      });
+      return this.myCourses();
+    });
+  }
+
+  private myCourses(): EnrolledCourse[] {
+    const state = this.progress.get();
+    const ordered = [
+      state.activeCourse,
+      ...state.enrolledCourses.filter((id) => id !== state.activeCourse),
+    ];
+    return ordered.map((courseId) => {
+      const sections = sectionsFor(courseId);
+      return {
+        courseId,
+        courseName: findTech(courseId).name,
+        sectionNumber: 1,
+        sectionCount: sections.length,
+        sectionTitle: sections[0].title,
+        percent: Math.round((this.completedIn(courseId) / sections[0].lessonCount) * 100),
+        active: courseId === state.activeCourse,
+      };
+    });
+  }
+
+  private completedIn(courseId: TechId): number {
+    const playable = new Set(playableNodeIds(courseId));
+    return this.progress
+      .get()
+      .completedNodes.filter((id) => courseOfNode(id) === courseId && playable.has(id)).length;
+  }
+
+  /** The mini runner understands Python and JavaScript; other languages just echo their strings. */
+  private execute(code: string, language: string): { output: string; error: string | null } {
+    if (['python', 'javascript', 'typescript'].includes(language)) {
+      return runSnippet(code, language);
+    }
+    const strings = [...code.matchAll(/"([^"\\]*)"/g)].map((match) => match[1]);
+    return { output: strings.join('\n'), error: null };
+  }
+
   private findLesson(lessonId: string): Lesson {
-    const lesson = PYTHON_LESSONS.get(lessonId);
+    const lesson = lessonFor(lessonId);
     if (!lesson) {
       throw new ApiError('not_found', 'That lesson does not exist.', 404);
     }

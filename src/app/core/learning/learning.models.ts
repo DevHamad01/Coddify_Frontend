@@ -28,6 +28,48 @@ export interface Journey {
   readonly chapters: readonly JourneyChapter[];
 }
 
+export type SectionState = 'in-progress' | 'completed' | 'available' | 'locked';
+
+/** One section of a course syllabus ("Section 1 · Fundamentals"). */
+export interface CourseSection {
+  readonly number: number;
+  readonly title: string;
+  readonly description: string;
+  readonly lessonCount: number;
+  readonly completedCount: number;
+  readonly state: SectionState;
+}
+
+/** A short standalone course listed under "More courses in Python". */
+export interface MiniCourse {
+  readonly id: string;
+  readonly title: string;
+  readonly description: string;
+  readonly lessonCount: number;
+  readonly certificate: boolean;
+  readonly tags: readonly string[];
+}
+
+export interface CourseSyllabus {
+  readonly courseId: TechId;
+  readonly courseName: string;
+  readonly enrolled: boolean;
+  readonly sections: readonly CourseSection[];
+  readonly moreCourses: readonly MiniCourse[];
+}
+
+/** A course the learner has started, for the "My journeys" list. */
+export interface EnrolledCourse {
+  readonly courseId: TechId;
+  readonly courseName: string;
+  readonly sectionNumber: number;
+  readonly sectionCount: number;
+  readonly sectionTitle: string;
+  /** 0..100 through the current section. */
+  readonly percent: number;
+  readonly active: boolean;
+}
+
 /** Rich text of a lesson, kept as simple blocks so the backend can store it as JSON. */
 export type LessonBlock =
   | { readonly type: 'paragraph'; readonly text: string }
