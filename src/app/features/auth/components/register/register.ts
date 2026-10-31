@@ -3,7 +3,6 @@ import { takeUntilDestroyed, toSignal } from '@angular/core/rxjs-interop';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import { finalize } from 'rxjs';
-
 import { ApiError, toApiError } from '../../../../core/api/api-error';
 import { RegisterResponse } from '../../../../core/auth/auth.models';
 import { AuthService } from '../../../../core/auth/auth.service';
@@ -13,10 +12,10 @@ import { Button } from '../../../../shared/ui/button/button';
 import { Checkbox } from '../../../../shared/ui/checkbox/checkbox';
 import { Input } from '../../../../shared/ui/input/input';
 import { AuthShell } from '../auth-shell/auth-shell';
-import { CheckInbox } from '../check-inbox';
 import { GoogleButton } from '../google-button';
 import { PasswordStrengthMeter } from '../password-strength-meter';
 import { matchFieldsValidator, strongPasswordValidator } from '../../utils/password-strength';
+import { CheckInbox } from '../check-inbox';
 
 type Field = 'fullName' | 'email' | 'password' | 'confirmPassword' | 'terms';
 

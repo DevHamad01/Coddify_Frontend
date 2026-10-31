@@ -16,8 +16,8 @@ import { Icon } from '../../../shared/ui/icon/icon';
 import { LanguageBadge } from '../../../shared/ui/language-badge/language-badge';
 import { Logo } from '../../../shared/ui/logo/logo';
 import { ThemeToggle } from '../../../shared/ui/theme-toggle/theme-toggle';
-import { MobileDrawer } from '../mobile-drawer/mobile-drawer';
 import { NAV_MENUS, NavMenu } from '../nav-items';
+import { MobileDrawer } from '../mobile-drawer/mobile-drawer';
 
 type MenuId = NavMenu['id'];
 
