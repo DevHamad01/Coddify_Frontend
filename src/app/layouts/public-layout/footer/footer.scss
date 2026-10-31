@@ -1,0 +1,21 @@
+// Oversized brand wordmark that closes the page, bleeding off the bottom edge.
+.wordmark-wrap {
+  @apply overflow-hidden px-4 sm:px-6;
+  height: clamp(64px, 15vw, 230px);
+}
+
+.wordmark {
+  @apply select-none text-center font-brand leading-none;
+  font-size: clamp(80px, 19.5vw, 300px);
+  letter-spacing: 0.02em;
+  background: linear-gradient(
+    90deg,
+    rgb(var(--c-primary)) 0%,
+    rgb(var(--c-info)) 50%,
+    #a78bfa 100%
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  opacity: 0.9;
+}

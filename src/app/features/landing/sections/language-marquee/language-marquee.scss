@@ -1,4 +1,12 @@
+.track {
+  @apply flex w-max animate-marquee gap-3 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused];
+
+  &.is-reverse {
+    animation-direction: reverse;
+  }
+}
+
 .tech-chip {
-  @apply flex h-14 items-center gap-3 rounded-btn border-2 border-border bg-surface px-5 font-display text-lg font-bold text-text transition-colors duration-hover hover:border-primary/60;
+  @apply flex h-12 items-center gap-3 rounded-btn border-2 border-border bg-surface px-5 font-display text-base font-bold text-text transition-colors duration-hover hover:border-primary/60;
   box-shadow: 0 4px 0 0 rgb(var(--c-border));
 }

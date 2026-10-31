@@ -13,15 +13,24 @@
     }
   </ul>
 
-  <!-- Stacked paper certificate mock -->
-  <div visual class="relative w-full max-w-sm py-4" aria-label="Example certificate" role="img">
-    <div
-      class="absolute inset-x-6 inset-y-6 rotate-[-6deg] rounded-card border border-border bg-surface-2"
-    ></div>
-    <div
-      class="absolute inset-x-4 inset-y-5 rotate-[-3deg] rounded-card border border-border bg-surface-2"
-    ></div>
-    <div class="relative rounded-card border border-border bg-surface p-7 text-center shadow-modal">
+  <!-- A small stack of earned certificates: two peek out from behind the front one -->
+  <div visual class="stack" aria-label="Example certificates" role="img">
+    @for (back of backs; track back.course) {
+      <div class="back-card" [class]="back.position">
+        <span class="back-band" [style.background]="back.color"></span>
+        <div class="flex items-center gap-2">
+          <app-tech-logo [tech]="back.tech" [size]="20" />
+          <span class="font-display text-sm font-bold">{{ back.course }}</span>
+        </div>
+        <p class="mt-3 text-[9px] font-bold uppercase tracking-[0.2em] text-muted">
+          Certificate of completion
+        </p>
+        <span class="mt-4 block h-2 w-3/4 rounded-full bg-surface"></span>
+        <span class="mt-2 block h-2 w-1/2 rounded-full bg-surface"></span>
+        <app-icon name="award" [size]="22" class="absolute bottom-4 right-4 text-xp/70" />
+      </div>
+    }
+    <div class="front-card">
       <span
         class="absolute left-3 top-3 h-6 w-6 rounded-tl-lg border-l-2 border-t-2 border-xp/70"
       ></span>

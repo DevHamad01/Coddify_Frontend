@@ -1,0 +1,45 @@
+.stack {
+  @apply relative w-full max-w-sm px-6 py-10 sm:px-10;
+}
+
+.front-card {
+  @apply relative z-10 rounded-card border border-border bg-surface p-7 text-center shadow-modal transition-transform duration-300;
+
+  .stack:hover & {
+    transform: translateY(-4px);
+  }
+}
+
+.back-card {
+  @apply absolute inset-y-10 overflow-hidden rounded-card border border-border bg-surface-2 p-5 shadow-modal transition-transform duration-300;
+  width: calc(100% - 80px);
+
+  &.is-left {
+    left: 0;
+    transform: rotate(-9deg) translateX(-14px);
+
+    .stack:hover & {
+      transform: rotate(-12deg) translateX(-30px);
+    }
+  }
+
+  &.is-right {
+    right: 0;
+    transform: rotate(8deg) translateX(14px);
+
+    .stack:hover & {
+      transform: rotate(11deg) translateX(30px);
+    }
+  }
+}
+
+.back-band {
+  @apply absolute inset-x-0 top-0 h-1.5;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .front-card,
+  .back-card {
+    transition: none;
+  }
+}

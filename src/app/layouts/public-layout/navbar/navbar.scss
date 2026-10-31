@@ -1,3 +1,28 @@
+.bar {
+  @apply mx-auto border-b border-border bg-bg/95 backdrop-blur-md;
+  max-width: 100%;
+  transition:
+    max-width 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    margin 350ms cubic-bezier(0.22, 1, 0.36, 1),
+    border-radius 350ms ease,
+    box-shadow 350ms ease,
+    background-color 350ms ease;
+
+  &.is-floating {
+    @apply mt-3 rounded-full border bg-surface/90 shadow-modal;
+    max-width: min(1120px, calc(100% - 24px));
+  }
+}
+
+.bar-inner {
+  @apply flex h-[72px] items-center gap-3 px-4 sm:px-6 xl:px-10;
+  transition: height 350ms ease;
+
+  .is-floating & {
+    @apply h-[60px] px-3 sm:px-4 xl:px-5;
+  }
+}
+
 .nav-trigger {
   @apply flex h-10 items-center gap-1.5 rounded-btn border border-border px-3.5 font-display text-[15px] font-bold text-text transition-colors duration-hover hover:bg-surface-2;
 

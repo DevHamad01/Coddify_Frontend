@@ -1,5 +1,5 @@
-<div class="border-b border-border bg-bg/95 backdrop-blur-md">
-  <nav class="flex h-[72px] items-center gap-3 px-4 sm:px-6 xl:px-10" aria-label="Main">
+<div class="bar" [class.is-floating]="floating()">
+  <nav class="bar-inner" aria-label="Main">
     <app-logo />
 
     <!-- Desktop mega menus -->
@@ -66,14 +66,6 @@
     </ul>
 
     <div class="ml-auto flex items-center gap-2">
-      <button
-        type="button"
-        class="icon-button hidden sm:flex"
-        aria-label="Search (Ctrl K)"
-        (click)="search.open()"
-      >
-        <app-icon name="search" [size]="20" />
-      </button>
       @if (auth.isAuthenticated()) {
         <a
           appButton

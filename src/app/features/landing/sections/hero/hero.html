@@ -33,20 +33,6 @@
     [style.top.px]="robotTop"
     label="Bit the Coddify robot peeking over the globe"
   />
-
-  <div class="live-pill">
-    <span class="relative flex h-2.5 w-2.5">
-      <span
-        class="absolute inline-flex h-full w-full animate-ping rounded-full bg-success opacity-60"
-      ></span>
-      <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-success"></span>
-    </span>
-    <span class="font-bold uppercase text-success">Live</span>
-    <span
-      ><strong class="font-semibold text-text" [appCountUp]="stats.submissions"></strong>
-      submissions so far</span
-    >
-  </div>
 </div>
 
 <app-language-marquee />

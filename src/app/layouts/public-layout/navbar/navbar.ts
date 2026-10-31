@@ -13,7 +13,6 @@ import { AuthService } from '../../../core/auth/auth.service';
 import { Button } from '../../../shared/ui/button/button';
 import { Icon } from '../../../shared/ui/icon/icon';
 import { Logo } from '../../../shared/ui/logo/logo';
-import { SearchDialogService } from '../../../shared/ui/search-dialog/search-dialog.service';
 import { ThemeToggle } from '../../../shared/ui/theme-toggle/theme-toggle';
 import { NAV_MENUS } from '../nav-items';
 import { CatalogMenu } from './catalog-menu/catalog-menu';
@@ -33,6 +32,7 @@ type MenuId = 'catalog' | 'resources' | 'company';
     class: 'sticky top-0 z-40 block',
     '(document:click)': 'onDocumentClick($event)',
     '(document:keydown.escape)': 'closeAll()',
+    '(window:scroll)': 'onScroll()',
   },
 })
 export class Navbar {
@@ -40,7 +40,8 @@ export class Navbar {
   private readonly document = inject(DOCUMENT);
 
   protected readonly auth = inject(AuthService);
-  protected readonly search = inject(SearchDialogService);
+  /** Past the top of the page the bar shrinks into a floating capsule. */
+  protected readonly floating = signal(false);
   protected readonly company = NAV_MENUS.find((menu) => menu.id === 'company')!.links;
   protected readonly openMenu = signal<MenuId | null>(null);
   protected readonly drawerOpen = signal(false);
@@ -70,6 +71,10 @@ export class Navbar {
     if (this.drawerOpen()) {
       this.setDrawer(false);
     }
+  }
+
+  protected onScroll(): void {
+    this.floating.set(window.scrollY > 24);
   }
 
   protected onDocumentClick(event: MouseEvent): void {

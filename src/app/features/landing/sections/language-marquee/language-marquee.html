@@ -1,24 +1,24 @@
 <h2 class="sr-only">Courses you can take</h2>
-<div
-  class="group overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
->
-  <ul
-    class="flex w-max animate-marquee gap-3 group-hover:[animation-play-state:paused] group-focus-within:[animation-play-state:paused]"
+@for (row of rows; track $index) {
+  <div
+    class="group overflow-hidden [mask-image:linear-gradient(to_right,transparent,black_6%,black_94%,transparent)]"
   >
-    @for (copy of copies; track copy) {
-      @for (tech of techs; track tech.id) {
-        <li [attr.aria-hidden]="copy > 0 ? 'true' : null">
-          <a
-            routerLink="/register"
-            [queryParams]="{ lang: tech.id }"
-            [tabIndex]="copy > 0 ? -1 : 0"
-            class="tech-chip"
-          >
-            <app-tech-logo [tech]="tech.id" [size]="26" />
-            {{ tech.name }}
-          </a>
-        </li>
+    <ul class="track" [class.is-reverse]="row.reverse">
+      @for (copy of copies; track copy) {
+        @for (tech of row.techs; track tech.id) {
+          <li [attr.aria-hidden]="copy > 0 ? 'true' : null">
+            <a
+              routerLink="/register"
+              [queryParams]="{ lang: tech.id }"
+              [tabIndex]="copy > 0 ? -1 : 0"
+              class="tech-chip"
+            >
+              <app-tech-logo [tech]="tech.id" [size]="24" />
+              {{ tech.name }}
+            </a>
+          </li>
+        }
       }
-    }
-  </ul>
-</div>
+    </ul>
+  </div>
+}
