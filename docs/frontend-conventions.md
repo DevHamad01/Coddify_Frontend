@@ -75,6 +75,13 @@ Theme switching: `ThemeService` stores `dark | light | system` (default `dark`) 
 
 Mock app windows on the landing page stay dark in both themes (`.mock-window`, `--mock-*` variables).
 
+## Onboarding flow
+
+`/onboarding` is open to guests. Landing "Get started" and navbar "Start learning" go there. Answers
+live in sessionStorage; on the last step a guest gets "Create free account" / "Log in" with
+`returnUrl=/onboarding`, comes back after logging in and saves the plan, then lands on `/app/journey`.
+Signed-in users with unfinished onboarding are always sent to `/onboarding` before any app page.
+
 ## Code editor (Monaco)
 
 `angular.json` copies `node_modules/monaco-editor/min/vs` to `assets/monaco/vs`. `MonacoLoader`
@@ -98,11 +105,12 @@ Mock accounts (password `Coddify123`):
 
 | Email                    | State                                        |
 | ------------------------ | -------------------------------------------- |
-| `demo@coddify.dev`       | verified, onboarding done → `/app`           |
+| `demo@coddify.dev`       | verified, onboarding pending → `/onboarding` then `/app` |
+| `done@coddify.dev`       | verified, onboarding done → `/app`           |
 | `new@coddify.dev`        | verified, onboarding pending → `/onboarding` |
 | `unverified@coddify.dev` | login fails with "Email not verified"        |
 
-The mock stores persist to `localStorage['coddify.mock-db']` (accounts) and `localStorage['coddify.mock-progress']` (XP, streak, gems, completed lessons, store items); clear them to reset. In mock mode the register and forgot-password screens show a "Demo mode: open the email link" shortcut, because the mock returns `debugVerificationToken` / `debugResetToken`. The real backend never sends these, so the link does not appear.
+The mock stores persist to `localStorage['coddify.mock-db.v2']` (accounts) and `localStorage['coddify.mock-progress']` (XP, streak, gems, completed lessons, store items); clear them to reset. In mock mode the register and forgot-password screens show a "Demo mode: open the email link" shortcut, because the mock returns `debugVerificationToken` / `debugResetToken`. The real backend never sends these, so the link does not appear.
 
 Google sign-in: set `googleClientId` in the environment. With an empty id the button shows a "Google sign-in not configured" toast.
 

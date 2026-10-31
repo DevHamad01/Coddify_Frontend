@@ -98,7 +98,8 @@ export const routes: Routes = [
       {
         path: 'onboarding',
         title: 'Get started | Coddify',
-        canActivate: [authGuard, onboardingPendingGuard],
+        // Open to guests too: they answer first and create an account at the end.
+        canActivate: [onboardingPendingGuard],
         loadComponent: () => import('./features/onboarding/onboarding').then((m) => m.Onboarding),
       },
     ],

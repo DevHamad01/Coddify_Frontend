@@ -85,6 +85,11 @@
           [recommendation]="rec"
           [dailyMinutes]="store.answers().dailyMinutes ?? 10"
         />
+        @if (isGuest()) {
+          <p class="mt-6 text-center text-[15px] text-muted">
+            Create a free account to save your path and progress. You'll come right back here.
+          </p>
+        }
         @if (saveError(); as err) {
           <app-alert class="mt-4" [message]="err.message" />
         }
@@ -95,7 +100,27 @@
   <!-- Sticky action bar -->
   <div class="sticky bottom-0 border-t border-border bg-bg/90 backdrop-blur-md">
     <div class="mx-auto flex max-w-2xl justify-end px-4 py-4">
-      @if (store.step() === SUMMARY) {
+      @if (store.step() === SUMMARY && isGuest()) {
+        <div class="flex w-full flex-col-reverse gap-3 sm:w-auto sm:flex-row">
+          <a
+            appButton
+            size="lg"
+            variant="secondary"
+            routerLink="/login"
+            [queryParams]="backHere"
+            class="w-full sm:w-auto"
+            >Log in</a
+          >
+          <a
+            appButton
+            size="lg"
+            routerLink="/register"
+            [queryParams]="backHere"
+            class="w-full uppercase sm:w-auto"
+            >Create free account</a
+          >
+        </div>
+      } @else if (store.step() === SUMMARY) {
         <button
           appButton
           size="lg"

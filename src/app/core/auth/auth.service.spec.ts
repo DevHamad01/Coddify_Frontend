@@ -54,25 +54,25 @@ describe('AuthService (mock API)', () => {
 
   it('logs in a seeded user and persists the session in localStorage when remembered', async () => {
     const user = await settle(
-      auth.login({ email: 'demo@coddify.dev', password: MOCK_PASSWORD }, true),
+      auth.login({ email: 'done@coddify.dev', password: MOCK_PASSWORD }, true),
     );
 
-    expect(user.email).toBe('demo@coddify.dev');
+    expect(user.email).toBe('done@coddify.dev');
     expect(auth.isAuthenticated()).toBe(true);
     expect(auth.accessToken()).toMatch(/^access-/);
-    expect(localStorage.getItem('coddify.session')).toContain('demo@coddify.dev');
+    expect(localStorage.getItem('coddify.session')).toContain('done@coddify.dev');
     expect(sessionStorage.getItem('coddify.session')).toBeNull();
   });
 
   it('uses sessionStorage when "remember me" is off', async () => {
-    await settle(auth.login({ email: 'demo@coddify.dev', password: MOCK_PASSWORD }, false));
+    await settle(auth.login({ email: 'done@coddify.dev', password: MOCK_PASSWORD }, false));
     expect(sessionStorage.getItem('coddify.session')).not.toBeNull();
     expect(localStorage.getItem('coddify.session')).toBeNull();
   });
 
   it('rejects wrong credentials with a typed error', async () => {
     const error = await settleError(
-      auth.login({ email: 'demo@coddify.dev', password: 'nope' }, true),
+      auth.login({ email: 'done@coddify.dev', password: 'nope' }, true),
     );
     expect(error).toBeInstanceOf(ApiError);
     expect(error.code).toBe('invalid_credentials');
@@ -114,7 +114,7 @@ describe('AuthService (mock API)', () => {
   });
 
   it('refreshes the access token once for concurrent callers', async () => {
-    await settle(auth.login({ email: 'demo@coddify.dev', password: MOCK_PASSWORD }, true));
+    await settle(auth.login({ email: 'done@coddify.dev', password: MOCK_PASSWORD }, true));
     const oldToken = auth.accessToken();
     const api = TestBed.inject(AuthApi);
     const refreshSpy = vi.spyOn(api, 'refreshToken');
@@ -131,7 +131,7 @@ describe('AuthService (mock API)', () => {
   });
 
   it('logs out and clears storage', async () => {
-    await settle(auth.login({ email: 'demo@coddify.dev', password: MOCK_PASSWORD }, true));
+    await settle(auth.login({ email: 'done@coddify.dev', password: MOCK_PASSWORD }, true));
     auth.logout();
     expect(auth.isAuthenticated()).toBe(false);
     expect(localStorage.getItem('coddify.session')).toBeNull();
@@ -145,7 +145,7 @@ describe('AuthService (mock API)', () => {
   });
 
   it('honours a safe returnUrl for onboarded users and ignores unsafe ones', async () => {
-    await settle(auth.login({ email: 'demo@coddify.dev', password: MOCK_PASSWORD }, true));
+    await settle(auth.login({ email: 'done@coddify.dev', password: MOCK_PASSWORD }, true));
     await auth.navigateAfterLogin('/app/lessons');
     expect(navigateByUrl).toHaveBeenLastCalledWith('/app/lessons');
 

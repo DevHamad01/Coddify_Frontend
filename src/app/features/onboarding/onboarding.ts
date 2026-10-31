@@ -66,6 +66,9 @@ export class Onboarding {
   protected readonly SUMMARY = SUMMARY_STEP;
   protected readonly saving = signal(false);
   protected readonly saveError = signal<ApiError | null>(null);
+  /** Guests answer the questions first, then sign up or log in to save the plan. */
+  protected readonly isGuest = computed(() => !this.auth.isAuthenticated());
+  protected readonly backHere = { returnUrl: '/onboarding' };
   protected readonly firstName = computed(
     () => this.auth.user()?.fullName.split(' ')[0] ?? 'there',
   );
@@ -156,7 +159,7 @@ export class Onboarding {
           this.toast.success(
             `Your plan is saved. Let's write some ${recommendation.language.name}!`,
           );
-          void this.router.navigateByUrl('/app');
+          void this.router.navigateByUrl('/app/journey');
         },
         error: (error: unknown) => this.saveError.set(toApiError(error)),
       });

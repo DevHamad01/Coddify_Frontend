@@ -19,17 +19,20 @@ interface MockState {
   refreshTokens: Record<string, string>;
 }
 
-const STORAGE_KEY = 'coddify.mock-db';
+/** Bumped when the seed accounts change so old demo data does not hide the new seeds. */
+const STORAGE_KEY = 'coddify.mock-db.v2';
 export const MOCK_PASSWORD = 'Coddify123';
 
 /**
  * Seed accounts (all use the password `Coddify123`):
- * - demo@coddify.dev: verified, onboarding done → lands on /app
+ * - demo@coddify.dev: verified, onboarding pending → onboarding first, then /app
+ * - done@coddify.dev: verified, onboarding done → lands on /app
  * - new@coddify.dev: verified, onboarding pending → lands on /onboarding
  * - unverified@coddify.dev: login fails with "Email not verified"
  */
 const SEED: MockUserRecord[] = [
-  seedUser('u-demo', 'Ali Raza', 'demo@coddify.dev', true, true),
+  seedUser('u-demo', 'Ali Raza', 'demo@coddify.dev', true, false),
+  seedUser('u-done', 'Hira Khan', 'done@coddify.dev', true, true),
   seedUser('u-new', 'Sana Tariq', 'new@coddify.dev', true, false),
   seedUser(
     'u-unverified',
