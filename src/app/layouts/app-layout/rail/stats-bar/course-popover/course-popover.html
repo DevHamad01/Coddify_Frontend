@@ -1,0 +1,45 @@
+<h2 class="border-b border-border px-5 py-4 font-display text-xl font-bold">My Journeys</h2>
+
+<div class="flex flex-col gap-1 p-3">
+  @if (courses(); as courses) {
+    @for (course of courses; track course.courseId) {
+      <button
+        type="button"
+        class="course"
+        [class.is-active]="course.active"
+        [disabled]="switcher.opening() !== null"
+        (click)="switcher.open(course.courseId)"
+      >
+        <app-tech-logo [tech]="course.courseId" [size]="36" label="" />
+        <span class="min-w-0 flex-1 text-left">
+          <span class="block font-display font-bold">{{ course.courseName }}</span>
+          <span class="block truncate text-sm text-muted">
+            Section {{ course.sectionNumber }} of {{ course.sectionCount
+            }}{{ course.active ? ': ' + course.sectionTitle : '' }}
+          </span>
+          @if (course.active) {
+            <span class="mt-2 block h-1.5 overflow-hidden rounded-full bg-surface-2">
+              <span
+                class="block h-full rounded-full bg-info"
+                [style.width.%]="course.percent"
+              ></span>
+            </span>
+          }
+        </span>
+        @if (switcher.opening() === course.courseId) {
+          <span class="text-xs font-semibold text-muted">Opening…</span>
+        }
+      </button>
+    }
+  } @else {
+    @for (row of [1, 2]; track row) {
+      <div class="h-16 animate-pulse rounded-btn bg-surface-2"></div>
+    }
+  }
+</div>
+
+<div class="border-t border-border p-3">
+  <a appButton [block]="true" routerLink="/app/journey/syllabus" class="uppercase">
+    Browse journeys
+  </a>
+</div>

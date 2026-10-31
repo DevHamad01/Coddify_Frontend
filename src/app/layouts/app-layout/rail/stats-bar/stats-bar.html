@@ -1,19 +1,62 @@
 @if (store.stats(); as stats) {
   <ul class="flex items-center justify-between gap-2" aria-label="Your stats">
-    <li title="Current course">
-      <app-tech-logo [tech]="stats.courseId" [size]="30" label="Current course" />
+    <li class="slot" (mouseenter)="hover('course')" (mouseleave)="leave()">
+      <button
+        type="button"
+        class="trigger"
+        [class.is-open]="open() === 'course'"
+        [attr.aria-expanded]="open() === 'course'"
+        aria-label="My journeys"
+        (click)="toggle('course')"
+      >
+        <app-tech-logo [tech]="stats.courseId" [size]="28" label="" />
+      </button>
     </li>
-    <li class="stat" [title]="stats.streak + ' day streak'">
-      <span [class]="stats.activitiesToday ? 'text-streak' : 'text-muted'">{{ stats.streak }}</span>
-      <app-nav-art name="flame" [size]="24" [muted]="!stats.activitiesToday" />
-      <span class="sr-only">day streak</span>
+    <li class="slot" (mouseenter)="hover('streak')" (mouseleave)="leave()">
+      <button
+        type="button"
+        class="trigger"
+        [class.is-open]="open() === 'streak'"
+        [attr.aria-expanded]="open() === 'streak'"
+        [attr.aria-label]="stats.streak + ' day streak'"
+        (click)="toggle('streak')"
+      >
+        <span [class]="stats.activitiesToday ? 'text-streak' : 'text-muted'">{{
+          stats.streak
+        }}</span>
+        <app-nav-art name="flame" [size]="24" [muted]="!stats.activitiesToday" />
+      </button>
     </li>
-    <li class="stat" [title]="stats.gems + ' gems'">
-      <span class="text-xp">{{ stats.gems }}</span>
-      <app-nav-art name="gem" [size]="24" />
-      <span class="sr-only">gems</span>
+    <li class="slot" (mouseenter)="hover('gems')" (mouseleave)="leave()">
+      <button
+        type="button"
+        class="trigger"
+        [class.is-open]="open() === 'gems'"
+        [attr.aria-expanded]="open() === 'gems'"
+        [attr.aria-label]="stats.gems + ' gems'"
+        (click)="toggle('gems')"
+      >
+        <span class="text-xp">{{ stats.gems }}</span>
+        <app-nav-art name="gem" [size]="24" />
+      </button>
     </li>
   </ul>
+
+  @if (open(); as panel) {
+    <div class="panel" (mouseenter)="hover(panel)" (mouseleave)="leave()">
+      @switch (panel) {
+        @case ('course') {
+          <app-course-popover />
+        }
+        @case ('streak') {
+          <app-streak-popover />
+        }
+        @case ('gems') {
+          <app-gems-popover [gems]="stats.gems" />
+        }
+      }
+    </div>
+  }
 } @else {
-  <div class="h-8 animate-pulse rounded-btn bg-surface"></div>
+  <div class="h-10 animate-pulse rounded-btn bg-surface"></div>
 }

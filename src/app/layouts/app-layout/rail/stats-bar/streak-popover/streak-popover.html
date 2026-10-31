@@ -1,0 +1,64 @@
+@if (streak(); as streak) {
+  <div class="hero">
+    <div class="flex items-start justify-between gap-3">
+      <div>
+        <h2 class="font-display text-2xl font-bold text-white">{{ streak.streak }} day streak</h2>
+        <p class="mt-1 text-[15px] text-white/90">
+          @if (streak.activeToday) {
+            You're done for today. See you tomorrow!
+          } @else if (streak.streak) {
+            Do a lesson today to keep your streak!
+          } @else {
+            Do a lesson today to start a new streak!
+          }
+        </p>
+      </div>
+      <app-nav-art name="flame" [size]="52" [muted]="!streak.activeToday" />
+    </div>
+
+    <ol class="week" aria-label="This week">
+      @for (day of week(); track day.iso; let i = $index) {
+        <li class="flex flex-col items-center gap-2">
+          <span class="text-xs font-bold text-white/60">{{ letters[i] }}</span>
+          <span
+            class="dot"
+            [class.is-active]="day.active"
+            [class.is-today]="day.isToday"
+            [attr.aria-label]="day.iso + (day.active ? ', active' : '')"
+          >
+            @if (day.active) {
+              <app-icon name="check" [size]="14" [strokeWidth]="3.5" />
+            }
+          </span>
+        </li>
+      }
+    </ol>
+  </div>
+
+  <div class="p-4">
+    <div class="club">
+      <app-icon
+        [name]="streak.streak >= streak.clubTarget ? 'lock-open' : 'lock'"
+        [size]="30"
+        class="shrink-0 text-muted"
+      />
+      <div class="min-w-0">
+        <p class="font-display font-bold">Streak Club</p>
+        <p class="text-sm text-muted">
+          @if (streak.streak >= streak.clubTarget) {
+            You're in! Keep the flame alive for club perks.
+          } @else {
+            Reach a {{ streak.clubTarget }} day streak to join the club and unlock flame colours.
+          }
+        </p>
+      </div>
+    </div>
+    <div class="mt-3 h-2 overflow-hidden rounded-full bg-surface-2">
+      <span class="block h-full rounded-full bg-success" [style.width.%]="clubPercent()"></span>
+    </div>
+
+    <a appButton [block]="true" routerLink="/app/streak" class="mt-4 uppercase">View more</a>
+  </div>
+} @else {
+  <div class="h-48 animate-pulse bg-surface-2"></div>
+}

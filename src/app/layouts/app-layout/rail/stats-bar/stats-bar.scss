@@ -1,7 +1,15 @@
 :host {
-  @apply block px-2;
+  @apply relative z-30 block px-1;
 }
 
-.stat {
-  @apply flex items-center gap-1.5 font-display text-xl font-bold;
+.trigger {
+  @apply flex h-11 min-w-[64px] items-center justify-center gap-1.5 rounded-btn px-3 font-display text-xl font-bold transition-colors duration-hover hover:bg-surface;
+
+  &.is-open {
+    @apply bg-surface;
+  }
+}
+
+.panel {
+  @apply absolute inset-x-0 top-[calc(100%+8px)] animate-fade-up overflow-hidden rounded-card border-2 border-border bg-surface shadow-modal;
 }
