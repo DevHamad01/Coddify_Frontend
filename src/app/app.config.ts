@@ -5,6 +5,7 @@ import { provideRouter, withComponentInputBinding, withInMemoryScrolling } from 
 
 import { routes } from './app.routes';
 import { authInterceptor } from './core/interceptors/auth.interceptor';
+import { envelopeInterceptor } from './core/interceptors/envelope.interceptor';
 import { errorInterceptor } from './core/interceptors/error.interceptor';
 import { provideApis } from './core/providers';
 
@@ -17,8 +18,12 @@ export const appConfig: ApplicationConfig = {
       withInMemoryScrolling({ anchorScrolling: 'enabled', scrollPositionRestoration: 'enabled' }),
     ),
     provideClientHydration(withEventReplay()),
-    // errorInterceptor is outermost so it maps the final error after any token refresh retry.
-    provideHttpClient(withFetch(), withInterceptors([errorInterceptor, authInterceptor])),
+    // errorInterceptor is outermost so it maps the final error after any token refresh retry;
+    // envelopeInterceptor unwraps the API's { responseCode, data } envelope before anything reads it.
+    provideHttpClient(
+      withFetch(),
+      withInterceptors([errorInterceptor, authInterceptor, envelopeInterceptor]),
+    ),
     provideApis(),
   ],
 };

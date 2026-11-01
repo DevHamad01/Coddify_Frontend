@@ -14,6 +14,14 @@ export type ApiErrorCode =
   | 'network'
   | 'google_not_configured'
   | 'google_cancelled'
+  | 'account_blocked'
+  | 'username_taken'
+  | 'tests_failed'
+  | 'locked'
+  | 'conflict'
+  | 'forbidden'
+  | 'rate_limited'
+  | 'server_error'
   | 'unknown';
 
 const KNOWN_CODES: readonly ApiErrorCode[] = [
@@ -29,6 +37,14 @@ const KNOWN_CODES: readonly ApiErrorCode[] = [
   'network',
   'google_not_configured',
   'google_cancelled',
+  'account_blocked',
+  'username_taken',
+  'tests_failed',
+  'locked',
+  'conflict',
+  'forbidden',
+  'rate_limited',
+  'server_error',
 ];
 
 export class ApiError extends Error {
@@ -44,10 +60,14 @@ export class ApiError extends Error {
   }
 }
 
-/** Shape we accept from the backend: ASP.NET ProblemDetails plus an optional `code`. */
+/**
+ * Shape we accept from the backend: the API's ResponseVM envelope ({ code, responseMessage, errors })
+ * or ASP.NET ProblemDetails.
+ */
 interface ProblemBody {
   readonly code?: unknown;
   readonly message?: unknown;
+  readonly responseMessage?: unknown;
   readonly title?: unknown;
   readonly detail?: unknown;
   readonly errors?: unknown;
@@ -74,7 +94,8 @@ export function toApiError(error: unknown): ApiError {
     'Something went wrong on our side. Please try again in a moment.',
   ];
   const code = KNOWN_CODES.find((known) => known === body.code) ?? fallbackCode;
-  const message = firstString(body.message, body.detail, body.title) ?? fallbackMessage;
+  const message =
+    firstString(body.message, body.responseMessage, body.detail, body.title) ?? fallbackMessage;
   return new ApiError(code, message, error.status, readFieldErrors(body.errors));
 }
 
