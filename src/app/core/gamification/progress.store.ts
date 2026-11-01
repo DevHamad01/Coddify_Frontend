@@ -49,8 +49,11 @@ export class ProgressStore {
 
   /** Loads stats and missions; safe to call again to refresh. */
   refresh(): void {
-    this.api.getStats().subscribe((stats) => this.stats.set(stats));
-    this.api.getMissions().subscribe((missions) => this.missions.set(missions));
+    // Failures (e.g. an expired session, which logs out) keep the last known numbers.
+    this.api.getStats().subscribe({ next: (stats) => this.stats.set(stats), error: () => undefined });
+    this.api
+      .getMissions()
+      .subscribe({ next: (missions) => this.missions.set(missions), error: () => undefined });
   }
 
   ensureLoaded(): void {

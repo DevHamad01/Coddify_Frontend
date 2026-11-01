@@ -25,7 +25,7 @@
 </header>
 
 @if (problem(); as problem) {
-  <div class="workspace">
+  <div class="workspace" [class.has-tutor]="tutorOpen()">
     <section class="left" aria-label="Problem">
       <nav class="tabs" role="tablist" aria-label="Problem sections">
         @for (item of tabs; track item.id) {
@@ -143,6 +143,16 @@
         />
       }
     </section>
+
+    @if (tutorOpen()) {
+      <app-tutor-panel
+        class="tutor"
+        [problemId]="problem.id"
+        [code]="code()"
+        [lastRun]="tutorRun()"
+        (closed)="tutorOpen.set(false)"
+      />
+    }
   </div>
 } @else if (notFound()) {
   <div class="m-auto text-center">

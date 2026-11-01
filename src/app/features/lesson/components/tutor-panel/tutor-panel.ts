@@ -37,7 +37,9 @@ const SUGGESTION = 'Can you help me with this challenge?';
   styleUrl: './tutor-panel.scss',
 })
 export class TutorPanel {
-  readonly lessonId = input.required<string>();
+  /** Set one of these: the lesson or the practice problem the learner is working on. */
+  readonly lessonId = input<string>('');
+  readonly problemId = input<string>('');
   readonly code = input.required<string>();
   readonly lastRun = input<RunResult | null>(null);
   readonly closed = output<void>();
@@ -64,7 +66,8 @@ export class TutorPanel {
     this.thinking.set(true);
     this.api
       .ask({
-        lessonId: this.lessonId(),
+        lessonId: this.lessonId() || undefined,
+        problemId: this.problemId() || undefined,
         message: question,
         code: this.code(),
         lastRun: this.lastRun(),

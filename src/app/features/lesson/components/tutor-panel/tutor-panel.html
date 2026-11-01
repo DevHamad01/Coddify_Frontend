@@ -44,7 +44,7 @@
   <textarea
     rows="1"
     class="max-h-32 flex-1 resize-none overflow-y-auto bg-transparent text-[15px] text-text outline-none [scrollbar-width:none] placeholder:text-muted"
-    [placeholder]="'Ask ' + tutorName() + ' anything about this lesson'"
+    [placeholder]="'Ask ' + tutorName() + ' anything about this exercise'"
     [attr.aria-label]="'Message ' + tutorName()"
     [value]="draft()"
     (input)="draft.set($any($event.target).value)"

@@ -9,7 +9,10 @@ import { RunResult } from './learning.models';
 import { PYTHON_LESSONS } from './mock/python-course.mock';
 
 export interface TutorRequest {
-  readonly lessonId: string;
+  /** The lesson being asked about; empty when asking about a practice problem. */
+  readonly lessonId?: string;
+  /** The practice problem being asked about (problem workspace). */
+  readonly problemId?: string;
   readonly message: string;
   readonly code: string;
   readonly lastRun: RunResult | null;
@@ -44,7 +47,7 @@ export class MockTutorApi extends TutorApi {
   }
 
   private reply({ lessonId, message, lastRun }: TutorRequest): string {
-    const lesson = PYTHON_LESSONS.get(lessonId);
+    const lesson = lessonId ? PYTHON_LESSONS.get(lessonId) : undefined;
     const challenge = lesson?.challenge;
     const question = message.toLowerCase();
 

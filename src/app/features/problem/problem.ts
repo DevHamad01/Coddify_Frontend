@@ -25,6 +25,7 @@ import { Icon } from '../../shared/ui/icon/icon';
 import { IconName } from '../../shared/ui/icon/icons';
 import { NavArt } from '../../shared/ui/nav-art/nav-art';
 import { ToastService } from '../../shared/ui/toast/toast.service';
+import { TutorPanel } from '../lesson/components/tutor-panel/tutor-panel';
 import { ProblemDescription } from './components/problem-description/problem-description';
 import { ProblemHints } from './components/problem-hints/problem-hints';
 import { ProblemSolution } from './components/problem-solution/problem-solution';
@@ -69,6 +70,7 @@ const DRAFT_KEY = 'coddify.problem-draft';
     SimilarProblems,
     ProblemSubmissions,
     TestCases,
+    TutorPanel,
   ],
   templateUrl: './problem.html',
   styleUrl: './problem.scss',
@@ -94,6 +96,21 @@ export class Problem {
   protected readonly running = signal<'run' | 'submit' | null>(null);
   protected readonly submissions = signal<readonly ProblemSubmission[] | null>(null);
   protected readonly testsOpen = signal(true);
+  protected readonly tutorOpen = signal(false);
+  /** The last run in the shape the tutor reads (output, error, passed). */
+  protected readonly tutorRun = computed(() => {
+    const result = this.result();
+    if (!result) {
+      return null;
+    }
+    const failing = result.results.find((test) => !test.passed);
+    return {
+      output: failing?.output ?? result.results[0]?.output ?? '',
+      error: result.error,
+      tests: [],
+      passed: result.passed,
+    };
+  });
 
   /** Challenges link back to the challenge list, interview problems to the interview bank. */
   protected readonly backLink = computed(() =>
@@ -179,8 +196,7 @@ export class Problem {
   }
 
   protected askAi(): void {
-    this.selectTab('hints');
-    this.toast.info('The AI tutor for problems arrives with the backend. Try a hint for now!');
+    this.tutorOpen.set(!this.tutorOpen());
   }
 
   protected loadSubmission(submission: ProblemSubmission): void {

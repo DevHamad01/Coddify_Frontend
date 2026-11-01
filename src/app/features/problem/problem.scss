@@ -22,7 +22,16 @@
   @screen lg {
     grid-template-columns: minmax(380px, 40%) 1fr;
     grid-template-rows: none;
+
+    &.has-tutor {
+      grid-template-columns: minmax(340px, 34%) 1fr 340px;
+    }
   }
+}
+
+// The tutor slides over the page on phones and docks on the right from lg.
+.tutor {
+  @apply fixed inset-0 z-40 flex lg:static lg:z-auto lg:border-l lg:border-border;
 }
 
 .left {

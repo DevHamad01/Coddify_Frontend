@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import { IsActiveMatchOptions, RouterLink, RouterLinkActive } from '@angular/router';
 
 import { AuthService } from '../../../../core/auth/auth.service';
 import { Icon } from '../../../../shared/ui/icon/icon';
@@ -60,6 +60,13 @@ const GROUPS: readonly { label: string; links: readonly MenuLink[] }[] = [
   styleUrl: './profile-menu.scss',
 })
 export class ProfileMenu {
+  /** Path and #fragment must both match, so Overview and Badges (/app/profile#badges) aren't both active. */
+  protected readonly exactMatch: IsActiveMatchOptions = {
+    paths: 'exact',
+    fragment: 'exact',
+    queryParams: 'ignored',
+    matrixParams: 'ignored',
+  };
   protected readonly groups = GROUPS;
   protected readonly auth = inject(AuthService);
 }

@@ -11,11 +11,12 @@ export interface AppEnvironment {
 
 /**
  * Single place to switch between the mock layer and the real backend.
- * Flip `useMockApi` to false once the .NET API is running.
+ * `useMockApi: true` runs the whole app on in-browser mock data, without the .NET API.
  */
 export const environment: AppEnvironment = {
-  apiBaseUrl: 'https://localhost:7001',
-  useMockApi: true,
+  // Coddify_Backend "http" launch profile (dotnet run --launch-profile http).
+  apiBaseUrl: 'http://localhost:5070',
+  useMockApi: false,
   googleClientId: '',
 };
 
