@@ -4,6 +4,7 @@ import { Observable, firstValueFrom } from 'rxjs';
 
 import { ApiError } from '../api/api-error';
 import { MOCK_PASSWORD } from '../api/mock/mock-db';
+import { APP_ENV, environment } from '../config/environment';
 import { provideApis } from '../providers';
 import { AuthApi } from './auth-api';
 import { AuthService, isSafeReturnUrl } from './auth.service';
@@ -37,7 +38,14 @@ describe('AuthService (mock API)', () => {
     vi.useFakeTimers();
     localStorage.clear();
     sessionStorage.clear();
-    TestBed.configureTestingModule({ providers: [provideRouter([]), provideApis()] });
+    TestBed.configureTestingModule({
+      providers: [
+        provideRouter([]),
+        // These specs exercise the in-browser mock API, whatever the app's default is.
+        { provide: APP_ENV, useValue: { ...environment, useMockApi: true } },
+        provideApis(),
+      ],
+    });
     auth = TestBed.inject(AuthService);
     navigateByUrl = vi.spyOn(TestBed.inject(Router), 'navigateByUrl').mockResolvedValue(true);
   });

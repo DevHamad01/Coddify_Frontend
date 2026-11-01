@@ -13,6 +13,11 @@ export const API_ENDPOINTS = {
     resetPassword: '/api/auth/reset-password',
     refreshToken: '/api/auth/refresh-token',
   },
+  /** Signed-in account endpoints (these do get the Bearer token). */
+  account: {
+    me: '/api/me',
+    logout: '/api/auth/logout',
+  },
   onboarding: {
     save: '/api/onboarding',
   },

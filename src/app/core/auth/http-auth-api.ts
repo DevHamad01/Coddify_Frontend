@@ -58,6 +58,10 @@ export class HttpAuthApi extends AuthApi {
     return this.http.post<AuthSession>(this.url(this.paths.refreshToken), request);
   }
 
+  logout(): Observable<void> {
+    return this.http.post<void>(this.url(API_ENDPOINTS.account.logout), {});
+  }
+
   private url(path: string): string {
     return `${this.baseUrl}${path}`;
   }

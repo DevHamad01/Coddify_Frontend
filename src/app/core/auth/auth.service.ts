@@ -102,6 +102,10 @@ export class AuthService {
   }
 
   logout(redirectTo: string | null = '/'): void {
+    if (this.session()) {
+      // Best effort: the local sign-out must not wait for or depend on the server.
+      this.api.logout().subscribe({ error: () => undefined });
+    }
     this.session.set(null);
     this.storage.clear();
     if (redirectTo !== null) {

@@ -153,6 +153,10 @@ export class MockAuthApi extends AuthApi {
     });
   }
 
+  logout(): Observable<void> {
+    return this.db.respond(() => undefined);
+  }
+
   private createSession(record: MockUserRecord): AuthSession {
     const refreshToken = randomToken('refresh');
     this.db.storeRefreshToken(refreshToken, record.email);

@@ -28,4 +28,6 @@ export abstract class AuthApi {
   abstract forgotPassword(request: EmailRequest): Observable<ForgotPasswordResponse>;
   abstract resetPassword(request: ResetPasswordRequest): Observable<MessageResponse>;
   abstract refreshToken(request: RefreshTokenRequest): Observable<AuthSession>;
+  /** Revokes the refresh token on the server (needs the access token). */
+  abstract logout(): Observable<void>;
 }
