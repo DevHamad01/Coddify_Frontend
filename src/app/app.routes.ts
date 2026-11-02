@@ -49,9 +49,8 @@ export const routes: Routes = [
       },
       {
         path: 'terms',
-        title: 'Terms | Coddify',
-        data: { title: 'Terms of use' },
-        loadComponent: comingSoon,
+        title: 'Terms of Use | Coddify',
+        loadComponent: () => import('./features/legal/terms/terms').then((m) => m.Terms),
       },
     ],
   },

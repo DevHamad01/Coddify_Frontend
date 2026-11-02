@@ -1,0 +1,36 @@
+.toc {
+  @apply hidden lg:block;
+
+  ol {
+    @apply sticky top-24 flex flex-col gap-1.5;
+  }
+}
+
+.toc-link {
+  @apply block rounded-lg px-2 py-1 text-sm text-muted transition-colors duration-hover hover:bg-surface hover:text-text;
+}
+
+.bullet {
+  @apply relative pl-5 leading-7 text-muted;
+
+  &::before {
+    @apply absolute left-0 top-[11px] h-1.5 w-1.5 rounded-full bg-primary;
+    content: '';
+  }
+}
+
+.table-wrap {
+  @apply mt-4 overflow-x-auto rounded-card border border-border;
+
+  table {
+    @apply w-full min-w-[560px] border-collapse text-left text-sm;
+  }
+
+  th {
+    @apply bg-surface px-4 py-3 font-display font-bold;
+  }
+
+  td {
+    @apply border-t border-border px-4 py-3 align-top leading-6 text-muted;
+  }
+}
