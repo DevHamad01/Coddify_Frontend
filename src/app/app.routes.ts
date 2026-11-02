@@ -36,6 +36,12 @@ export const routes: Routes = [
           import('./features/blog/blog-list/blog-list').then((m) => m.BlogList),
       },
       {
+        path: 'blog/:slug',
+        title: 'Blog | Coddify',
+        loadComponent: () =>
+          import('./features/blog/blog-post/blog-post').then((m) => m.BlogPost),
+      },
+      {
         path: 'about',
         title: 'About | Coddify',
         loadComponent: () => import('./features/about/about').then((m) => m.About),

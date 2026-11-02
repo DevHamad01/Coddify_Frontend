@@ -1,0 +1,100 @@
+@if (post(); as post) {
+  <article>
+    <header class="container-page max-w-4xl pt-10 md:pt-14">
+      <a routerLink="/blog" class="back">
+        <app-icon name="arrow-left" [size]="16" />All posts
+      </a>
+      <p class="mt-6 text-sm font-semibold text-primary">{{ post.category }}</p>
+      <h1 class="text-balance mt-2 text-3xl font-extrabold leading-tight sm:text-5xl">
+        {{ post.title }}
+      </h1>
+      <p class="mt-4 text-lg leading-8 text-muted">{{ post.excerpt }}</p>
+      <p class="mt-4 text-sm text-muted">
+        {{ post.author }} · <time [attr.datetime]="post.date">{{ date() }}</time> ·
+        {{ post.readMinutes }} min read
+      </p>
+      <app-post-cover
+        [cover]="post.cover"
+        [size]="96"
+        class="mt-8 h-56 overflow-hidden rounded-modal sm:h-80"
+      />
+    </header>
+
+    <div class="container-page grid max-w-5xl gap-10 py-12 lg:grid-cols-[200px_1fr]">
+      <nav class="toc" aria-label="Table of contents">
+        <ol>
+          <li class="mb-3 text-xs font-bold uppercase tracking-wider text-muted">Contents</li>
+          @for (heading of headings(); track heading.id) {
+            <li>
+              <a [href]="'#' + heading.id" class="toc-link">{{ heading.text }}</a>
+            </li>
+          }
+        </ol>
+      </nav>
+
+      <div class="body">
+        @for (block of post.body; track $index) {
+          @switch (block.kind) {
+            @case ('h2') {
+              <h2 [id]="block.id">{{ block.text }}</h2>
+            }
+            @case ('p') {
+              <p><app-rich-text [text]="block.text" /></p>
+            }
+            @case ('list') {
+              @if (block.ordered) {
+                <ol>
+                  @for (item of block.items; track $index) {
+                    <li><app-rich-text [text]="item" /></li>
+                  }
+                </ol>
+              } @else {
+                <ul>
+                  @for (item of block.items; track $index) {
+                    <li><app-rich-text [text]="item" /></li>
+                  }
+                </ul>
+              }
+            }
+            @case ('code') {
+              <figure class="code">
+                <figcaption>{{ block.language }}</figcaption>
+                <pre><code>{{ block.code }}</code></pre>
+              </figure>
+            }
+            @case ('tip') {
+              <aside class="tip">
+                <app-mascot pose="happy" [size]="48" [animated]="false" />
+                <p><app-rich-text [text]="block.text" /></p>
+              </aside>
+            }
+          }
+        }
+
+        <div class="end-card">
+          <p class="font-display text-lg font-bold">Ready to try it yourself?</p>
+          <p class="mt-1 text-sm text-muted">Your first lesson takes five minutes, and it is free.</p>
+          <a appButton routerLink="/register" size="sm" class="mt-4">Start learning</a>
+        </div>
+      </div>
+    </div>
+  </article>
+
+  <section class="container-page pb-6" aria-labelledby="related-heading">
+    <h2 id="related-heading" class="text-2xl font-bold">Related articles</h2>
+    <ul class="mt-6 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+      @for (other of related(); track other.slug) {
+        <li><app-post-card [post]="other" /></li>
+      }
+    </ul>
+  </section>
+
+  <app-final-cta />
+} @else {
+  <section class="container-page flex flex-col items-center py-24 text-center">
+    <app-mascot pose="thinking" [size]="140" />
+    <h1 class="mt-6 text-3xl font-bold">Article not found</h1>
+    <p class="mt-3 text-muted">This post may have moved or never existed.</p>
+    <a appButton variant="secondary" routerLink="/blog" class="mt-8">Back to the blog</a>
+  </section>
+}

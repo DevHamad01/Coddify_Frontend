@@ -1,0 +1,71 @@
+.back {
+  @apply inline-flex items-center gap-1.5 text-sm font-semibold text-muted transition-colors duration-hover hover:text-primary;
+}
+
+.toc {
+  @apply hidden lg:block;
+
+  ol {
+    @apply sticky top-24 flex flex-col gap-1.5;
+  }
+}
+
+.toc-link {
+  @apply block rounded-lg px-2 py-1 text-sm text-muted transition-colors duration-hover hover:bg-surface hover:text-text;
+}
+
+// Article typography.
+.body {
+  @apply min-w-0 max-w-3xl;
+
+  h2 {
+    @apply mb-3 mt-10 scroll-mt-24 text-2xl font-bold first:mt-0;
+  }
+
+  > p {
+    @apply mb-5 text-[17px] leading-8 text-muted;
+  }
+
+  ul,
+  ol {
+    @apply mb-5 flex flex-col gap-2 pl-6 text-[17px] leading-8 text-muted;
+  }
+
+  ul {
+    @apply list-disc;
+  }
+
+  ol {
+    @apply list-decimal;
+  }
+
+  li::marker {
+    color: rgb(var(--c-primary));
+  }
+}
+
+.code {
+  @apply mb-6 overflow-hidden rounded-card border border-border;
+
+  figcaption {
+    @apply border-b border-border bg-surface px-4 py-2 font-mono text-xs uppercase tracking-wider text-muted;
+  }
+
+  pre {
+    @apply overflow-x-auto px-4 py-4 text-sm leading-6;
+    background: var(--mock-bg);
+    color: var(--mock-text);
+  }
+}
+
+.tip {
+  @apply mb-6 flex items-start gap-4 rounded-card border border-primary/40 bg-primary/5 p-4;
+
+  p {
+    @apply text-[15px] leading-7;
+  }
+}
+
+.end-card {
+  @apply mt-12 rounded-card border border-border bg-surface p-6;
+}
