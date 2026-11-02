@@ -1,0 +1,12 @@
+.vision {
+  @apply border-y border-border;
+  background: rgb(var(--c-info) / 0.08);
+}
+
+.pillar {
+  @apply flex gap-5 border-b border-border py-8 last:border-b-0;
+}
+
+.pillar-icon {
+  @apply flex h-14 w-14 shrink-0 items-center justify-center rounded-card border border-border bg-surface text-info;
+}

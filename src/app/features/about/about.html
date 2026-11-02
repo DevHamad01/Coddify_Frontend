@@ -1,0 +1,43 @@
+<section class="container-page py-20 md:py-28">
+  <div class="grid items-center gap-12 md:grid-cols-[1fr_auto]">
+    <div class="max-w-2xl">
+      <p class="eyebrow">Our mission</p>
+      <h1 class="text-balance mt-3 text-4xl font-extrabold leading-tight sm:text-6xl">
+        Turning learning to code into a <span class="text-primary">daily habit</span>
+      </h1>
+      <p class="mt-6 max-w-xl text-lg leading-8 text-muted">
+        Coddify started as a Final Year Project in Pakistan with one question: why do so many
+        people start learning to code and quit a week later? Our answer is a free app built around
+        small daily wins, real code and a tutor that never makes you feel stuck.
+      </p>
+      <dl class="mt-10 flex flex-wrap gap-x-12 gap-y-6">
+        @for (fact of facts; track fact.label) {
+          <div>
+            <dt class="text-sm text-muted">{{ fact.label }}</dt>
+            <dd class="font-display text-3xl font-extrabold">{{ fact.value }}</dd>
+          </div>
+        }
+      </dl>
+    </div>
+    <app-mascot pose="waving" [size]="220" class="mx-auto hidden md:flex" />
+  </div>
+</section>
+
+<section class="vision" aria-labelledby="vision-heading">
+  <div class="container-page max-w-4xl py-20 md:py-24">
+    <p id="vision-heading" class="eyebrow">Our vision</p>
+    <ul class="mt-6">
+      @for (pillar of pillars; track pillar.title) {
+        <li class="pillar">
+          <span class="pillar-icon"><app-icon [name]="pillar.icon" [size]="28" /></span>
+          <div>
+            <h2 class="text-2xl font-bold sm:text-3xl">{{ pillar.title }}</h2>
+            <p class="mt-2 max-w-2xl leading-7 text-muted">{{ pillar.body }}</p>
+          </div>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<app-final-cta />
