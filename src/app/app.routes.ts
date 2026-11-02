@@ -37,8 +37,7 @@ export const routes: Routes = [
       {
         path: 'contact',
         title: 'Contact | Coddify',
-        data: { title: 'Contact us' },
-        loadComponent: comingSoon,
+        loadComponent: () => import('./features/contact/contact').then((m) => m.Contact),
       },
       {
         path: 'privacy',

@@ -1,0 +1,19 @@
+.channel {
+  @apply font-display text-lg font-semibold transition-colors duration-hover hover:text-primary sm:text-xl;
+}
+
+.social {
+  @apply flex h-10 w-10 items-center justify-center rounded-btn border border-border text-muted transition-colors duration-hover hover:border-primary/60 hover:text-primary;
+}
+
+.card {
+  @apply rounded-modal border border-border bg-surface p-6 shadow-modal sm:p-8;
+}
+
+.field {
+  @apply w-full rounded-input border border-border bg-bg px-3.5 text-[15px] text-text transition-colors duration-hover placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30;
+}
+
+textarea.field {
+  @apply resize-y;
+}

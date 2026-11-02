@@ -1,0 +1,112 @@
+<div class="container-page grid gap-12 py-16 md:py-24 lg:grid-cols-[1fr_1.1fr] lg:gap-16">
+  <section>
+    <p class="eyebrow">Contact</p>
+    <h1 class="mt-2 text-4xl font-extrabold sm:text-5xl">Get in touch</h1>
+    <p class="mt-4 max-w-md leading-7 text-muted">
+      Found a bug, have an idea for a course or want to bring Coddify to your university? We read
+      every message and usually reply within two working days.
+    </p>
+
+    <dl class="mt-10 flex flex-col gap-6">
+      @for (channel of channels; track channel.email) {
+        <div>
+          <dt class="text-sm font-semibold text-primary">{{ channel.label }}</dt>
+          <dd class="mt-1">
+            <a [href]="'mailto:' + channel.email" class="channel">{{ channel.email }}</a>
+          </dd>
+        </div>
+      }
+      <div>
+        <dt class="text-sm font-semibold text-primary">Follow us</dt>
+        <dd class="mt-2">
+          <ul class="flex gap-2" aria-label="Social media">
+            @for (social of socials; track social.icon) {
+              <li>
+                <a
+                  href="#"
+                  (click)="$event.preventDefault()"
+                  class="social"
+                  [attr.aria-label]="social.label"
+                >
+                  <app-icon [name]="social.icon" [size]="18" />
+                </a>
+              </li>
+            }
+          </ul>
+        </dd>
+      </div>
+    </dl>
+  </section>
+
+  <section class="card" aria-labelledby="contact-form-heading">
+    <h2 id="contact-form-heading" class="text-2xl font-bold">Send us a message</h2>
+
+    @if (opened()) {
+      <div class="mt-5">
+        <app-alert
+          tone="success"
+          message="Your email app should now be open with the message filled in. Press send there and we will get back to you."
+        />
+      </div>
+    }
+
+    <form [formGroup]="form" (ngSubmit)="submit()" novalidate class="mt-6 flex flex-col gap-4">
+      <div class="grid gap-4 sm:grid-cols-2">
+        <app-input
+          label="Name"
+          autocomplete="name"
+          placeholder="Your name"
+          formControlName="name"
+          [required]="true"
+          [error]="nameError()"
+        />
+        <app-input
+          label="Email"
+          type="email"
+          autocomplete="email"
+          placeholder="you@example.com"
+          formControlName="email"
+          [required]="true"
+          [error]="emailError()"
+        />
+      </div>
+
+      <div>
+        <label for="contact-topic" class="mb-1.5 block text-sm font-medium">Topic</label>
+        <select id="contact-topic" formControlName="topic" class="field h-12">
+          @for (topic of topics; track topic) {
+            <option [value]="topic">{{ topic }}</option>
+          }
+        </select>
+      </div>
+
+      <div>
+        <label for="contact-message" class="mb-1.5 block text-sm font-medium">Message</label>
+        <textarea
+          id="contact-message"
+          formControlName="message"
+          rows="6"
+          placeholder="How can we help?"
+          class="field py-3"
+          [class.border-danger]="!!messageError()"
+          [attr.aria-invalid]="messageError() ? 'true' : null"
+          [attr.aria-describedby]="messageError() ? 'contact-message-error' : null"
+        ></textarea>
+        @if (messageError(); as error) {
+          <p id="contact-message-error" class="mt-1 text-sm text-danger" role="alert">
+            {{ error }}
+          </p>
+        }
+      </div>
+
+      <app-checkbox formControlName="understood" [error]="understoodError()">
+        For help with a specific lesson, I know I can ask Bit, the AI tutor inside every lesson,
+        and use this form for everything else.
+      </app-checkbox>
+
+      <button appButton type="submit" class="mt-2 self-end">
+        <app-icon name="send" [size]="18" />Send message
+      </button>
+    </form>
+  </section>
+</div>
