@@ -30,6 +30,12 @@ export const routes: Routes = [
         loadComponent: comingSoon,
       },
       {
+        path: 'certifications',
+        title: 'Certifications | Coddify',
+        loadComponent: () =>
+          import('./features/certifications/certifications').then((m) => m.Certifications),
+      },
+      {
         path: 'blog',
         title: 'Blog | Coddify',
         loadComponent: () =>

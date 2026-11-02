@@ -142,8 +142,7 @@ export const RESOURCE_GROUPS: readonly ResourceGroup[] = [
         label: 'Certificates',
         description: 'Proof of every course you finish, ready for LinkedIn.',
         icon: 'award',
-        path: '/',
-        fragment: 'certificates',
+        path: '/certifications',
       },
       {
         label: 'Leagues',

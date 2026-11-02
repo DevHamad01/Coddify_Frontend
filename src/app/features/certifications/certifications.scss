@@ -1,0 +1,60 @@
+.hero {
+  @apply border-b border-border;
+  background: rgb(var(--c-primary) / 0.06);
+}
+
+.pill {
+  @apply inline-flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1 text-xs font-bold uppercase tracking-wider text-primary;
+}
+
+.certificate {
+  @apply relative mx-auto w-full max-w-md rounded-card border border-border bg-surface p-8 text-center shadow-modal;
+  transform: rotate(2deg);
+}
+
+.corner {
+  @apply absolute h-7 w-7;
+  border-color: rgb(var(--c-xp) / 0.7);
+}
+
+.name {
+  @apply mx-auto mt-1 w-fit border-b-2 px-6 pb-1 font-display text-3xl font-bold;
+  border-color: rgb(var(--c-xp) / 0.4);
+}
+
+.empty {
+  @apply mt-4 flex flex-col items-start gap-4 rounded-card border border-dashed border-border p-5 sm:flex-row sm:items-center;
+}
+
+.tile {
+  @apply flex items-center gap-3 rounded-card border border-border bg-surface p-4 transition-colors duration-hover hover:border-primary/60;
+}
+
+.band {
+  @apply border-y border-border;
+  background: rgb(var(--c-info) / 0.06);
+}
+
+.path {
+  @apply rounded-card border border-border bg-surface p-5;
+}
+
+.logo-dot {
+  @apply flex h-9 w-9 items-center justify-center rounded-full border-2 border-surface bg-surface-2;
+}
+
+.step {
+  @apply flex flex-col items-start gap-3 rounded-card border border-border bg-surface p-6;
+}
+
+.step-icon {
+  @apply flex h-11 w-11 items-center justify-center rounded-btn bg-primary/15 text-primary;
+}
+
+.verify {
+  @apply rounded-modal border border-border bg-surface p-6 sm:p-8;
+}
+
+.field {
+  @apply h-12 flex-1 rounded-input border border-border bg-bg px-3.5 font-mono text-[15px] uppercase text-text transition-colors duration-hover placeholder:normal-case placeholder:text-muted/70 focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/30;
+}

@@ -1,0 +1,200 @@
+<!-- Hero -->
+<section class="hero">
+  <div class="container-page grid items-center gap-12 py-16 md:grid-cols-2 md:py-24">
+    <div>
+      <span class="pill"><app-icon name="award" [size]="14" />Free coding certifications</span>
+      <h1 class="text-balance mt-4 text-4xl font-extrabold leading-tight sm:text-5xl">
+        Certificates that prove you can <span class="text-primary">actually code</span>
+      </h1>
+      <p class="mt-5 max-w-lg text-lg leading-8 text-muted">
+        Earn a shareable, verifiable certificate for every course you finish, by solving real
+        coding challenges, not multiple-choice quizzes.
+      </p>
+      <a appButton size="lg" [routerLink]="startLink()" class="mt-8">
+        {{ auth.isAuthenticated() ? 'Continue learning' : 'Start for free' }}
+      </a>
+      <dl class="mt-10 flex flex-wrap gap-x-10 gap-y-4">
+        <div>
+          <dt class="text-sm text-muted">Course certificates</dt>
+          <dd class="font-display text-3xl font-extrabold">{{ courses.length }}</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Career paths</dt>
+          <dd class="font-display text-3xl font-extrabold">{{ paths.length }}</dd>
+        </div>
+        <div>
+          <dt class="text-sm text-muted">Cost</dt>
+          <dd class="font-display text-3xl font-extrabold">Free</dd>
+        </div>
+      </dl>
+    </div>
+
+    <div class="certificate" role="img" aria-label="Example Coddify certificate">
+      <span class="corner left-3 top-3 border-l-2 border-t-2"></span>
+      <span class="corner right-3 top-3 border-r-2 border-t-2"></span>
+      <span class="corner bottom-3 left-3 border-b-2 border-l-2"></span>
+      <span class="corner bottom-3 right-3 border-b-2 border-r-2"></span>
+      <app-icon name="award" [size]="40" class="text-xp" />
+      <p class="mt-2 text-[11px] font-bold uppercase tracking-[0.25em] text-muted">
+        Certificate of completion
+      </p>
+      <p class="mt-6 text-sm italic text-muted">This certifies that</p>
+      <p class="name">Your Name</p>
+      <p class="mt-3 text-sm italic text-muted">has successfully completed</p>
+      <p class="mt-2 inline-flex items-center gap-2 font-display text-lg font-bold">
+        <app-tech-logo tech="python" [size]="22" />Python Foundations
+      </p>
+      <div class="mt-8 flex items-end justify-between text-left text-xs">
+        <div>
+          <p class="font-bold uppercase tracking-wider text-muted">Certificate ID</p>
+          <p class="font-mono font-semibold">CDF-7K2Q-9XWD</p>
+        </div>
+        <div class="text-right">
+          <p class="font-bold uppercase tracking-wider text-muted">Issued by</p>
+          <p class="font-brand text-sm text-primary">Coddify</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- My certificates (signed-in learners) -->
+@if (auth.isAuthenticated()) {
+  <section class="container-page pt-14" aria-labelledby="mine-heading">
+    <h2 id="mine-heading" class="text-2xl font-bold">My certificates</h2>
+    <div class="empty">
+      <app-icon name="award" [size]="28" class="text-muted" />
+      <div>
+        <p class="font-semibold">You have not earned a certificate yet</p>
+        <p class="mt-1 text-sm text-muted">
+          Finish every section of a course and your certificate shows up here.
+        </p>
+      </div>
+      <a appButton variant="secondary" size="sm" routerLink="/app/journey" class="sm:ml-auto">
+        Go to my journey
+      </a>
+    </div>
+  </section>
+}
+
+<!-- Course certificates -->
+<section class="container-page section" aria-labelledby="courses-heading">
+  <div class="text-center">
+    <h2 id="courses-heading" class="text-3xl font-bold sm:text-4xl">Browse all certifications</h2>
+    <p class="mt-3 text-muted">Every course awards its own certificate when you finish it.</p>
+  </div>
+  <ul class="mt-10 grid gap-3 sm:grid-cols-2 lg:grid-cols-4">
+    @for (course of courses; track course.id) {
+      <li class="tile">
+        <app-tech-logo [tech]="course.id" [size]="32" />
+        <div class="min-w-0">
+          <p class="font-display font-bold">{{ course.name }}</p>
+          <p class="mt-0.5 text-xs leading-5 text-muted">{{ course.blurb }}</p>
+        </div>
+      </li>
+    }
+  </ul>
+</section>
+
+<!-- Path certificates -->
+<section class="band" aria-labelledby="paths-heading">
+  <div class="container-page section">
+    <div class="text-center">
+      <h2 id="paths-heading" class="text-3xl font-bold sm:text-4xl">Career path certificates</h2>
+      <p class="mt-3 text-muted">
+        Finish every course in a path to earn one certificate that covers all of it.
+      </p>
+    </div>
+    <ul class="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+      @for (path of paths; track path.title) {
+        <li class="path">
+          <div class="flex -space-x-2">
+            @for (tech of path.techs; track tech) {
+              <span class="logo-dot"><app-tech-logo [tech]="tech" [size]="20" /></span>
+            }
+          </div>
+          <p class="mt-4 font-display text-lg font-bold">{{ path.title }}</p>
+          <p class="mt-1 text-sm leading-6 text-muted">{{ path.summary }}</p>
+        </li>
+      }
+    </ul>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="container-page section" aria-labelledby="how-heading">
+  <div class="text-center">
+    <h2 id="how-heading" class="text-3xl font-bold sm:text-4xl">How it works</h2>
+    <p class="mt-3 text-muted">Three steps from your first line of code to a certificate.</p>
+  </div>
+  <ol class="mt-10 grid gap-4 md:grid-cols-3">
+    @for (step of steps; track step.title; let n = $index) {
+      <li class="step">
+        <span class="text-xs font-bold text-primary">0{{ n + 1 }}</span>
+        <span class="step-icon"><app-icon [name]="step.icon" [size]="22" /></span>
+        <p class="font-display text-lg font-bold">{{ step.title }}</p>
+        <p class="mt-2 text-sm leading-6 text-muted">{{ step.body }}</p>
+      </li>
+    }
+  </ol>
+</section>
+
+<!-- What you receive + verify -->
+<section class="band" aria-labelledby="receive-heading">
+  <div class="container-page section grid gap-12 md:grid-cols-2">
+    <div>
+      <h2 id="receive-heading" class="text-3xl font-bold">What you will receive</h2>
+      <p class="mt-3 text-muted">A clean, professional certificate you can show to anyone.</p>
+      <ul class="mt-6 flex flex-col gap-3">
+        @for (point of included; track point) {
+          <li class="flex items-center gap-2.5 text-[15px]">
+            <app-icon name="check-circle" [size]="18" class="text-success" />{{ point }}
+          </li>
+        }
+      </ul>
+    </div>
+
+    <div id="verify" class="verify scroll-mt-24">
+      <h2 class="text-2xl font-bold">Verify a certificate</h2>
+      <p class="mt-2 text-sm text-muted">
+        Enter a certificate ID to check that it is genuine.
+      </p>
+      <form class="mt-5 flex flex-col gap-3 sm:flex-row" (submit)="submitVerify($event)">
+        <label class="sr-only" for="verify-id">Certificate ID</label>
+        <input
+          id="verify-id"
+          class="field"
+          placeholder="CDF-XXXX-XXXX"
+          autocomplete="off"
+          spellcheck="false"
+          [value]="verifyId()"
+          (input)="onVerifyInput($event)"
+          [attr.aria-describedby]="verify().kind === 'idle' ? null : 'verify-result'"
+        />
+        <button appButton type="submit">Verify</button>
+      </form>
+      @switch (verify().kind) {
+        @case ('invalid') {
+          <p id="verify-result" class="mt-3 text-sm text-danger" role="alert">
+            That does not look like a certificate ID. IDs look like CDF-7K2Q-9XWD.
+          </p>
+        }
+        @case ('not-found') {
+          <p id="verify-result" class="mt-3 text-sm text-muted" role="status">
+            No certificate was found with that ID. Check it for typos and try again.
+          </p>
+        }
+      }
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="container-page section max-w-3xl" aria-labelledby="faq-heading">
+  <h2 id="faq-heading" class="mb-10 text-center text-3xl font-bold sm:text-4xl">
+    Frequently asked questions
+  </h2>
+  <app-accordion [items]="faq" />
+</section>
+
+<app-final-cta />
