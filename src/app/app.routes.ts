@@ -43,9 +43,8 @@ export const routes: Routes = [
       },
       {
         path: 'privacy',
-        title: 'Privacy | Coddify',
-        data: { title: 'Privacy policy' },
-        loadComponent: comingSoon,
+        title: 'Privacy Policy | Coddify',
+        loadComponent: () => import('./features/legal/privacy/privacy').then((m) => m.Privacy),
       },
       {
         path: 'terms',
