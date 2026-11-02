@@ -189,6 +189,7 @@ export const NAV_MENUS: readonly NavMenu[] = [
     label: 'Company',
     links: [
       { label: 'About us', icon: 'users', path: '/about' },
+      { label: 'Blog', icon: 'file-text', path: '/blog' },
       { label: 'Contact', icon: 'mail', path: '/contact' },
       { label: 'Privacy policy', icon: 'shield', path: '/privacy' },
       { label: 'Terms of use', icon: 'book', path: '/terms' },

@@ -1,0 +1,24 @@
+.hero {
+  @apply border-b border-border;
+  background: rgb(var(--c-primary) / 0.06);
+}
+
+.chip {
+  @apply rounded-full border border-border px-3.5 py-1.5 text-sm font-semibold text-muted transition-colors duration-hover hover:text-text;
+
+  &[aria-pressed='true'] {
+    @apply border-primary bg-primary/10 text-primary;
+  }
+}
+
+.search {
+  @apply flex h-12 items-center gap-3 rounded-input border border-border bg-surface px-4 focus-within:border-primary focus-within:ring-2 focus-within:ring-primary/30;
+}
+
+.page {
+  @apply flex h-10 min-w-10 items-center justify-center rounded-lg border border-border px-3 text-sm font-semibold text-muted transition-colors duration-hover hover:text-text disabled:opacity-30;
+
+  &[aria-current='page'] {
+    @apply border-primary text-primary;
+  }
+}

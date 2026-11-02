@@ -1,0 +1,10 @@
+<div class="cover" aria-hidden="true">
+  <span class="dot dot-a"></span>
+  <span class="dot dot-b"></span>
+  <span class="badge">
+    <app-icon [name]="cover().icon" [size]="size()" />
+    @if (cover().tech; as tech) {
+      <span class="tech"><app-tech-logo [tech]="tech" [size]="size() * 0.45" /></span>
+    }
+  </span>
+</div>
